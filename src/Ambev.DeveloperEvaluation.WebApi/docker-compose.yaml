@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:14.22 # mesma versão do dump
+    container_name: meu_postgres
+    environment:
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: ev@luAt10n
+      POSTGRES_DB: developer_evaluation
+    ports:
+      - "5481:5432"
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+
+  ambev.developerevaluation.cache:
+    container_name: ambev_developer_evaluation_cache
+    image: redis:7.4.1-alpine
+    command: redis-server --requirepass "ev@luAt10n"
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:

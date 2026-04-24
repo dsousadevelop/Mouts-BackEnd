@@ -1,0 +1,42 @@
+# Arquivos de Build
+[Bb]in/
+[Oo]bj/
+
+# Pacotes e Dependências
+*.nupkg
+*.suo
+.vs/
+.vspscc
+.vssscc
+
+# Logs e Dados Temporários
+*.log
+*.tmp
+temp/
+logs/
+
+# Arquivos de Configuração de Usuário
+*.user
+*.userprefs
+appsettings.Development.json # Opcional: Para evitar subir senhas ou chaves sensíveis
+
+# Arquivos do Rider (IDE)
+.idea/
+*.sln.DotSettings
+*.sln.DotSettings.user
+
+# Arquivos do Visual Studio Code
+.vscode/
+
+# Pacotes do NuGet
+packages/
+
+# Arquivos de Cache e Metadados do NuGet
+.nuget/
+
+# Dados de Teste
+TestResults/
+coverage/
+
+# Publicação (Publish)
+publish/

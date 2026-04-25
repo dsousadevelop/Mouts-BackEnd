@@ -40,3 +40,5 @@ coverage/
 
 # Publicação (Publish)
 publish/
+/src/Ambev.DeveloperEvaluation.WebApi/.sonarqube
+/tests/Ambev.DeveloperEvaluation.Unit/.sonarqube

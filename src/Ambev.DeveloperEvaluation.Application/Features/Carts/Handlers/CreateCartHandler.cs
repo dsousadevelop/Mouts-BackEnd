@@ -11,13 +11,27 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Carts.Handlers
 {
-    public class CreateCartHandler(ICartRepository _repo, IMapper _mapper) : IRequestHandler<CreateCartCommand, int?>
+    public class CreateCartHandler(ICartRepository _repo, IProductRepository _productRepo, IMapper _mapper) : IRequestHandler<CreateCartCommand, int?>
     {
         public async Task<int?> Handle(CreateCartCommand request, CancellationToken ct)
         {
             var model = _mapper.Map<Cart>(request.entityDto);
+            
+            if (model.CartItems != null)
+            {
+                foreach (var item in model.CartItems)
+                {
+                    var product = await _productRepo.GetByIdAsync(item.ProductId, ct);
+                    if (product != null)
+                    {
+                        item.CalculateDiscount(product.Price);
+                    }
+                }
+
+                model.CalculateTotalAmount();
+            }
+
             var validationResult = model.Validate();
-            var teste = string.Join(", ", validationResult.Errors.Select(o => o.Description));
             if (!validationResult.IsValid)
                 throw new ValidationException(string.Join(", ", validationResult.Errors.Select(o => o.Description)));
 

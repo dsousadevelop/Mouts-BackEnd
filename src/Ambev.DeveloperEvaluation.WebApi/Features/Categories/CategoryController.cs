@@ -1,6 +1,10 @@
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Queries;
 using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.Categories.CreateCategory;
+using Ambev.DeveloperEvaluation.WebApi.Features.Categories.GetCategory;
+using Ambev.DeveloperEvaluation.WebApi.Features.Categories.ListCategories;
+using Ambev.DeveloperEvaluation.WebApi.Features.Categories.UpdateCategory;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,11 +17,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Categories
     {
         [Authorize(Roles = "Admin,Manager")]
         [HttpPost]
-        [ProducesResponseType(typeof(ApiResponseWithData<CategoryResponse>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponseWithData<CreateCategoryResponse>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] CategoryRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post([FromBody] CreateCategoryRequest request, CancellationToken cancellationToken)
         {
-            var validator = new CategoryRequestValidator();
+            var validator = new CreateCategoryRequestValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
@@ -27,41 +31,41 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Categories
             var result = await _mediator.Send(command, cancellationToken);
 
             return result.Match(
-                category => CreatedAtAction(nameof(Get), new { id = category.Id }, new ApiResponseWithData<CategoryResponse>
+                category => CreatedAtAction(nameof(Get), new { id = category.Id }, new ApiResponseWithData<CreateCategoryResponse>
                 {
                     Success = true,
                     Message = "Category created successfully",
-                    Data = _mapper.Map<CategoryResponse>(category)
+                    Data = _mapper.Map<CreateCategoryResponse>(category)
                 }),
                 validationError => BadRequest(validationError.Detail)
             );
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApiResponseWithData<CategoryResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponseWithData<GetCategoryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetCategoryByIdQuery(id), cancellationToken);
 
             return result.Match(
-                category => Ok(new ApiResponseWithData<CategoryResponse>
+                category => Ok(new ApiResponseWithData<GetCategoryResponse>
                 {
                     Success = true,
                     Message = "Category retrieved successfully",
-                    Data = _mapper.Map<CategoryResponse>(category)
+                    Data = _mapper.Map<GetCategoryResponse>(category)
                 }),
                 notFoundError => NotFound(notFoundError.Detail)
             );
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(ApiResponseWithData<IEnumerable<CategoryResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponseWithData<IEnumerable<ListCategoriesResponse>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> List(CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetCategoryListQuery(), cancellationToken);
-            var response = _mapper.Map<IEnumerable<CategoryResponse>>(result);
-            return Ok(new ApiResponseWithData<IEnumerable<CategoryResponse>>
+            var response = _mapper.Map<IEnumerable<ListCategoriesResponse>>(result);
+            return Ok(new ApiResponseWithData<IEnumerable<ListCategoriesResponse>>
             {
                 Success = true,
                 Message = "Categories retrieved successfully",
@@ -89,13 +93,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Categories
 
         [Authorize(Roles = "Admin,Manager")]
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponseWithData<UpdateCategoryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put(int id, [FromBody] CategoryRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateCategoryRequest request, CancellationToken cancellationToken)
         {
             request.Id = id;
-            var validator = new CategoryRequestValidator();
+            var validator = new UpdateCategoryRequestValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
@@ -105,10 +109,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Categories
             var result = await _mediator.Send(command, cancellationToken);
 
             return result.Match(
-                success => Ok(new ApiResponse
+                category => Ok(new ApiResponseWithData<UpdateCategoryResponse>
                 {
                     Success = true,
-                    Message = "Category updated successfully"
+                    Message = "Category updated successfully",
+                    Data = _mapper.Map<UpdateCategoryResponse>(category)
                 }),
                 notFoundError => NotFound(notFoundError.Detail),
                 validationError => BadRequest(validationError.Detail)

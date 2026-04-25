@@ -16,7 +16,7 @@ public class User : BaseEntity, IUser
     /// <summary>
     /// Initializes a new instance of the User class.
     /// </summary>
-    protected User()
+    public User()
     {
         CreatedAt = DateTime.UtcNow;
     }

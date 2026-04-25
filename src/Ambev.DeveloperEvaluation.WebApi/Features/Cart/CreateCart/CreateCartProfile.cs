@@ -12,6 +12,8 @@ public class CreateCartProfile : Profile
     {
         CreateMap<CreateCartRequest, CartDto>();
         CreateMap<CreateCartItemRequest, CartItemDto>();
+        CreateMap<CreateCartRequest, CreateCartCommand>()
+            .ConstructUsing((src, ctx) => new CreateCartCommand(ctx.Mapper.Map<CartDto>(src)));
         CreateMap<CartDto, CreateCartCommand>()
             .ConstructUsing(src => new CreateCartCommand(src));
         CreateMap<int, CreateCartResponse>()

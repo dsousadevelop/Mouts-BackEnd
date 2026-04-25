@@ -1,12 +1,12 @@
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Categories
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Categories.UpdateCategory
 {
     /// <summary>
-    /// API response model for category operations
+    /// Represents the request to update a category.
     /// </summary>
-    public class CategoryResponse
+    public class UpdateCategoryRequest
     {
         /// <summary>
-        /// The unique identifier of the category
+        /// The unique identifier of the category.
         /// </summary>
         public int Id { get; set; }
 

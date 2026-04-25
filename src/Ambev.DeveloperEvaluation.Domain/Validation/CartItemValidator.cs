@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -22,7 +22,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
 
             RuleFor(p => p.Quantity)
            .NotEqual(0)
-           .WithMessage("Quantity cannot be zeroed out.");
+           .WithMessage("Quantity cannot be zeroed out.")
+           .LessThanOrEqualTo(20)
+           .WithMessage("Quantity cannot exceed 20 items per product.");
         }
     }
 }

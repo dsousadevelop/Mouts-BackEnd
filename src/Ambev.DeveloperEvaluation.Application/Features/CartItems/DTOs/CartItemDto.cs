@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs
         public int CartId { get; set; }
         public int ProductId { get; set; }
         public decimal Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
         public decimal? Discount { get; set; }
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }

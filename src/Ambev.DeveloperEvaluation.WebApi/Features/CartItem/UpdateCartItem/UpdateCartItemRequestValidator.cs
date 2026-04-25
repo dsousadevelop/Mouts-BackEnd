@@ -9,6 +9,6 @@ public class UpdateCartItemRequestValidator : AbstractValidator<UpdateCartItemRe
         RuleFor(x => x.Id).NotEmpty();
         RuleFor(x => x.CartId).NotEmpty();
         RuleFor(x => x.ProductId).NotEmpty();
-        RuleFor(x => x.Quantity).GreaterThan(0);
+        RuleFor(x => x.Quantity).GreaterThan(0).LessThanOrEqualTo(20);
     }
 }

@@ -11,6 +11,8 @@ public class CreateProductProfile : Profile
     {
         CreateMap<CreateProductRequest, ProductDto>();
         CreateMap<RatingRequest, RatingDto>();
+        CreateMap<CreateProductRequest, CreateProductCommand>()
+            .ConstructUsing((src, ctx) => new CreateProductCommand(ctx.Mapper.Map<ProductDto>(src)));
         CreateMap<ProductDto, CreateProductCommand>()
             .ConstructUsing(src => new CreateProductCommand(src));
         CreateMap<ProductDto, CreateProductResponse>();

@@ -6,8 +6,7 @@ public class CreateCartItemRequestValidator : AbstractValidator<CreateCartItemRe
 {
     public CreateCartItemRequestValidator()
     {
-        RuleFor(x => x.CartId).NotEmpty();
         RuleFor(x => x.ProductId).NotEmpty();
-        RuleFor(x => x.Quantity).GreaterThan(0);
+        RuleFor(x => x.Quantity).GreaterThan(0).LessThanOrEqualTo(20);
     }
 }

@@ -6,6 +6,6 @@ public class UpdateCartRequest
 {
     public int Id { get; set; }
     public int UserId { get; set; }
-    public DateTime Date { get; set; }
+    public bool IsCancelled { get; set; }
     public List<CreateCartItemRequest> CartItems { get; set; } = new();
 }

@@ -4,6 +4,8 @@ public class GetCartResponse
 {
     public int Id { get; set; }
     public int UserId { get; set; }
+    public decimal TotalAmount { get; set; }
+    public bool IsCancelled { get; set; }
     public DateTime Date { get; set; }
     public List<GetCartItemResponse> CartItems { get; set; } = new();
 }

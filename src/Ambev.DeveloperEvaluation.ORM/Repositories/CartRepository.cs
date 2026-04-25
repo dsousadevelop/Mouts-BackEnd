@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -44,12 +44,16 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<Cart?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _context.Cart.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+            return await _context.Cart
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
         }
 
         public async Task<List<Cart>> GetListAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.Cart.ToListAsync(cancellationToken);
+            return await _context.Cart
+                .Include(c => c.CartItems)
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<Cart> UpdateAsync(Cart model, CancellationToken cancellationToken = default)

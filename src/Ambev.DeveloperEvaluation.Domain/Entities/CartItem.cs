@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 using System;
@@ -36,12 +36,39 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public int CartId { get; private set; }
         public int ProductId { get; private set; }
         public decimal Quantity { get; private set; }
+        public decimal UnitPrice { get; private set; }
         public decimal? Discount { get; private set; }
         public decimal SubTotal { get; private set; }
         public decimal Total { get; private set; }
 
         public virtual Cart? Cart { get; set; }
         public virtual Product? Product { get; set; }
+
+        public void CalculateDiscount(decimal unitPrice)
+        {
+            UnitPrice = unitPrice;
+            if (Quantity > 20)
+            {
+                throw new InvalidOperationException("Cannot sell more than 20 items of the same product.");
+            }
+
+            SubTotal = Quantity * unitPrice;
+
+            if (Quantity >= 10 && Quantity <= 20)
+            {
+                Discount = SubTotal * 0.20m;
+            }
+            else if (Quantity >= 4)
+            {
+                Discount = SubTotal * 0.10m;
+            }
+            else
+            {
+                Discount = 0;
+            }
+
+            Total = SubTotal - (Discount ?? 0);
+        }
 
         public ValidationResultDetail Validate()
         {

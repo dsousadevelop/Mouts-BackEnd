@@ -29,7 +29,7 @@ public class CartItemController(IMediator _mediator, IMapper _mapper) : BaseCont
         var command = _mapper.Map<CreateCartItemCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Created(nameof(Get), new { idcart = request.CartId }, _mapper.Map<CreateCartItemResponse>(response));
+        return Created(nameof(Get), _mapper.Map<CreateCartItemResponse>(response));
     }
 
     [HttpGet("{idcart}")]

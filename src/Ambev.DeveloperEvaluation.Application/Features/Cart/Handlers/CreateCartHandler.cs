@@ -36,8 +36,15 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
             if (!validationResult.IsValid)
                 return new ValidationError(string.Join(", ", validationResult.Errors.Select(o => o.Description)));
 
-            var modelRet = await _repo.CreateAsync(model, ct);
-            return _mapper.Map<CartDto>(modelRet);
+            try
+            {
+                var modelRet = await _repo.CreateAsync(model, ct);
+                return _mapper.Map<CartDto>(modelRet);
+            }
+            catch (System.Exception ex)
+            {
+                return new ValidationError($"An error occurred while saving the entity changes: {ex.InnerException?.Message ?? ex.Message}");
+            }
         }
     }
 }

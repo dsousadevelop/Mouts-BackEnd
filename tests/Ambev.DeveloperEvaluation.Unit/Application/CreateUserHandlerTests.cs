@@ -57,7 +57,6 @@ public class CreateUserHandlerTests
             Id = user.Id!.Value,
         };
 
-
         _mapper.Map<User>(command).Returns(user);
         _mapper.Map<CreateUserResult>(user).Returns(result);
 

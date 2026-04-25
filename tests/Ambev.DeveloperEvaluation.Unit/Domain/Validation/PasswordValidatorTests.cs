@@ -41,7 +41,7 @@ public class PasswordValidatorTests
     public void Given_EmptyPassword_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
-        var password = string.Empty;
+        const string password = "";
 
         // Act
         var result = _validator.TestValidate(password);
@@ -73,7 +73,7 @@ public class PasswordValidatorTests
     public void Given_PasswordWithoutUppercase_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
-        var password = "password@123";
+        const string password = "password@123";
 
         // Act
         var result = _validator.TestValidate(password);
@@ -90,7 +90,7 @@ public class PasswordValidatorTests
     public void Given_PasswordWithoutLowercase_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
-        var password = "PASSWORD@123";
+        const string password = "PASSWORD@123";
 
         // Act
         var result = _validator.TestValidate(password);
@@ -107,7 +107,7 @@ public class PasswordValidatorTests
     public void Given_PasswordWithoutNumber_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
-        var password = "Password@ABC";
+        const string password = "Password@ABC";
 
         // Act
         var result = _validator.TestValidate(password);
@@ -124,7 +124,7 @@ public class PasswordValidatorTests
     public void Given_PasswordWithoutSpecialCharacter_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
-        var password = "Password123";
+        const string password = "Password123";
 
         // Act
         var result = _validator.TestValidate(password);

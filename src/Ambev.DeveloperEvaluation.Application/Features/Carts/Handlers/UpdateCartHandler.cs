@@ -1,6 +1,5 @@
 using Ambev.DeveloperEvaluation.Application.Features.Carts.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Carts.DTOs;
-using Ambev.DeveloperEvaluation.Application.Features.Categories.Commands;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
@@ -17,7 +16,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Carts.Handlers
     {
         public async Task Handle(UpdateCartCommand request, CancellationToken ct)
         {
-            var model = _mapper.Map<Cart>(request.CategoryDto);
+            var model = _mapper.Map<Cart>(request.CartDto);
             await _repo.UpdateAsync(model, ct);
         }
     }

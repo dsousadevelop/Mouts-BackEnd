@@ -1,3 +1,5 @@
+**/.sonarqube/
+**/.visualstudio/
 **/.classpath
 **/.dockerignore
 **/.env

@@ -16,18 +16,18 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers
 {
     public class UpdateCategoryHandler(ICategoryRepository _repo, IMapper _mapper) : IRequestHandler<UpdateCategoryCommand, OneOf<Success, ResourceNotFoundError, ValidationError>>
     {
-        public async Task<OneOf<Success, ResourceNotFoundError, ValidationError>> Handle(UpdateCategoryCommand request, CancellationToken ct)
+        public async Task<OneOf<Success, ResourceNotFoundError, ValidationError>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var existingCategory = await _repo.GetByIdAsync(request.CategoryDto.Id ?? 0, ct);
+            var existingCategory = await _repo.GetByIdAsync(request.CategoryDto.Id ?? 0, cancellationToken);
             if (existingCategory == null)
                 return new ResourceNotFoundError($"The Category with ID {request.CategoryDto.Id} does not exist in our database");
 
-            var existingCategoryWithSameDesc = await _repo.GetByDescriptionAsync(request.CategoryDto.Description, ct);
+            var existingCategoryWithSameDesc = await _repo.GetByDescriptionAsync(request.CategoryDto.Description, cancellationToken);
             if (existingCategoryWithSameDesc != null && existingCategoryWithSameDesc.Id != request.CategoryDto.Id)
                 return new ValidationError($"Category {request.CategoryDto.Description} already exists");
 
             existingCategory.UpdateDescription(request.CategoryDto.Description);
-            await _repo.UpdateAsync(existingCategory, ct);
+            await _repo.UpdateAsync(existingCategory, cancellationToken);
             return new Success();
         }
     }

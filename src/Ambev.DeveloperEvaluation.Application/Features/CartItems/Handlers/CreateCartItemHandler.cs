@@ -11,14 +11,14 @@ namespace Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers
 {
     public class CreateCartItemHandler(ICartItemRepository _repo, IMapper _mapper) : IRequestHandler<CreateCartItemCommand, OneOf<CartItemDto, ValidationError>>
     {
-        public async Task<OneOf<CartItemDto, ValidationError>> Handle(CreateCartItemCommand request, CancellationToken ct)
+        public async Task<OneOf<CartItemDto, ValidationError>> Handle(CreateCartItemCommand request, CancellationToken cancellationToken)
         {
             var cartItem = _mapper.Map<CartItem>(request.CartItemDto);
 
             // Discount logic
             cartItem.CalculateDiscount(request.CartItemDto.UnitPrice);
 
-            var created = await _repo.CreateAsync(cartItem, ct);
+            var created = await _repo.CreateAsync(cartItem, cancellationToken);
             return _mapper.Map<CartItemDto>(created);
         }
     }

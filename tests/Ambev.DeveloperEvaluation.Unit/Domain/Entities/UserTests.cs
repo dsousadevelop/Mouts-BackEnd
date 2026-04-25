@@ -49,13 +49,13 @@ public class UserTests
     /// Tests that validation passes when all user properties are valid.
     /// </summary>
     [Fact(DisplayName = "Validation should pass for valid user data")]
-    public void Given_ValidUserData_When_Validated_Then_ShouldReturnValid()
+    public async Task Given_ValidUserData_When_Validated_Then_ShouldReturnValid()
     {
         // Arrange
         var user = UserTestData.GenerateValidUser();
 
         // Act
-        var result = user.Validate();
+        var result = await user.ValidateAsync();
 
         // Assert
         Assert.True(result.IsValid);
@@ -66,7 +66,7 @@ public class UserTests
     /// Tests that validation fails when user properties are invalid.
     /// </summary>
     [Fact(DisplayName = "Validation should fail for invalid user data")]
-    public void Given_InvalidUserData_When_Validated_Then_ShouldReturnInvalid()
+    public async Task Given_InvalidUserData_When_Validated_Then_ShouldReturnInvalid()
     {
         // Arrange
         var user = new User
@@ -82,7 +82,7 @@ public class UserTests
         );
 
         // Act
-        var result = user.Validate();
+        var result = await user.ValidateAsync();
 
         // Assert
         Assert.False(result.IsValid);

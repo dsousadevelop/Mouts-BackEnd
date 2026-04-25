@@ -13,13 +13,13 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Handlers
 {
     public class CreateProductHandler(IProductRepository _repo, IMapper _mapper, ICacheService _cache) : IRequestHandler<CreateProductCommand, OneOf<ProductDto, ValidationError>>
     {
-        public async Task<OneOf<ProductDto, ValidationError>> Handle(CreateProductCommand request, CancellationToken ct)
+        public async Task<OneOf<ProductDto, ValidationError>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var model = _mapper.Map<Product>(request.ProductDto);
             
-            var productRet = await _repo.CreateAsync(model, ct);
+            var productRet = await _repo.CreateAsync(model, cancellationToken);
             
-            await _cache.RemoveAsync("Products_List", ct);
+            await _cache.RemoveAsync("Products_List", cancellationToken);
 
             return _mapper.Map<ProductDto>(productRet);
         }

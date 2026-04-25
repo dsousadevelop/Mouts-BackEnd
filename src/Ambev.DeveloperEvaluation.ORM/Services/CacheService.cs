@@ -22,13 +22,13 @@ namespace Ambev.DeveloperEvaluation.ORM.Services
             IncludeFields = true
         };
 
-        public async Task<T?> GetAsync<T>(string key, CancellationToken ct = default)
+        public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default)
         {
-            var data = await _cache.GetStringAsync(key, ct);
+            var data = await _cache.GetStringAsync(key, cancellationToken);
             return data is null ? default : JsonSerializer.Deserialize<T>(data, _readOptions);
         }
 
-        public async Task SetAsync<T>(string key, T value, TimeSpan? expiration = null, CancellationToken ct = default)
+        public async Task SetAsync<T>(string key, T value, TimeSpan? expiration = null, CancellationToken cancellationToken = default)
         {
             var options = new DistributedCacheEntryOptions
             {
@@ -36,12 +36,12 @@ namespace Ambev.DeveloperEvaluation.ORM.Services
             };
 
             var json = JsonSerializer.Serialize(value, _writeOptions);
-            await _cache.SetStringAsync(key, json, options, ct);
+            await _cache.SetStringAsync(key, json, options, cancellationToken);
         }
 
-        public async Task RemoveAsync(string key, CancellationToken ct = default)
+        public async Task RemoveAsync(string key, CancellationToken cancellationToken = default)
         {
-            await _cache.RemoveAsync(key, ct);
+            await _cache.RemoveAsync(key, cancellationToken);
         }
     }
 }

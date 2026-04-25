@@ -12,9 +12,9 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
 {
     public class GetCartByIdHandler(ICartRepository _repo, IMapper _mapper) : IRequestHandler<GetCartByIdQuery, OneOf<CartDto, NotFoundError>>
     {
-        public async Task<OneOf<CartDto, NotFoundError>> Handle(GetCartByIdQuery request, CancellationToken ct)
+        public async Task<OneOf<CartDto, NotFoundError>> Handle(GetCartByIdQuery request, CancellationToken cancellationToken)
         {
-            var cart = await _repo.GetByIdAsync(request.Id, ct);
+            var cart = await _repo.GetByIdAsync(request.Id, cancellationToken);
             if (cart == null)
                 return new NotFoundError($"Cart with ID {request.Id} not found");
 

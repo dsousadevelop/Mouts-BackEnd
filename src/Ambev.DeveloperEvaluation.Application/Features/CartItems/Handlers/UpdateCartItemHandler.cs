@@ -11,12 +11,12 @@ namespace Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers
 {
     public class UpdateCartItemHandler(ICartItemRepository _repo, IMapper _mapper) : IRequestHandler<UpdateCartItemCommand, OneOf<CartItemDto, NotFoundError, ValidationError>>
     {
-        public async Task<OneOf<CartItemDto, NotFoundError, ValidationError>> Handle(UpdateCartItemCommand request, CancellationToken ct)
+        public async Task<OneOf<CartItemDto, NotFoundError, ValidationError>> Handle(UpdateCartItemCommand request, CancellationToken cancellationToken)
         {
             if (!request.entityDto.Id.HasValue)
                 return new ValidationError("Cart Item Id is required for update");
 
-            var cartItemExists = await _repo.GetByIdAsync(request.entityDto.Id.Value, ct);
+            var cartItemExists = await _repo.GetByIdAsync(request.entityDto.Id.Value, cancellationToken);
             if (cartItemExists == null)
                 return new NotFoundError("Cart item not found");
 
@@ -25,7 +25,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers
             // Discount logic
             cartItemExists.CalculateDiscount(request.entityDto.UnitPrice);
 
-            var updated = await _repo.UpdateAsync(cartItemExists, ct);
+            var updated = await _repo.UpdateAsync(cartItemExists, cancellationToken);
             return _mapper.Map<CartItemDto>(updated);
         }
     }

@@ -10,13 +10,13 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
 {
     public class DeleteCartHandler(ICartRepository _repo) : IRequestHandler<DeleteCartCommand, OneOf<bool, NotFoundError>>
     {
-        public async Task<OneOf<bool, NotFoundError>> Handle(DeleteCartCommand request, CancellationToken ct)
+        public async Task<OneOf<bool, NotFoundError>> Handle(DeleteCartCommand request, CancellationToken cancellationToken)
         {
-            var cart = await _repo.GetByIdAsync(request.Id, ct);
+            var cart = await _repo.GetByIdAsync(request.Id, cancellationToken);
             if (cart == null)
                 return new NotFoundError($"Cart with ID {request.Id} not found");
 
-            await _repo.DeleteAsync(request.Id, ct);
+            await _repo.DeleteAsync(request.Id, cancellationToken);    
             return true;
         }
     }

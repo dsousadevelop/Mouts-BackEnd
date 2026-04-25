@@ -1,6 +1,5 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
-using Ambev.DeveloperEvaluation.Domain.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,14 +32,5 @@ public class Address : BaseEntity
     public string Geolocation_long { get; private set; }
     public virtual User? User { get; set; }
 
-    public ValidationResultDetail Validate()
-    {
-        var validator = new AddressValidator();
-        var result = validator.Validate(this);
-        return new ValidationResultDetail
-        {
-            IsValid = result.IsValid,
-            Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
-        };
-    }
 }
+

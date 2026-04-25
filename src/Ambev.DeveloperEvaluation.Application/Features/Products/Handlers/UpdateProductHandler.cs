@@ -14,18 +14,18 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Handlers
 {
     public class UpdateProductHandler(IProductRepository _repo, IMapper _mapper, ICacheService _cache) : IRequestHandler<UpdateProductCommand, OneOf<ProductDto, NotFoundError, ValidationError>>
     {
-        public async Task<OneOf<ProductDto, NotFoundError, ValidationError>> Handle(UpdateProductCommand request, CancellationToken ct)
+        public async Task<OneOf<ProductDto, NotFoundError, ValidationError>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var existingProduct = await _repo.GetByIdAsync(request.ProductDto.Id ?? 0, ct);
+            var existingProduct = await _repo.GetByIdAsync(request.ProductDto.Id ?? 0, cancellationToken);
             if (existingProduct == null)
                 return new NotFoundError($"Product with ID {request.ProductDto.Id} not found");
 
             _mapper.Map(request.ProductDto, existingProduct);
             existingProduct.UpdateAtDate();
             
-            await _repo.UpdateAsync(existingProduct, ct);
+            await _repo.UpdateAsync(existingProduct, cancellationToken);
 
-            await _cache.RemoveAsync("Products_List", ct);
+            await _cache.RemoveAsync("Products_List", cancellationToken);
 
             return _mapper.Map<ProductDto>(existingProduct);
         }

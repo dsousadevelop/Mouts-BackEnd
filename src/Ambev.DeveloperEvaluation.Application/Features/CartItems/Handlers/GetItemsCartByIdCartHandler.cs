@@ -11,9 +11,9 @@ namespace Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers
 {
     public class GetItemsCartByIdCartHandler(ICartItemRepository _repo, IMapper _mapper) : IRequestHandler<GetItemsCartByIdCartQuery, OneOf<List<CartItemDto>, ValidationError>>
     {
-        public async Task<OneOf<List<CartItemDto>, ValidationError>> Handle(GetItemsCartByIdCartQuery request, CancellationToken ct)
+        public async Task<OneOf<List<CartItemDto>, ValidationError>> Handle(GetItemsCartByIdCartQuery request, CancellationToken cancellationToken)
         {
-            var items = await _repo.GetListAllAsync(request.CartId, ct);
+            var items = await _repo.GetListAllAsync(request.CartId, cancellationToken);
             return _mapper.Map<List<CartItemDto>>(items);
         }
     }

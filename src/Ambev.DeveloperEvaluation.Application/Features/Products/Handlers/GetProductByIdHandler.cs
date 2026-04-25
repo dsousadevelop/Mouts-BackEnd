@@ -10,9 +10,9 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Handlers
 {
     public class GetProductByIdHandler(IProductRepository _repo, IMapper _mapper) : IRequestHandler<GetProductByIdQuery, OneOf<ProductDto, NotFoundError>>
     {
-        public async Task<OneOf<ProductDto, NotFoundError>> Handle(GetProductByIdQuery request, CancellationToken ct)
+        public async Task<OneOf<ProductDto, NotFoundError>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var product = await _repo.GetByIdAsync(request.Id, ct);
+            var product = await _repo.GetByIdAsync(request.Id, cancellationToken);
             if (product == null)
                 return new NotFoundError($"Product with ID {request.Id} not found");
 

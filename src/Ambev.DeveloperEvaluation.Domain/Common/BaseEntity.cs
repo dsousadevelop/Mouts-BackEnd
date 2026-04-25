@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Common.Validation;
+using System.Reflection;
 
 namespace Ambev.DeveloperEvaluation.Domain.Common;
 
@@ -8,9 +9,16 @@ public class BaseEntity : IComparable<BaseEntity>
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
-    public Task<IEnumerable<ValidationErrorDetail>> ValidateAsync()
+    public async Task<ValidationResultDetail> ValidateAsync()
     {
-        return Validator.ValidateAsync(this);
+        var method = typeof(Validator)
+            .GetMethod(nameof(Validator.ValidateAsync), BindingFlags.Public | BindingFlags.Static)
+            ?.MakeGenericMethod(this.GetType());
+
+        if (method == null)
+            throw new InvalidOperationException($"Could not find generic ValidateAsync method for type {this.GetType().Name}");
+
+        return await (Task<ValidationResultDetail>)method.Invoke(null, new[] { this })!;
     }
 
     public int CompareTo(BaseEntity? other)

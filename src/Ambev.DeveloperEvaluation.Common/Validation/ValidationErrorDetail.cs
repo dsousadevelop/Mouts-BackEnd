@@ -1,7 +1,10 @@
 using FluentValidation.Results;
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Ambev.DeveloperEvaluation.Common.Validation;
 
+[ExcludeFromCodeCoverage]
 public class ValidationErrorDetail
 {
     public string Code { get; init; } = string.Empty;

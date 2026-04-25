@@ -19,16 +19,16 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponseWithData<CreateProductResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Post([FromBody] CreateProductRequest request, CancellationToken ct)
+    public async Task<IActionResult> Post([FromBody] CreateProductRequest request, CancellationToken cancellationToken)
     {
         var validator = new CreateProductRequestValidator();
-        var validationResult = await validator.ValidateAsync(request, ct);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<CreateProductCommand>(request);
-        var result = await _mediator.Send(command, ct);
+        var result = await _mediator.Send(command, cancellationToken);
 
         return result.Match(
             data => CreatedAtAction(nameof(Get), new { id = data.Id }, new ApiResponseWithData<CreateProductResponse>
@@ -45,17 +45,17 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
     [ProducesResponseType(typeof(ApiResponseWithData<GetProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Get([FromRoute] int id, CancellationToken ct)
+    public async Task<IActionResult> Get([FromRoute] int id, CancellationToken cancellationToken)
     {
         var request = new GetProductRequest { Id = id };
         var validator = new GetProductRequestValidator();
-        var validationResult = await validator.ValidateAsync(request, ct);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
         var query = new GetProductByIdQuery(request.Id);
-        var result = await _mediator.Send(query, ct);
+        var result = await _mediator.Send(query, cancellationToken);
 
         return result.Match(
             data => Ok(new ApiResponseWithData<GetProductResponse>
@@ -71,10 +71,10 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponseWithData<ListProductsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> List([FromQuery] int _page = 1, [FromQuery] int _size = 10, CancellationToken ct = default)
+    public async Task<IActionResult> List([FromQuery] int _page = 1, [FromQuery] int _size = 10, CancellationToken cancellationToken = default)
     {
         var query = new GetProductListQuery(_page, _size);
-        var result = await _mediator.Send(query, ct);
+        var result = await _mediator.Send(query, cancellationToken);
 
         return result.Match(
             data => Ok(new ApiResponseWithData<ListProductsResponse>
@@ -90,10 +90,10 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
     [HttpGet("category/{categoryId}")]
     [ProducesResponseType(typeof(ApiResponseWithData<ListProductsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetByCategory([FromRoute] int categoryId, [FromQuery] int _page = 1, [FromQuery] int _size = 10, CancellationToken ct = default)
+    public async Task<IActionResult> GetByCategory([FromRoute] int categoryId, [FromQuery] int _page = 1, [FromQuery] int _size = 10, CancellationToken cancellationToken = default)
     {
         var query = new GetProductListQuery(_page, _size, categoryId);
-        var result = await _mediator.Send(query, ct);
+        var result = await _mediator.Send(query, cancellationToken);
 
         return result.Match(
             data => Ok(new ApiResponseWithData<ListProductsResponse>
@@ -111,17 +111,17 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken ct)
+    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
     {
         var request = new DeleteProductRequest { Id = id };
         var validator = new DeleteProductRequestValidator();
-        var validationResult = await validator.ValidateAsync(request, ct);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteProductCommand>(request);
-        var result = await _mediator.Send(command, ct);
+        var result = await _mediator.Send(command, cancellationToken);
 
         return result.Match(
             success => Ok(new ApiResponse { Message = "Product deleted successfully", Success = true }),
@@ -134,17 +134,17 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
     [ProducesResponseType(typeof(ApiResponseWithData<UpdateProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UpdateProductRequest request, CancellationToken ct)
+    public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UpdateProductRequest request, CancellationToken cancellationToken)
     {
         request.Id = id;
         var validator = new UpdateProductRequestValidator();
-        var validationResult = await validator.ValidateAsync(request, ct);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<UpdateProductCommand>(request);
-        var result = await _mediator.Send(command, ct);
+        var result = await _mediator.Send(command, cancellationToken);
 
         return result.Match(
             data => Ok(new ApiResponseWithData<UpdateProductResponse>

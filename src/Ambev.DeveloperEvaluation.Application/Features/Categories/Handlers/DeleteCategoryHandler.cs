@@ -9,13 +9,13 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers
 {
     public class DeleteCategoryHandler(ICategoryRepository _repo) : IRequestHandler<DeleteCategoryCommand, OneOf<Success, ResourceNotFoundError>>
     {
-        public async Task<OneOf<Success, ResourceNotFoundError>> Handle(DeleteCategoryCommand request, CancellationToken ct)
+        public async Task<OneOf<Success, ResourceNotFoundError>> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var existingCategory = await _repo.GetByIdAsync(request.Id, ct);
+            var existingCategory = await _repo.GetByIdAsync(request.Id, cancellationToken);
             if (existingCategory == null)
                 return new ResourceNotFoundError($"The Category with ID {request.Id} does not exist in our database");
 
-            await _repo.DeleteAsync(request.Id, ct);
+            await _repo.DeleteAsync(request.Id, cancellationToken);
             return new Success();
         }
     }

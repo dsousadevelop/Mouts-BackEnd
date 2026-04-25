@@ -16,9 +16,9 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers
 {
     public class GetCategoryByIdHandler(ICategoryRepository _repo, IMapper _mapper) : IRequestHandler<GetCategoryByIdQuery, OneOf<CategoryDto, ResourceNotFoundError>>
     {
-        public async Task<OneOf<CategoryDto, ResourceNotFoundError>> Handle(GetCategoryByIdQuery request, CancellationToken ct)
+        public async Task<OneOf<CategoryDto, ResourceNotFoundError>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
-            var productRet = await _repo.GetByIdAsync(request.Id, ct);
+            var productRet = await _repo.GetByIdAsync(request.Id, cancellationToken);
 
             if (productRet == null)
                 return new ResourceNotFoundError($"The Category with ID {request.Id} does not exist in our database");

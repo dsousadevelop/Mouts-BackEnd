@@ -17,16 +17,16 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers
 {
     public class CreateCategoryHandler(ICategoryRepository _repo, IMapper _mapper) : IRequestHandler<CreateCategoryCommand, OneOf<CategoryDto, ValidationError>>
     {
-        public async Task<OneOf<CategoryDto, ValidationError>> Handle(CreateCategoryCommand request, CancellationToken ct)
+        public async Task<OneOf<CategoryDto, ValidationError>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             var categoryDTO = new CategoryDto(id: null, description: request.CategoryDto.Description);
 
-            var existingCategory = await _repo.GetByDescriptionAsync(categoryDTO.Description, ct);
+            var existingCategory = await _repo.GetByDescriptionAsync(categoryDTO.Description, cancellationToken);
             if (existingCategory != null)
                 return new ValidationError($"Category {categoryDTO.Description} already exists");
 
             var model = _mapper.Map<Category>(categoryDTO);
-            var modelRet = await _repo.CreateAsync(model, ct);
+            var modelRet = await _repo.CreateAsync(model, cancellationToken);
             categoryDTO.Id = modelRet.Id;
             return categoryDTO;
         }

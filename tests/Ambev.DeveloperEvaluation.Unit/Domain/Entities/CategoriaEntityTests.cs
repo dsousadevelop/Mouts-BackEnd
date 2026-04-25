@@ -14,24 +14,24 @@ public class CategoriaEntityTests
     private readonly Faker _faker = new("pt_BR");
 
     [Fact(DisplayName = "Cria categoria válida com ID e descrição preenchidos")]
-    public void CriacaoCategoria_ComDadosValidos_DevePassarValidacao()
+    public async Task CriacaoCategoria_ComDadosValidos_DevePassarValidacao()
     {
         // Arrange & Act
         var categoria = new Category(1, "Eletrônicos");
 
         // Assert
-        var resultado = categoria.Validate();
+        var resultado = await categoria.ValidateAsync();
         resultado.IsValid.Should().BeTrue();
     }
 
     [Fact(DisplayName = "Categoria com descrição vazia deve falhar na validação")]
-    public void CriacaoCategoria_DescricaoVazia_DeveFalharValidacao()
+    public async Task CriacaoCategoria_DescricaoVazia_DeveFalharValidacao()
     {
         // Arrange
         var categoria = new Category(2, "");
 
         // Act
-        var resultado = categoria.Validate();
+        var resultado = await categoria.ValidateAsync();
 
         // Assert
         resultado.IsValid.Should().BeFalse();
@@ -67,13 +67,13 @@ public class CategoriaEntityTests
     [InlineData(1, "Eletrônicos")]
     [InlineData(10, "Vestuário")]
     [InlineData(999, "Móveis")]
-    public void CriacaoCategoria_ComDiversosIdsEDescricoes_DevePassarValidacao(int id, string descricao)
+    public async Task CriacaoCategoria_ComDiversosIdsEDescricoes_DevePassarValidacao(int id, string descricao)
     {
         // Arrange & Act
         var categoria = new Category(id, descricao);
 
         // Assert
-        var resultado = categoria.Validate();
+        var resultado = await categoria.ValidateAsync();
         resultado.IsValid.Should().BeTrue();
         categoria.Description.Should().Be(descricao);
     }

@@ -14,9 +14,9 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers
 {
     public class GetCategoryListHandler(ICategoryRepository _repo, IMapper _mapper) : IRequestHandler<GetCategoryListQuery, List<CategoryDto>>
     {
-        public async Task<List<CategoryDto>> Handle(GetCategoryListQuery request, CancellationToken ct)
+        public async Task<List<CategoryDto>> Handle(GetCategoryListQuery request, CancellationToken cancellationToken)
         {
-            var producList = await _repo.GetListAllAsync(ct);
+            var producList = await _repo.GetListAllAsync(cancellationToken);
             return _mapper.Map<List<CategoryDto>>(producList);
         }
     }

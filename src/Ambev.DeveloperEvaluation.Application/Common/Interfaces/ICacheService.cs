@@ -6,8 +6,8 @@ namespace Ambev.DeveloperEvaluation.Application.Common.Interfaces
     /// </summary>
     public interface ICacheService
     {
-        Task<T?> GetAsync<T>(string key, CancellationToken ct = default);
-        Task SetAsync<T>(string key, T value, TimeSpan? expiration = null, CancellationToken ct = default);
-        Task RemoveAsync(string key, CancellationToken ct = default);
+        Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default);
+        Task SetAsync<T>(string key, T value, TimeSpan? expiration = null, CancellationToken cancellationToken = default);
+        Task RemoveAsync(string key, CancellationToken cancellationToken = default);
     }
 }

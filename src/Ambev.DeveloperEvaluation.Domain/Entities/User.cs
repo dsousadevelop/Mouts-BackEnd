@@ -2,7 +2,6 @@ using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Enums;
-using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -47,8 +46,6 @@ public class User : BaseEntity, IUser
     public virtual ICollection<Cart> Cart { get; set; }
     public virtual Address Address { get; set; }
     public UserStatus Status { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public DateTime? UpdatedAt { get; private set; }
 
     /// <summary>
     /// Gets the unique identifier of the user.
@@ -86,16 +83,6 @@ public class User : BaseEntity, IUser
     /// <list type="bullet">Role validity</list>
     /// 
     /// </remarks>
-    public ValidationResultDetail Validate()
-    {
-        var validator = new UserValidator();
-        var result = validator.Validate(this);
-        return new ValidationResultDetail
-        {
-            IsValid = result.IsValid,
-            Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
-        };
-    }
 
     /// <summary>
     /// Activates the user account.

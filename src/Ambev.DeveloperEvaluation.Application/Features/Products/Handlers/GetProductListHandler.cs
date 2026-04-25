@@ -14,16 +14,16 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Handlers
     public class GetProductListHandler(IProductRepository _repo, IMapper _mapper, ICacheService _cache)
         : IRequestHandler<GetProductListQuery, OneOf<PagedResult<ProductDto>, BaseError>>
     {
-        public async Task<OneOf<PagedResult<ProductDto>, BaseError>> Handle(GetProductListQuery request, CancellationToken ct)
+        public async Task<OneOf<PagedResult<ProductDto>, BaseError>> Handle(GetProductListQuery request, CancellationToken cancellationToken)
         {
             const string cacheKey = "Products_List";
-            var productList = await _cache.GetAsync<List<ProductDto>>(cacheKey, ct);
+            var productList = await _cache.GetAsync<List<ProductDto>>(cacheKey, cancellationToken);
 
             if (productList == null)
             {
-                var products = await _repo.GetListAllAsync(ct);
+                var products = await _repo.GetListAllAsync(cancellationToken);
                 productList = _mapper.Map<List<ProductDto>>(products);
-                await _cache.SetAsync(cacheKey, productList, ct: ct);
+                await _cache.SetAsync(cacheKey, productList, cancellationToken: cancellationToken);
             }
 
             if (request.CategoryId.HasValue)

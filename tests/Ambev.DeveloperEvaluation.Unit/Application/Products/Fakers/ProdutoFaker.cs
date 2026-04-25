@@ -13,9 +13,9 @@ public static class ProdutoFaker
     private static readonly Faker _faker = new("pt_BR");
 
     /// <summary>Gera um Product (entidade de domínio) com dados aleatórios válidos.</summary>
-    public static Product GerarProdutoValido(int? id = null, int? categoriaId = null)
+    public static Product GerarProdutoValido(int? id = null, int? categoryId = null)
     {
-        var categoria = new Category(categoriaId ?? 1, _faker.Commerce.Department());
+        var categoria = new Category(categoryId ?? 1, _faker.Commerce.Department());
         var title = _faker.Commerce.ProductName();
         var description = _faker.Commerce.ProductDescription();
 
@@ -23,7 +23,7 @@ public static class ProdutoFaker
             title: title[..Math.Min(50, title.Length)],
             price: Math.Round(_faker.Random.Decimal(1, 999), 2),
             description: description[..Math.Min(80, description.Length)],
-            categoryId: categoriaId ?? 1,
+            categoryId: categoryId ?? 1,
             image: _faker.Internet.Url(),
             rating_Rate: Math.Round(_faker.Random.Decimal(1, 5), 1),
             rating_Count: (short)_faker.Random.Int(1, 500),
@@ -34,13 +34,13 @@ public static class ProdutoFaker
     }
 
     /// <summary>Gera uma lista de Products válidos.</summary>
-    public static List<Product> GerarListaDeProdutos(int quantidade = 10, int? categoriaId = null)
+    public static List<Product> GerarListaDeProdutos(int quantidade = 10, int? categoryId = null)
         => Enumerable.Range(1, quantidade)
-            .Select(i => GerarProdutoValido(id: i, categoriaId: categoriaId))
+            .Select(i => GerarProdutoValido(id: i, categoryId: categoryId))
             .ToList();
 
     /// <summary>Gera um ProductDto com dados aleatórios válidos.</summary>
-    public static ProductDto GerarProductDto(int? id = null, int? categoriaId = null)
+    public static ProductDto GerarProductDto(int? id = null, int? categoryId = null)
     {
         var title = _faker.Commerce.ProductName();
         var description = _faker.Commerce.ProductDescription();
@@ -50,15 +50,15 @@ public static class ProdutoFaker
             title: title[..Math.Min(50, title.Length)],
             price: Math.Round(_faker.Random.Decimal(1, 999), 2),
             description: description[..Math.Min(80, description.Length)],
-            categoryId: categoriaId ?? _faker.Random.Int(1, 10),
+            categoryId: categoryId ?? _faker.Random.Int(1, 10),
             image: _faker.Internet.Url(),
             rating: new RatingDto { Rate = _faker.Random.Decimal(1, 5), Count = _faker.Random.Short(1, 500) }
         );
     }
 
     /// <summary>Gera uma lista de ProductDtos com dados aleatórios válidos.</summary>
-    public static List<ProductDto> GerarListaDeProductDtos(int quantidade = 10, int? categoriaId = null)
+    public static List<ProductDto> GerarListaDeProductDtos(int quantidade = 10, int? categoryId = null)
         => Enumerable.Range(1, quantidade)
-            .Select(i => GerarProductDto(id: i, categoriaId: categoriaId))
+            .Select(i => GerarProductDto(id: i, categoryId: categoryId))
             .ToList();
 }

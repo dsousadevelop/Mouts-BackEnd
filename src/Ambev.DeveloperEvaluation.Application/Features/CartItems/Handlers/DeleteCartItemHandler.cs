@@ -8,9 +8,9 @@ namespace Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers
 {
     public class DeleteCartItemHandler(ICartItemRepository _repo) : IRequestHandler<DeleteCartItemCommand, OneOf<bool, NotFoundError>>
     {
-        public async Task<OneOf<bool, NotFoundError>> Handle(DeleteCartItemCommand request, CancellationToken ct)
+        public async Task<OneOf<bool, NotFoundError>> Handle(DeleteCartItemCommand request, CancellationToken cancellationToken)
         {
-            var deleted = await _repo.DeleteAsync(request.Id, ct);
+            var deleted = await _repo.DeleteAsync(request.Id, cancellationToken);
             if (!deleted)
                 return new NotFoundError("Cart item not found");
 

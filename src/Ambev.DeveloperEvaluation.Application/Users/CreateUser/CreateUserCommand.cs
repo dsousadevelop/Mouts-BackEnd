@@ -66,10 +66,10 @@ public class CreateUserCommand : IRequest<CreateUserResult>
     }
 
 
-    public ValidationResultDetail Validate()
+    public async Task<ValidationResultDetail> ValidateAsync()
     {
         var validator = new CreateUserCommandValidator();
-        var result = validator.Validate(this);
+        var result = await validator.ValidateAsync(this);
         return new ValidationResultDetail
         {
             IsValid = result.IsValid,

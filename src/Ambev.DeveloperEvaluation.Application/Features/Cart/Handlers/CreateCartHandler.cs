@@ -14,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
 {
     public class CreateCartHandler(ICartRepository _repo, IProductRepository _productRepo, IMapper _mapper) : IRequestHandler<CreateCartCommand, OneOf<CartDto, ValidationError>>
     {
-        public async Task<OneOf<CartDto, ValidationError>> Handle(CreateCartCommand request, CancellationToken ct)
+        public async Task<OneOf<CartDto, ValidationError>> Handle(CreateCartCommand request, CancellationToken cancellationToken)
         {
             var model = _mapper.Map<Domain.Entities.Cart>(request.entityDto);
             
@@ -22,7 +22,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
             {
                 foreach (var item in model.CartItems)
                 {
-                    var product = await _productRepo.GetByIdAsync(item.ProductId, ct);
+                    var product = await _productRepo.GetByIdAsync(item.ProductId, cancellationToken);
                     if (product == null)
                     {
                         return new ValidationError($"product {item.ProductId} not exists");
@@ -34,14 +34,14 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
                 model.CalculateTotalAmount();
             }
 
-            var validationResult = model.Validate();
+            var validationResult = await model.ValidateAsync();
             if (!validationResult.IsValid)
                 return new ValidationError(string.Join(", ", validationResult.Errors.Select(o => o.Description)));
 
             try
             {
                 model.DateSaveCart();
-                var modelRet = await _repo.CreateAsync(model, ct);
+                var modelRet = await _repo.CreateAsync(model, cancellationToken);
                 return _mapper.Map<CartDto>(modelRet);
             }
             catch (System.Exception ex)

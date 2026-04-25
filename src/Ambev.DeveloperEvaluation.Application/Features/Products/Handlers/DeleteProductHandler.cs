@@ -11,13 +11,13 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Handlers
 {
     public class DeleteProductHandler(IProductRepository _repo, ICacheService _cache) : IRequestHandler<DeleteProductCommand, OneOf<Success, NotFoundError>>
     {
-        public async Task<OneOf<Success, NotFoundError>> Handle(DeleteProductCommand request, CancellationToken ct)
+        public async Task<OneOf<Success, NotFoundError>> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var success = await _repo.DeleteAsync(request.Id, ct);
+            var success = await _repo.DeleteAsync(request.Id, cancellationToken);
             if (!success)
                 return new NotFoundError($"Product with ID {request.Id} not found");
 
-            await _cache.RemoveAsync("Products_List", ct);
+            await _cache.RemoveAsync("Products_List", cancellationToken);
 
             return new Success();
         }

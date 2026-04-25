@@ -13,9 +13,9 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
 {
     public class UpdateCartHandler(ICartRepository _repo, IProductRepository _productRepo, IMapper _mapper) : IRequestHandler<UpdateCartCommand, OneOf<CartDto, NotFoundError, ValidationError>>
     {
-        public async Task<OneOf<CartDto, NotFoundError, ValidationError>> Handle(UpdateCartCommand request, CancellationToken ct)
+        public async Task<OneOf<CartDto, NotFoundError, ValidationError>> Handle(UpdateCartCommand request, CancellationToken cancellationToken)
         {
-            var cartExists = await _repo.GetByIdAsync((int)request.CartDto.Id, ct);
+            var cartExists = await _repo.GetByIdAsync((int)request.CartDto.Id, cancellationToken);
             if (cartExists == null)
                 return new NotFoundError($"Cart with ID {request.CartDto.Id} not found");
 
@@ -25,7 +25,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
             {
                 foreach (var item in cartExists.CartItems)
                 {
-                    var product = await _productRepo.GetByIdAsync(item.ProductId, ct);
+                    var product = await _productRepo.GetByIdAsync(item.ProductId, cancellationToken);
                     if (product != null)
                     {
                         item.CalculateDiscount(product.Price);
@@ -35,11 +35,11 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
                 cartExists.CalculateTotalAmount();
             }
 
-            var validationResult = cartExists.Validate();
+            var validationResult = await cartExists.ValidateAsync();
             if (!validationResult.IsValid)
                 return new ValidationError(string.Join(", ", validationResult.Errors.Select(o => o.Description)));
 
-            var updatedCart = await _repo.UpdateAsync(cartExists, ct);
+            var updatedCart = await _repo.UpdateAsync(cartExists, cancellationToken);
             return _mapper.Map<CartDto>(updatedCart);
         }
     }

@@ -46,10 +46,6 @@ namespace Ambev.DeveloperEvaluation.Common.Security
 
         private IUser? GetUserIdFromExpiredToken(string token)
         {
-            //var handler = new JwtSecurityTokenHandler();
-            //var jwtToken = handler.ReadJwtToken(token);
-            //return jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.)?.Value;
-
             var handler = new JwtSecurityTokenHandler();
 
             // Lê o token sem validar assinatura ou expiração

@@ -6,5 +6,5 @@ using OneOf.Types;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Products.Commands
 {
-    public record UpdateProductCommand(ProductDto ProductDto) : IRequest<OneOf<Success, NotFoundError, ValidationError>>;
+    public record UpdateProductCommand(ProductDto ProductDto) : IRequest<OneOf<ProductDto, NotFoundError, ValidationError>>;
 }

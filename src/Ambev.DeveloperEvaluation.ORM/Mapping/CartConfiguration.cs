@@ -17,7 +17,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.HasKey(u => u.Id);
             builder.Property(u => u.Id).HasColumnName("id").ValueGeneratedOnAdd();
             builder.Property(u => u.UserId).HasColumnName("user_id").IsRequired();
-            builder.Property(u => u.Date).HasColumnName("date").IsRequired();
+            builder.Property(u => u.Date).HasColumnName("date").IsRequired().HasColumnType("timestamp with time zone");
             builder.Property(u => u.TotalAmount).HasColumnName("total_amount").IsRequired().HasPrecision(18, 2);
             builder.Property(u => u.IsCancelled).HasColumnName("is_cancelled").IsRequired();
             builder.Property(u => u.CreatedAt).HasColumnName("createdat").IsRequired().HasColumnType("timestamp with time zone");

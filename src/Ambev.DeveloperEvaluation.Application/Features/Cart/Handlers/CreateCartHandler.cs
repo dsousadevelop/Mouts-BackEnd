@@ -23,10 +23,12 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
                 foreach (var item in model.CartItems)
                 {
                     var product = await _productRepo.GetByIdAsync(item.ProductId, ct);
-                    if (product != null)
+                    if (product == null)
                     {
-                        item.CalculateDiscount(product.Price);
+                        return new ValidationError($"product {item.ProductId} not exists");
                     }
+                    item.CalculateDiscount(product.Price);
+
                 }
 
                 model.CalculateTotalAmount();
@@ -38,6 +40,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
 
             try
             {
+                model.DateSaveCart();
                 var modelRet = await _repo.CreateAsync(model, ct);
                 return _mapper.Map<CartDto>(modelRet);
             }

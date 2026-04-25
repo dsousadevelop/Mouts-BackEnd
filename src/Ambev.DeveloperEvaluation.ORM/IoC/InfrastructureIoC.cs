@@ -1,11 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Application.Common.Interfaces;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.ORM.Repositories;
+using Ambev.DeveloperEvaluation.ORM.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.ORM.IoC
 {
@@ -19,7 +16,7 @@ namespace Ambev.DeveloperEvaluation.ORM.IoC
             services.AddScoped<ICartItemRepository, CartItemRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            // outras dependências
+            services.AddScoped<ICacheService, CacheService>();
             return services;
         }
     }

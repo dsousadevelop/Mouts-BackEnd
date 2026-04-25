@@ -107,6 +107,8 @@ public class CartController(IMediator _mediator, IMapper _mapper) : BaseControll
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
+        request.Id = id;
+
         var command = _mapper.Map<UpdateCartCommand>(request);
         var result = await _mediator.Send(command, cancellationToken);
 

@@ -10,7 +10,6 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
 [Authorize]
@@ -72,9 +71,29 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponseWithData<ListProductsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> List(CancellationToken ct)
+    public async Task<IActionResult> List([FromQuery] int _page = 1, [FromQuery] int _size = 10, CancellationToken ct = default)
     {
-        var result = await _mediator.Send(new GetProductListQuery(), ct);
+        var query = new GetProductListQuery(_page, _size);
+        var result = await _mediator.Send(query, ct);
+
+        return result.Match(
+            data => Ok(new ApiResponseWithData<ListProductsResponse>
+            {
+                Success = true,
+                Message = "Products retrieved successfully",
+                Data = _mapper.Map<ListProductsResponse>(data)
+            }),
+            error => BadRequest(error.Detail)
+        );
+    }
+
+    [HttpGet("category/{categoryId}")]
+    [ProducesResponseType(typeof(ApiResponseWithData<ListProductsResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetByCategory([FromRoute] int categoryId, [FromQuery] int _page = 1, [FromQuery] int _size = 10, CancellationToken ct = default)
+    {
+        var query = new GetProductListQuery(_page, _size, categoryId);
+        var result = await _mediator.Send(query, ct);
 
         return result.Match(
             data => Ok(new ApiResponseWithData<ListProductsResponse>

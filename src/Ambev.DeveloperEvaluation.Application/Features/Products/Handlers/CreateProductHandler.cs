@@ -7,9 +7,11 @@ using AutoMapper;
 using MediatR;
 using OneOf;
 
+using Ambev.DeveloperEvaluation.Application.Common.Interfaces;
+
 namespace Ambev.DeveloperEvaluation.Application.Features.Products.Handlers
 {
-    public class CreateProductHandler(IProductRepository _repo, IMapper _mapper) : IRequestHandler<CreateProductCommand, OneOf<ProductDto, ValidationError>>
+    public class CreateProductHandler(IProductRepository _repo, IMapper _mapper, ICacheService _cache) : IRequestHandler<CreateProductCommand, OneOf<ProductDto, ValidationError>>
     {
         public async Task<OneOf<ProductDto, ValidationError>> Handle(CreateProductCommand request, CancellationToken ct)
         {
@@ -17,6 +19,8 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Handlers
             
             var productRet = await _repo.CreateAsync(model, ct);
             
+            await _cache.RemoveAsync("Products_List", ct);
+
             return _mapper.Map<ProductDto>(productRet);
         }
     }

@@ -20,3 +20,4 @@ public class GetCartItemResponse
     public decimal SubTotal { get; set; }
     public decimal Total { get; set; }
 }
+

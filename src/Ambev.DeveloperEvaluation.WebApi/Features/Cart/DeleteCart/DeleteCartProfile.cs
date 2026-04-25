@@ -1,5 +1,5 @@
 using AutoMapper;
-using Ambev.DeveloperEvaluation.Application.Features.Carts.Commands;
+using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart.DeleteCart;
 
@@ -11,3 +11,4 @@ public class DeleteCartProfile : Profile
             .ConstructUsing(src => new DeleteCartCommand(src.Id));
     }
 }
+

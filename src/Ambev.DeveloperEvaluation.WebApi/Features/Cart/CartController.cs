@@ -1,5 +1,5 @@
-using Ambev.DeveloperEvaluation.Application.Features.Carts.Commands;
-using Ambev.DeveloperEvaluation.Application.Features.Carts.Queries;
+using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
+using Ambev.DeveloperEvaluation.Application.Features.Cart.Queries;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Cart.CreateCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Cart.GetCart;
@@ -9,6 +9,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart;
 
@@ -29,14 +31,17 @@ public class CartController(IMediator _mediator, IMapper _mapper) : BaseControll
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<CreateCartCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
+        var result = await _mediator.Send(command, cancellationToken);
 
-        return Created(nameof(Get), new { id = response }, new ApiResponseWithData<CreateCartResponse> 
-        { 
-            Success = true, 
-            Message = "Cart created successfully", 
-            Data = _mapper.Map<CreateCartResponse>(response) 
-        });
+        return result.Match(
+            success => CreatedAtAction(nameof(Get), new { id = success.Id }, new ApiResponseWithData<CreateCartResponse>
+            {
+                Success = true,
+                Message = "Cart created successfully",
+                Data = _mapper.Map<CreateCartResponse>(success)
+            }),
+            validationError => BadRequest(validationError.Detail)
+        );
     }
 
     [HttpGet("{id}")]
@@ -45,17 +50,17 @@ public class CartController(IMediator _mediator, IMapper _mapper) : BaseControll
     public async Task<IActionResult> Get([FromRoute] int id, CancellationToken cancellationToken)
     {
         var query = new GetCartByIdQuery(id);
-        var cart = await _mediator.Send(query, cancellationToken);
+        var result = await _mediator.Send(query, cancellationToken);
 
-        if (cart == null)
-            return NotFound(new ApiResponse { Success = false, Message = $"Cart with ID {id} not found" });
-
-        return Ok(new ApiResponseWithData<GetCartResponse>
-        {
-            Success = true,
-            Message = "Cart retrieved successfully",
-            Data = _mapper.Map<GetCartResponse>(cart)
-        });
+        return result.Match(
+            success => Ok(new ApiResponseWithData<GetCartResponse>
+            {
+                Success = true,
+                Message = "Cart retrieved successfully",
+                Data = _mapper.Map<GetCartResponse>(success)
+            }),
+            notFound => NotFound(notFound.Detail)
+        );
     }
 
     [HttpGet]
@@ -63,14 +68,17 @@ public class CartController(IMediator _mediator, IMapper _mapper) : BaseControll
     public async Task<IActionResult> List(CancellationToken cancellationToken)
     {
         var query = new GetCartListQuery();
-        var carts = await _mediator.Send(query, cancellationToken);
+        var result = await _mediator.Send(query, cancellationToken);
 
-        return Ok(new ApiResponseWithData<ListCartsResponse>
-        {
-            Success = true,
-            Message = "Carts retrieved successfully",
-            Data = new ListCartsResponse { Carts = _mapper.Map<List<GetCartResponse>>(carts) }
-        });
+        return result.Match(
+            success => Ok(new ApiResponseWithData<ListCartsResponse>
+            {
+                Success = true,
+                Message = "Carts retrieved successfully",
+                Data = new ListCartsResponse { Carts = _mapper.Map<List<GetCartResponse>>(success) }
+            }),
+            validationError => BadRequest(validationError.Detail)
+        );
     }
 
     [HttpDelete("{id}")]
@@ -79,9 +87,12 @@ public class CartController(IMediator _mediator, IMapper _mapper) : BaseControll
     public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
     {
         var command = new DeleteCartCommand(id);
-        await _mediator.Send(command, cancellationToken);
+        var result = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse { Message = "Cart deleted successfully", Success = true });
+        return result.Match(
+            success => Ok(new ApiResponse { Message = "Cart deleted successfully", Success = true }),
+            notFound => NotFound(notFound.Detail)
+        );
     }
 
     [HttpPut("{id}")]
@@ -97,8 +108,20 @@ public class CartController(IMediator _mediator, IMapper _mapper) : BaseControll
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<UpdateCartCommand>(request);
-        await _mediator.Send(command, cancellationToken);
+        var result = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse { Message = "Cart updated successfully", Success = true });
+        return result.Match(
+            success => Ok(new ApiResponseWithData<GetCartResponse>
+            {
+                Success = true,
+                Message = "Cart updated successfully",
+                Data = _mapper.Map<GetCartResponse>(success)
+            }),
+            notFound => NotFound(notFound.Detail),
+            validationError => BadRequest(validationError.Detail)
+        );
     }
 }
+
+
+

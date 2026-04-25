@@ -1,5 +1,5 @@
 using FluentValidation;
-using Ambev.DeveloperEvaluation.WebApi.Features.CartItem.CreateCartItem;
+using Ambev.DeveloperEvaluation.WebApi.Features.CartItems.CreateCartItem;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart.UpdateCart;
 
@@ -12,3 +12,4 @@ public class UpdateCartRequestValidator : AbstractValidator<UpdateCartRequest>
         RuleForEach(x => x.CartItems).SetValidator(new CreateCartItemRequestValidator());
     }
 }
+

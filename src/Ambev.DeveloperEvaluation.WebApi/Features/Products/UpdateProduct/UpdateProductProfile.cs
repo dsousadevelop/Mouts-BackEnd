@@ -15,5 +15,7 @@ public class UpdateProductProfile : Profile
             .ConstructUsing((src, ctx) => new UpdateProductCommand(ctx.Mapper.Map<ProductDto>(src)));
         CreateMap<ProductDto, UpdateProductCommand>()
             .ConstructUsing(src => new UpdateProductCommand(src));
+        CreateMap<ProductDto, UpdateProductResponse>();
+        CreateMap<RatingDto, RatingResponse>();
     }
 }

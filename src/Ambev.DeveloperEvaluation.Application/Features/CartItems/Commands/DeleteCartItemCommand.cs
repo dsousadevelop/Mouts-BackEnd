@@ -1,11 +1,8 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using MediatR;
+using OneOf;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.CartItems.Commands
 {
-    public record DeleteCartItemCommand(int Ìd) : IRequest;
+    public record DeleteCartItemCommand(int Id) : IRequest<OneOf<bool, NotFoundError>>;
 }

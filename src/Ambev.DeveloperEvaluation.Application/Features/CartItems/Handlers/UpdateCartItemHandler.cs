@@ -1,23 +1,32 @@
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Commands;
+using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
+using OneOf;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers
 {
-    public class UpdateCartItemHandler(ICartItemRepository _repo, IProductRepository _productRepo, IMapper _mapper) : IRequestHandler<UpdateCartItemCommand>
+    public class UpdateCartItemHandler(ICartItemRepository _repo, IMapper _mapper) : IRequestHandler<UpdateCartItemCommand, OneOf<CartItemDto, NotFoundError, ValidationError>>
     {
-        public async Task Handle(UpdateCartItemCommand request, CancellationToken ct)
+        public async Task<OneOf<CartItemDto, NotFoundError, ValidationError>> Handle(UpdateCartItemCommand request, CancellationToken ct)
         {
-            var product = await _productRepo.GetByIdAsync(request.entityDto.ProductId, ct);
-            if (product == null)
-                throw new Exception("Product not found");
+            if (!request.entityDto.Id.HasValue)
+                return new ValidationError("Cart Item Id is required for update");
 
-            var model = _mapper.Map<CartItem>(request.entityDto);
-            model.CalculateDiscount(product.Price);
+            var cartItemExists = await _repo.GetByIdAsync(request.entityDto.Id.Value, ct);
+            if (cartItemExists == null)
+                return new NotFoundError("Cart item not found");
 
-            await _repo.UpdateAsync(model, ct);
+            _mapper.Map(request.entityDto, cartItemExists);
+
+            // Discount logic
+            cartItemExists.CalculateDiscount(request.entityDto.UnitPrice);
+
+            var updated = await _repo.UpdateAsync(cartItemExists, ct);
+            return _mapper.Map<CartItemDto>(updated);
         }
     }
 }

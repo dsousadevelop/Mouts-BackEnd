@@ -1,5 +1,5 @@
 using AutoMapper;
-using Ambev.DeveloperEvaluation.Application.Features.Carts.DTOs;
+using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
 using Ambev.DeveloperEvaluation.WebApi.Features.Cart.GetCart;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart.ListCarts;
@@ -12,3 +12,4 @@ public class ListCartsProfile : Profile
             .ForMember(dest => dest.Carts, opt => opt.MapFrom(src => src));
     }
 }
+

@@ -1,8 +1,8 @@
 using AutoMapper;
-using Ambev.DeveloperEvaluation.Application.Features.Carts.Commands;
-using Ambev.DeveloperEvaluation.Application.Features.Carts.DTOs;
+using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
+using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
-using Ambev.DeveloperEvaluation.WebApi.Features.CartItem.CreateCartItem;
+using Ambev.DeveloperEvaluation.WebApi.Features.CartItems.CreateCartItem;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart.CreateCart;
 
@@ -20,3 +20,4 @@ public class CreateCartProfile : Profile
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src));
     }
 }
+

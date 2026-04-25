@@ -1,24 +1,25 @@
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Commands;
+using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
+using OneOf;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers
 {
-    public class CreateCartItemHandler(ICartItemRepository _repo, IProductRepository _productRepo, IMapper _mapper) : IRequestHandler<CreateCartItemCommand, int?>
+    public class CreateCartItemHandler(ICartItemRepository _repo, IMapper _mapper) : IRequestHandler<CreateCartItemCommand, OneOf<CartItemDto, ValidationError>>
     {
-        public async Task<int?> Handle(CreateCartItemCommand request, CancellationToken ct)
+        public async Task<OneOf<CartItemDto, ValidationError>> Handle(CreateCartItemCommand request, CancellationToken ct)
         {
-            var product = await _productRepo.GetByIdAsync(request.entityDto.ProductId, ct);
-            if (product == null)
-                throw new Exception("Product not found");
+            var cartItem = _mapper.Map<CartItem>(request.CartItemDto);
 
-            var model = _mapper.Map<CartItem>(request.entityDto);
-            model.CalculateDiscount(product.Price);
+            // Discount logic
+            cartItem.CalculateDiscount(request.CartItemDto.UnitPrice);
 
-            var modelRet = await _repo.CreateAsync(model, ct);
-            return modelRet.Id;
+            var created = await _repo.CreateAsync(cartItem, ct);
+            return _mapper.Map<CartItemDto>(created);
         }
     }
 }

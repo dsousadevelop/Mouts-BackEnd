@@ -9,3 +9,4 @@ public class DeleteCartRequestValidator : AbstractValidator<DeleteCartRequest>
         RuleFor(x => x.Id).NotEmpty();
     }
 }
+

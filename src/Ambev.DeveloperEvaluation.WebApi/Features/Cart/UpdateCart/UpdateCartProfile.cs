@@ -1,6 +1,6 @@
 using AutoMapper;
-using Ambev.DeveloperEvaluation.Application.Features.Carts.Commands;
-using Ambev.DeveloperEvaluation.Application.Features.Carts.DTOs;
+using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
+using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart.UpdateCart;
 
@@ -15,3 +15,4 @@ public class UpdateCartProfile : Profile
             .ConstructUsing(src => new UpdateCartCommand(src));
     }
 }
+

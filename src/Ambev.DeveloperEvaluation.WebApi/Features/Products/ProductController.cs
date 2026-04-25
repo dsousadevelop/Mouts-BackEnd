@@ -32,7 +32,12 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
         var result = await _mediator.Send(command, ct);
 
         return result.Match(
-            data => Created(nameof(Get), new { id = data.Id }, _mapper.Map<CreateProductResponse>(data)),
+            data => CreatedAtAction(nameof(Get), new { id = data.Id }, new ApiResponseWithData<CreateProductResponse>
+            {
+                Success = true,
+                Message = "Product created successfully",
+                Data = _mapper.Map<CreateProductResponse>(data)
+            }),
             error => BadRequest(error.Detail)
         );
     }
@@ -54,7 +59,12 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
         var result = await _mediator.Send(query, ct);
 
         return result.Match(
-            data => Ok(_mapper.Map<GetProductResponse>(data)),
+            data => Ok(new ApiResponseWithData<GetProductResponse>
+            {
+                Success = true,
+                Message = "Product retrieved successfully",
+                Data = _mapper.Map<GetProductResponse>(data)
+            }),
             error => NotFound(error.Detail)
         );
     }
@@ -67,7 +77,12 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
         var result = await _mediator.Send(new GetProductListQuery(), ct);
 
         return result.Match(
-            data => Ok(_mapper.Map<ListProductsResponse>(data)),
+            data => Ok(new ApiResponseWithData<ListProductsResponse>
+            {
+                Success = true,
+                Message = "Products retrieved successfully",
+                Data = _mapper.Map<ListProductsResponse>(data)
+            }),
             error => BadRequest(error.Detail)
         );
     }
@@ -97,7 +112,7 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
 
     [Authorize(Roles = "Admin,Manager")]
     [HttpPut("{id}")]
-    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseWithData<UpdateProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UpdateProductRequest request, CancellationToken ct)
@@ -113,7 +128,12 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
         var result = await _mediator.Send(command, ct);
 
         return result.Match(
-            success => Ok(new ApiResponse { Message = "Product updated successfully", Success = true }),
+            data => Ok(new ApiResponseWithData<UpdateProductResponse>
+            {
+                Success = true,
+                Message = "Product updated successfully",
+                Data = _mapper.Map<UpdateProductResponse>(data)
+            }),
             error => NotFound(error.Detail),
             validationError => BadRequest(validationError.Detail)
         );

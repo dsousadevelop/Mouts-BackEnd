@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
@@ -56,7 +56,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ambev.DeveloperEvaluation.MicroServices", "src\Ambev.DeveloperEvaluation.MicroServices\Ambev.DeveloperEvaluation.MicroServices.csproj", "{C105129E-7541-49E9-9BEA-67146115803C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ambev.DeveloperEvaluation.MicroServices", "src\Adapter\Drivers\Microservices\Ambev.DeveloperEvaluation.MicroServices\Ambev.DeveloperEvaluation.MicroServices.csproj", "{C105129E-7541-49E9-9BEA-67146115803C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -219,7 +219,7 @@ Global
 		{7E1EFB67-8305-423C-9E09-CBC62465FA18} = {040F270A-3788-4E88-99A6-F236286DE3E7}
 		{C0DDDE39-2D65-4AF5-90D4-F35D87A79009} = {040F270A-3788-4E88-99A6-F236286DE3E7}
 		{2B484022-3EF7-4BAB-ADB8-849F9E419EDD} = {C8926C5D-2F67-4F90-982B-FFB45F517D65}
-		{C105129E-7541-49E9-9BEA-67146115803C} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{C105129E-7541-49E9-9BEA-67146115803C} = {FC704106-833B-484D-B71C-E45123A9EC30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {13EAB81A-C6B2-4C22-B4DE-C6603FC445B6}

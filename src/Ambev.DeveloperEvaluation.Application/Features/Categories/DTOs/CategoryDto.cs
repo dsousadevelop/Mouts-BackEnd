@@ -1,4 +1,4 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs
+namespace Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs
 {
     public class CategoryDto
     {

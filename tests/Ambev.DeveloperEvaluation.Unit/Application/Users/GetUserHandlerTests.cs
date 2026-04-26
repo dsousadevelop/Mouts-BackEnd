@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Users.GetUser;
+﻿using Ambev.DeveloperEvaluation.Application.Users.GetUser;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
@@ -26,7 +26,7 @@ public class GetUserHandlerTests
     public async Task Handle_ExistingUser_ReturnsGetUserResult()
     {
         // Given
-        var userId = 1;
+        const int userId = 1;
         var command = new GetUserCommand(userId);
         var user = new User("testuser", "test@example.com", "123", "password", "First", "Last", Ambev.DeveloperEvaluation.Domain.Enums.UserRole.Customer, Ambev.DeveloperEvaluation.Domain.Enums.UserStatus.Active);
         user.Id = userId;
@@ -48,7 +48,7 @@ public class GetUserHandlerTests
     public async Task Handle_NonExistentUser_ReturnsNotFoundError()
     {
         // Given
-        var userId = 1;
+        const int userId = 1;
         var command = new GetUserCommand(userId);
 
         _userRepository.GetByIdAsync(userId, Arg.Any<CancellationToken>()).Returns((User?)null);

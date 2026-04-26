@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Queries;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers;
@@ -28,7 +28,7 @@ public class GetItemsCartByIdCartHandlerTests
     public async Task Handle_ValidRequest_ReturnsCartItemList()
     {
         // Given
-        var cartId = 1;
+        const int cartId = 1;
         var query = new GetItemsCartByIdCartQuery(cartId);
         var items = new List<CartItem>
         {
@@ -53,4 +53,3 @@ public class GetItemsCartByIdCartHandlerTests
         result.AsT0.Should().BeEquivalentTo(itemDtos);
     }
 }
-

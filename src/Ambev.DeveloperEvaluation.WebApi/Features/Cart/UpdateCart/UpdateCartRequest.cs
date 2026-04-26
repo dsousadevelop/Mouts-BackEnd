@@ -9,4 +9,3 @@ public class UpdateCartRequest
     public bool IsCancelled { get; set; }
     public List<CreateCartItemRequest> CartItems { get; set; } = new();
 }
-

@@ -29,7 +29,7 @@ public class ProductRepositoryTests : RepositoryTestsBase
         _cacheContext = new CacheContext(_distributedCache);
         _mapper = Substitute.For<IMapper>();
         _repository = new ProductRepository(Context, _cacheContext, _mapper);
-        
+
         var category = new Category(1, "Test Category");
 
         _productFaker = new Faker<Product>()
@@ -137,7 +137,7 @@ public class ProductRepositoryTests : RepositoryTestsBase
         var products = _productFaker.Generate(3);
         await Context.Product.AddRangeAsync(products);
         await Context.SaveChangesAsync();
-        
+
         _distributedCache.GetAsync(Arg.Any<string>()).Returns((byte[])null!);
 
         // Act

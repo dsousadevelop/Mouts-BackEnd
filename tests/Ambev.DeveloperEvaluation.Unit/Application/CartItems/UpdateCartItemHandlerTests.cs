@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers;
@@ -28,7 +28,7 @@ public class UpdateCartItemHandlerTests
     public async Task Handle_ValidRequest_ReturnsCartItemDto()
     {
         // Given
-        var cartItemId = 1;
+        const int cartItemId = 1;
         var cartItemDto = new CartItemDto { Id = cartItemId, ProductId = 1, Quantity = 3, UnitPrice = 10 };
         var command = new UpdateCartItemCommand(cartItemDto);
         var existingItem = new CartItem(0, 1, 1, 0, 10, 10) { Id = cartItemId };
@@ -60,4 +60,3 @@ public class UpdateCartItemHandlerTests
         result.AsT2.Detail.Should().Contain("Id is required");
     }
 }
-

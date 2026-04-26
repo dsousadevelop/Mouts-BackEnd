@@ -4,4 +4,3 @@ public class GetCartItemsRequest
 {
     public int CartId { get; set; }
 }
-

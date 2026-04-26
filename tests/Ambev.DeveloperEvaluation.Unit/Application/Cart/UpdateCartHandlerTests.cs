@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
+﻿using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers;
 using Ambev.DeveloperEvaluation.Domain.Entities;
@@ -29,8 +29,8 @@ public class UpdateCartHandlerTests
     public async Task Handle_ValidRequest_ReturnsCartDto()
     {
         // Given
-        var cartId = 1;
-        var userId = 1;
+        const int cartId = 1;
+        const int userId = 1;
         var cartDto = new CartDto { Id = cartId, UserId = userId };
         var command = new UpdateCartCommand(cartDto);
         var existingCart = new Ambev.DeveloperEvaluation.Domain.Entities.Cart(userId, DateTime.UtcNow);
@@ -53,7 +53,7 @@ public class UpdateCartHandlerTests
     public async Task Handle_NonExistentCart_ReturnsNotFoundError()
     {
         // Given
-        var cartId = 1;
+        const int cartId = 1;
         var cartDto = new CartDto { Id = cartId };
         var command = new UpdateCartCommand(cartDto);
 
@@ -67,4 +67,3 @@ public class UpdateCartHandlerTests
         result.AsT1.Detail.Should().Contain(cartId.ToString());
     }
 }
-

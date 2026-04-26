@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.RegularExpressions;
@@ -26,6 +26,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion<int>();
         builder.Property(u => u.Role).HasColumnName("roles")
             .HasConversion<int>();
-
-    }
+}
 }

@@ -50,4 +50,3 @@ public class CreateProductHandlerTests
         await _cacheService.Received(1).RemoveAsync("Products_List", Arg.Any<CancellationToken>());
     }
 }
-

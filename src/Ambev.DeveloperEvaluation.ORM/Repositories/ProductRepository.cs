@@ -65,8 +65,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             {
                 throw new InvalidDataException(ex.Message.ToString());
             }
-            
-        }
+}
 
         public async Task<Product> UpdateAsync(Product model, CancellationToken cancellationToken = default)
         {

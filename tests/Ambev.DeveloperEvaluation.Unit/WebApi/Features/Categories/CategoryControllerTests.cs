@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Features.Categories.Commands;
+﻿using Ambev.DeveloperEvaluation.Application.Features.Categories.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Queries;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs;
 using Ambev.DeveloperEvaluation.WebApi.Common;
@@ -41,7 +41,7 @@ public class CategoryControllerTests
         var categories = new List<CategoryDto> { new CategoryDto(1, "Electronics") };
         _mediator.Send(Arg.Any<GetCategoryListQuery>(), Arg.Any<CancellationToken>())
             .Returns(categories);
-        
+
         _mapper.Map<IEnumerable<ListCategoriesResponse>>(categories)
             .Returns(new List<ListCategoriesResponse> { new ListCategoriesResponse { Id = 1, Description = "Electronics" } });
 
@@ -76,11 +76,11 @@ public class CategoryControllerTests
     public async Task Get_IdExistente_DeveRetornarOk()
     {
         // Arrange
-        var categoryId = 1;
+        const int categoryId = 1;
         var categoryDto = new CategoryDto(categoryId, "Electronics");
         _mediator.Send(Arg.Any<GetCategoryByIdQuery>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<CategoryDto, ResourceNotFoundError>.FromT0(categoryDto)));
-        
+
         _mapper.Map<GetCategoryResponse>(categoryDto).Returns(new GetCategoryResponse { Id = categoryId, Description = "Electronics" });
 
         // Act
@@ -90,11 +90,11 @@ public class CategoryControllerTests
         result.Should().BeOfType<OkObjectResult>().Which.StatusCode.Should().Be(200);
     }
 
-    [Fact(DisplayName = "Get deve retornar 404 NotFound quando a categoria não existe")]
+    [Fact(DisplayName = "Get deve retornar 404 NotFound quando a categoria nÃ£o existe")]
     public async Task Get_IdInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        var categoryId = 99;
+        const int categoryId = 99;
         _mediator.Send(Arg.Any<GetCategoryByIdQuery>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<CategoryDto, ResourceNotFoundError>.FromT1(new ResourceNotFoundError("Category not found"))));
 
@@ -109,7 +109,7 @@ public class CategoryControllerTests
     public async Task Delete_IdExistente_DeveRetornarOk()
     {
         // Arrange
-        var categoryId = 1;
+        const int categoryId = 1;
         _mediator.Send(Arg.Any<DeleteCategoryCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<Success, ResourceNotFoundError>.FromT0(new Success())));
 
@@ -120,11 +120,11 @@ public class CategoryControllerTests
         result.Should().BeOfType<OkObjectResult>().Which.StatusCode.Should().Be(200);
     }
 
-    [Fact(DisplayName = "Delete deve retornar 404 NotFound quando a categoria não existe")]
+    [Fact(DisplayName = "Delete deve retornar 404 NotFound quando a categoria nÃ£o existe")]
     public async Task Delete_IdInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        var categoryId = 99;
+        const int categoryId = 99;
         _mediator.Send(Arg.Any<DeleteCategoryCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<Success, ResourceNotFoundError>.FromT1(new ResourceNotFoundError("Category not found"))));
 

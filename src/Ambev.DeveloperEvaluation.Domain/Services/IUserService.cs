@@ -9,6 +9,5 @@ namespace Ambev.DeveloperEvaluation.Domain.Services
 {
     public interface IUserService<T> 
     {
-
     }
 }

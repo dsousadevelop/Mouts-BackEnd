@@ -1,9 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories
 {
-    public interface ICartRepository: IBaseRepository<Cart>
+    public interface ICartRepository : IBaseRepository<Cart>
     {
-
     }
 }

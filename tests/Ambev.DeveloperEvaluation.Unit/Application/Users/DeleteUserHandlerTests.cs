@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
+﻿using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using FluentAssertions;
 using FluentValidation;
@@ -22,7 +22,7 @@ public class DeleteUserHandlerTests
     public async Task Handle_ValidRequest_ReturnsDeleteUserResponse()
     {
         // Given
-        var userId = 1;
+        const int userId = 1;
         var command = new DeleteUserCommand(userId);
 
         _userRepository.DeleteAsync(userId, Arg.Any<CancellationToken>()).Returns(true);
@@ -40,7 +40,7 @@ public class DeleteUserHandlerTests
     public async Task Handle_NonExistentUser_ReturnsNotFoundError()
     {
         // Given
-        var userId = 1;
+        const int userId = 1;
         var command = new DeleteUserCommand(userId);
 
         _userRepository.DeleteAsync(userId, Arg.Any<CancellationToken>()).Returns(false);

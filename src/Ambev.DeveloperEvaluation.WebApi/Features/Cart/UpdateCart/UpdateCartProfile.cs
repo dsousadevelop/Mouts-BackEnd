@@ -15,4 +15,3 @@ public class UpdateCartProfile : Profile
             .ConstructUsing(src => new UpdateCartCommand(src));
     }
 }
-

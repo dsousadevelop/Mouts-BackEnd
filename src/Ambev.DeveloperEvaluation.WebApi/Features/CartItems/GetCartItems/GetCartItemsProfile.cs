@@ -12,4 +12,3 @@ public class GetCartItemsProfile : Profile
         CreateMap<CartItemDto, GetCartItemsItemResponse>();
     }
 }
-

@@ -17,7 +17,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
         public async Task<OneOf<CartDto, ValidationError>> Handle(CreateCartCommand request, CancellationToken cancellationToken)
         {
             var model = _mapper.Map<Domain.Entities.Cart>(request.entityDto);
-            
+
             if (model.CartItems != null)
             {
                 foreach (var item in model.CartItems)
@@ -28,8 +28,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
                         return new ValidationError($"product {item.ProductId} not exists");
                     }
                     item.CalculateDiscount(product.Price);
-
-                }
+}
 
                 model.CalculateTotalAmount();
             }
@@ -51,4 +50,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
         }
     }
 }
-

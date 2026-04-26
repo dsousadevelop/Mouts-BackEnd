@@ -52,4 +52,3 @@ public class GetCartListHandlerTests
         result.AsT0.Should().BeEquivalentTo(cartDtos);
     }
 }
-

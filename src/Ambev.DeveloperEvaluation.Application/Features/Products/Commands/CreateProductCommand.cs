@@ -7,4 +7,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Commands
 {
     public record CreateProductCommand(ProductDto ProductDto) : IRequest<OneOf<ProductDto, ValidationError>>;
 }
-

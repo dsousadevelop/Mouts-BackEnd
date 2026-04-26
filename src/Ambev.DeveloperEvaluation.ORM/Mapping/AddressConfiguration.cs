@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping
 {
-    public class AddressConfiguration: IEntityTypeConfiguration<Address>
+    public class AddressConfiguration : IEntityTypeConfiguration<Address>
     {
         public void Configure(EntityTypeBuilder<Address> builder)
         {
@@ -30,7 +30,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.HasOne(a => a.User)
                .WithOne(u => u.Address)
                .HasForeignKey<Address>(a => a.UserId);
-
-        }
+}
     }
 }

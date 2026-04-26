@@ -9,4 +9,3 @@ public class GetCartItemsRequestValidator : AbstractValidator<GetCartItemsReques
         RuleFor(x => x.CartId).NotEmpty();
     }
 }
-

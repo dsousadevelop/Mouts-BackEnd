@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +28,5 @@ public class DefaultContext : DbContext
     {
         optionsBuilder.EnableSensitiveDataLogging();
         base.OnConfiguring(optionsBuilder);
-
-    }
+}
 }

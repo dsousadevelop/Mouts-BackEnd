@@ -16,9 +16,8 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
             if (cart == null)
                 return new NotFoundError($"Cart with ID {request.Id} not found");
 
-            await _repo.DeleteAsync(request.Id, cancellationToken);    
+            await _repo.DeleteAsync(request.Id, cancellationToken);
             return true;
         }
     }
 }
-

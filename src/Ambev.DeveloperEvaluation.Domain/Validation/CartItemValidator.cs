@@ -10,11 +10,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
 {
     internal class CartItemValidator : AbstractValidator<CartItem>
     {
-        public CartItemValidator() 
+        public CartItemValidator()
         {
-           // RuleFor(p => p.CartId)
-           //.NotEqual(0)
-           //.WithMessage("Cart ID cannot be zeroed out.");
+            // RuleFor(p => p.CartId)
+            //.NotEqual(0)
+            //.WithMessage("Cart ID cannot be zeroed out.");
 
             RuleFor(p => p.ProductId)
            .NotEqual(0)

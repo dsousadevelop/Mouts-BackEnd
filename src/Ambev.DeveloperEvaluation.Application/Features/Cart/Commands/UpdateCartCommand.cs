@@ -7,4 +7,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Commands
 {
     public record UpdateCartCommand(CartDto CartDto) : IRequest<OneOf<CartDto, NotFoundError, ValidationError>>;
 }
-

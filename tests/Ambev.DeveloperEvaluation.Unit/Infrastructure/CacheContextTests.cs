@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.ORM;
+﻿using Ambev.DeveloperEvaluation.ORM;
 using FluentAssertions;
 using Microsoft.Extensions.Caching.Distributed;
 using NSubstitute;
@@ -22,7 +22,7 @@ public class CacheContextTests
     public async Task RemoveAsync_ShouldCallDistributedCacheRemoveAsync()
     {
         // Arrange
-        var key = "test-key";
+        const string key = "test-key";
 
         // Act
         await _cacheContext.RemoveAsync(key);
@@ -35,7 +35,7 @@ public class CacheContextTests
     public async Task GetAsync_WhenKeyExists_ShouldReturnDeserializedValue()
     {
         // Arrange
-        var key = "test-key";
+        const string key = "test-key";
         var value = new TestModel { Name = "Test" };
         var json = JsonSerializer.Serialize(value);
         var bytes = System.Text.Encoding.UTF8.GetBytes(json);
@@ -53,7 +53,7 @@ public class CacheContextTests
     public async Task GetAsync_WhenKeyDoesNotExist_ShouldReturnDefault()
     {
         // Arrange
-        var key = "non-existent-key";
+        const string key = "non-existent-key";
         _cache.GetAsync(key, Arg.Any<CancellationToken>()).Returns((byte[]?)null);
 
         // Act
@@ -67,8 +67,8 @@ public class CacheContextTests
     public async Task GetAsync_WhenKeyContainsInvalidJson_ShouldThrowJsonException()
     {
         // Arrange
-        var key = "invalid-json-key";
-        var invalidJson = "{ invalid json }";
+        const string key = "invalid-json-key";
+        const string invalidJson = "{ invalid json }";
         var bytes = System.Text.Encoding.UTF8.GetBytes(invalidJson);
         _cache.GetAsync(key, Arg.Any<CancellationToken>()).Returns(bytes);
 
@@ -83,7 +83,7 @@ public class CacheContextTests
     public async Task SetAsync_ShouldCallDistributedCacheSetAsyncWithSerializedValue()
     {
         // Arrange
-        var key = "test-key";
+        const string key = "test-key";
         var value = new TestModel { Name = "Test" };
 
         // Act
@@ -101,7 +101,7 @@ public class CacheContextTests
     public async Task SetAsync_WithCustomExpiration_ShouldUseProvidedExpiration()
     {
         // Arrange
-        var key = "test-key";
+        const string key = "test-key";
         var value = new TestModel { Name = "Test" };
         var expiration = TimeSpan.FromHours(1);
 

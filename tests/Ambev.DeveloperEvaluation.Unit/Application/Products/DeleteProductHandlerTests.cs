@@ -54,4 +54,3 @@ public class DeleteProductHandlerTests
         result.AsT1.Detail.Should().Contain("1");
     }
 }
-

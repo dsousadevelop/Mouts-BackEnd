@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping
 {
-    public class CartItemsConfiguration: IEntityTypeConfiguration<CartItem>
+    public class CartItemsConfiguration : IEntityTypeConfiguration<CartItem>
     {
         public void Configure(EntityTypeBuilder<CartItem> builder)
         {
@@ -19,7 +19,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.Property(u => u.Id).HasColumnName("id").ValueGeneratedOnAdd();
             builder.Property(u => u.CartId).HasColumnName("cart_id").IsRequired();
             builder.Property(u => u.ProductId).HasColumnName("product_id").IsRequired();
-            builder.Property(u => u.Quantity).HasColumnName("quantity").IsRequired().HasPrecision(10,2);
+            builder.Property(u => u.Quantity).HasColumnName("quantity").IsRequired().HasPrecision(10, 2);
             builder.Property(u => u.UnitPrice).HasColumnName("unit_price").IsRequired().HasPrecision(10, 2);
             builder.Property(u => u.Discount).HasColumnName("discount").HasPrecision(10, 2);
             builder.Property(u => u.SubTotal).HasColumnName("subtotal").IsRequired().HasPrecision(10, 2);

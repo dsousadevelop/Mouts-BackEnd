@@ -64,4 +64,3 @@ public class CreateCategoryHandlerTests
         result.AsT1.Detail.Should().Contain("already exists");
     }
 }
-

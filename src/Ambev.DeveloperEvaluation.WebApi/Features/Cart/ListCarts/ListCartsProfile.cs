@@ -12,4 +12,3 @@ public class ListCartsProfile : Profile
             .ForMember(dest => dest.Carts, opt => opt.MapFrom(src => src));
     }
 }
-

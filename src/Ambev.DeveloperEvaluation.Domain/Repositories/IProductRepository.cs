@@ -1,9 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories
 {
-    public interface IProductRepository: IBaseRepository<Product>
+    public interface IProductRepository : IBaseRepository<Product>
     {
-         
     }
 }

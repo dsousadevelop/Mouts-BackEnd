@@ -22,7 +22,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Handlers
 
             _mapper.Map(request.ProductDto, existingProduct);
             existingProduct.UpdateAtDate();
-            
+
             await _repo.UpdateAsync(existingProduct, cancellationToken);
 
             await _cache.RemoveAsync("Products_List", cancellationToken);

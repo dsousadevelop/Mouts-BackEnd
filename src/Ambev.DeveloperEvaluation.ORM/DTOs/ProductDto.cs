@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System;

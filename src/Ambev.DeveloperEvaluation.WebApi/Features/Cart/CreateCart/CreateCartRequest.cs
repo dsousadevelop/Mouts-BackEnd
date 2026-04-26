@@ -7,4 +7,3 @@ public class CreateCartRequest
     public int UserId { get; set; }
     public List<CreateCartItemRequest> CartItems { get; set; } = new();
 }
-

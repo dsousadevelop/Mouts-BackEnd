@@ -63,7 +63,7 @@ public class AuthControllerTests
         // Assert
         var okResult = actionResult.Should().BeOfType<OkObjectResult>().Subject;
         var apiResponse = okResult.Value.Should().BeOfType<ApiResponseWithData<AuthenticateUserResponse>>().Subject;
-        
+
         apiResponse.Success.Should().BeTrue();
         apiResponse.Data!.Token.Should().Be(result.Token);
         await _mediator.Received(1).Send(Arg.Any<AuthenticateUserCommand>(), Arg.Any<CancellationToken>());

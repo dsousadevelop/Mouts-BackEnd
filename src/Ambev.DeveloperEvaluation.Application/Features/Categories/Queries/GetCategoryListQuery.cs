@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs;
+using Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Products.DTOs;
 using MediatR;
 using System;

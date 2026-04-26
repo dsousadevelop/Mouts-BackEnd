@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 
 namespace Ambev.DeveloperEvaluation.ORM
@@ -42,6 +42,5 @@ namespace Ambev.DeveloperEvaluation.ORM
         {
             await _cache.RemoveAsync(key);
         }
-
-    }
+}
 }

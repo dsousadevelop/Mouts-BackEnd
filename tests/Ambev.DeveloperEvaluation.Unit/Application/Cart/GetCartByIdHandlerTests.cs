@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Queries;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers;
@@ -28,7 +28,7 @@ public class GetCartByIdHandlerTests
     public async Task Handle_ExistingCart_ReturnsCartDto()
     {
         // Given
-        var cartId = 1;
+        const int cartId = 1;
         var query = new GetCartByIdQuery(cartId);
         var cart = new Ambev.DeveloperEvaluation.Domain.Entities.Cart(1, DateTime.UtcNow);
         cart.Id = cartId;
@@ -49,7 +49,7 @@ public class GetCartByIdHandlerTests
     public async Task Handle_NonExistentCart_ReturnsNotFoundError()
     {
         // Given
-        var cartId = 1;
+        const int cartId = 1;
         var query = new GetCartByIdQuery(cartId);
 
         _cartRepository.GetByIdAsync(cartId, Arg.Any<CancellationToken>()).Returns((Ambev.DeveloperEvaluation.Domain.Entities.Cart?)null);
@@ -62,5 +62,3 @@ public class GetCartByIdHandlerTests
         result.AsT1.Detail.Should().Contain(cartId.ToString());
     }
 }
-
-

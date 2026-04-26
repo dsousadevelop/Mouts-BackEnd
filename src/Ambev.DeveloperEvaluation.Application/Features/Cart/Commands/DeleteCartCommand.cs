@@ -6,4 +6,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Commands
 {
     public record DeleteCartCommand(int Id) : IRequest<OneOf<bool, NotFoundError>>;
 }
-

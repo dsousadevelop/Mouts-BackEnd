@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -23,7 +23,7 @@ public class DeleteCartItemHandlerTests
     public async Task Handle_ValidRequest_ReturnsTrue()
     {
         // Given
-        var cartItemId = 1;
+        const int cartItemId = 1;
         var command = new DeleteCartItemCommand(cartItemId);
 
         _cartItemRepository.DeleteAsync(cartItemId, Arg.Any<CancellationToken>()).Returns(true);
@@ -41,7 +41,7 @@ public class DeleteCartItemHandlerTests
     public async Task Handle_NonExistentCartItem_ReturnsNotFoundError()
     {
         // Given
-        var cartItemId = 1;
+        const int cartItemId = 1;
         var command = new DeleteCartItemCommand(cartItemId);
 
         _cartItemRepository.DeleteAsync(cartItemId, Arg.Any<CancellationToken>()).Returns(false);
@@ -54,4 +54,3 @@ public class DeleteCartItemHandlerTests
         result.AsT1.Detail.Should().Contain("not found");
     }
 }
-

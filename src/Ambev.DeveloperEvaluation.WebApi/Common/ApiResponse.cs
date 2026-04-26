@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Common.Validation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Common;
 

@@ -11,4 +11,3 @@ public class DeleteCartItemProfile : Profile
             .ConstructUsing(src => new DeleteCartItemCommand(src.Id));
     }
 }
-

@@ -5,7 +5,6 @@ using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
-
 /// <summary>
 /// Represents a user in the system with authentication and profile information.
 /// This entity follows domain-driven design principles and includes business rules validation.
@@ -38,7 +37,7 @@ public class User : BaseEntity, IUser
 
     public string Username { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
-    public string Phone { get; private set; } = string.Empty ;
+    public string Phone { get; private set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
@@ -64,7 +63,6 @@ public class User : BaseEntity, IUser
     /// </summary>
     /// <returns>The user's role as a string.</returns>
     string IUser.Role => Role.ToString();
-
 
     /// <summary>
     /// Performs validation of the user entity using the UserValidator rules.
@@ -134,7 +132,7 @@ public class User : BaseEntity, IUser
         Status = status;
         UpdatedAt = DateTime.UtcNow;
     }
-     public void SetRole(UserRole role)
+    public void SetRole(UserRole role)
     {
         Role = role;
         UpdatedAt = DateTime.UtcNow;

@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using FluentAssertions;
 using Xunit;
 
@@ -10,7 +10,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Common.Errors
         public void AuthenticationError_Constructor_SetsCorrectProperties()
         {
             // Arrange
-            var detail = "Invalid token provided";
+            const string detail = "Invalid token provided";
 
             // Act
             var error = new AuthenticationError(detail);
@@ -25,7 +25,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Common.Errors
         public void ValidationError_Constructor_SetsCorrectProperties()
         {
             // Arrange
-            var detail = "Field is required";
+            const string detail = "Field is required";
 
             // Act
             var error = new ValidationError(detail);
@@ -40,7 +40,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Common.Errors
         public void NotFoundError_Constructor_SetsCorrectProperties()
         {
             // Arrange
-            var detail = "User not found";
+            const string detail = "User not found";
 
             // Act
             var error = new NotFoundError(detail);
@@ -55,7 +55,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Common.Errors
         public void ResourceNotFoundError_Constructor_SetsCorrectProperties()
         {
             // Arrange
-            var detail = "Product not found";
+            const string detail = "Product not found";
 
             // Act
             var error = new ResourceNotFoundError(detail);

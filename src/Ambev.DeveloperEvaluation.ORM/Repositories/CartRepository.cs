@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
 {
-    internal class CartRepository: ICartRepository
+    internal class CartRepository : ICartRepository
     {
         private readonly DefaultContext _context;
 

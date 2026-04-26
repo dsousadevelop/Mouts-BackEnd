@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Queries;
@@ -37,7 +37,7 @@ public class CartItemControllerTests
         _faker = new Faker();
     }
 
-    [Fact(DisplayName = "Post deve retornar 201 Created quando o item é adicionado com sucesso")]
+    [Fact(DisplayName = "Post deve retornar 201 Created quando o item Ã© adicionado com sucesso")]
     public async Task Post_ComDadosValidos_DeveRetornarCreated()
     {
         // Arrange
@@ -59,7 +59,7 @@ public class CartItemControllerTests
         createdResult.StatusCode.Should().Be(201);
     }
 
-    [Fact(DisplayName = "Post deve retornar 400 BadRequest quando ocorre erro de validação no Mediator")]
+    [Fact(DisplayName = "Post deve retornar 400 BadRequest quando ocorre erro de validaÃ§Ã£o no Mediator")]
     public async Task Post_ValidationError_DeveRetornarBadRequest()
     {
         // Arrange
@@ -79,11 +79,11 @@ public class CartItemControllerTests
         badRequestResult.StatusCode.Should().Be(400);
     }
 
-    [Fact(DisplayName = "Get deve retornar 200 Ok quando itens são encontrados")]
+    [Fact(DisplayName = "Get deve retornar 200 Ok quando itens sÃ£o encontrados")]
     public async Task Get_CartIdValido_DeveRetornarOk()
     {
         // Arrange
-        var cartId = 1;
+        const int cartId = 1;
         var items = new List<CartItemDto> { new CartItemDto { Id = 1, CartId = cartId } };
         var response = new GetCartItemsResponse { Items = new List<Ambev.DeveloperEvaluation.WebApi.Features.CartItems.GetCartItems.GetCartItemsItemResponse> { new Ambev.DeveloperEvaluation.WebApi.Features.CartItems.GetCartItems.GetCartItemsItemResponse { Id = 1 } } };
 
@@ -103,7 +103,7 @@ public class CartItemControllerTests
     public async Task Delete_IdExistente_DeveRetornarOk()
     {
         // Arrange
-        var itemId = 1;
+        const int itemId = 1;
         _mediator.Send(Arg.Any<DeleteCartItemCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<bool, NotFoundError>.FromT0(true)));
 
@@ -114,11 +114,11 @@ public class CartItemControllerTests
         var okResult = actionResult.Should().BeOfType<OkObjectResult>().Subject;
         okResult.StatusCode.Should().Be(200);
     }
-    [Fact(DisplayName = "Delete deve retornar 404 NotFound quando o item não existe")]
+    [Fact(DisplayName = "Delete deve retornar 404 NotFound quando o item nÃ£o existe")]
     public async Task Delete_IdInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        var itemId = 99;
+        const int itemId = 99;
         _mediator.Send(Arg.Any<DeleteCartItemCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<bool, NotFoundError>.FromT1(new NotFoundError("Item not found"))));
 

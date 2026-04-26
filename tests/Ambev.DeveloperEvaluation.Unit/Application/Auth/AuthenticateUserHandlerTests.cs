@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
+﻿using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -30,16 +30,16 @@ public class AuthenticateUserHandlerTests
         // Given
         var request = new AuthenticateUserCommand { Email = "test@example.com", Password = "Password123!" };
         var user = new User(
-            "testuser", 
-            request.Email, 
-            "123", 
-            "hashed_password", 
-            "First", 
-            "Last", 
-            Ambev.DeveloperEvaluation.Domain.Enums.UserRole.Customer, 
+            "testuser",
+            request.Email,
+            "123",
+            "hashed_password",
+            "First",
+            "Last",
+            Ambev.DeveloperEvaluation.Domain.Enums.UserRole.Customer,
             Ambev.DeveloperEvaluation.Domain.Enums.UserStatus.Active
         );
-        var token = "generated_token";
+        const string token = "generated_token";
 
         _userRepository.GetByEmailAsync(request.Email, Arg.Any<CancellationToken>()).Returns(user);
         _passwordHasher.VerifyPassword(request.Password, user.Password).Returns(true);
@@ -90,14 +90,14 @@ public class AuthenticateUserHandlerTests
         // Given
         var request = new AuthenticateUserCommand { Email = "test@example.com", Password = "Password123!" };
         var user = new User(
-            "testuser", 
-            request.Email, 
-            "123", 
-            "hashed_password", 
-            "First", 
-            "Last", 
-            Ambev.DeveloperEvaluation.Domain.Enums.UserRole.Customer, 
-            Ambev.DeveloperEvaluation.Domain.Enums.UserStatus.Inactive 
+            "testuser",
+            request.Email,
+            "123",
+            "hashed_password",
+            "First",
+            "Last",
+            Ambev.DeveloperEvaluation.Domain.Enums.UserRole.Customer,
+            Ambev.DeveloperEvaluation.Domain.Enums.UserStatus.Inactive
         );
 
         _userRepository.GetByEmailAsync(request.Email, Arg.Any<CancellationToken>()).Returns(user);

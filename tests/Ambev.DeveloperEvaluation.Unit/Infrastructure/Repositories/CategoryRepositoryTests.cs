@@ -120,7 +120,7 @@ public class CategoryRepositoryTests : RepositoryTestsBase
         var categories = _categoryFaker.Generate(3);
         await Context.Category.AddRangeAsync(categories);
         await Context.SaveChangesAsync();
-        
+
         _distributedCache.GetAsync(Arg.Any<string>()).Returns((byte[])null!);
 
         // Act

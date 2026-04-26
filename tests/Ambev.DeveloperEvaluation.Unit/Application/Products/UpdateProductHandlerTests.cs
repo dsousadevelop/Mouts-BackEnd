@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Common.Interfaces;
 using Ambev.DeveloperEvaluation.Application.Features.Products.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Products.DTOs;
@@ -32,7 +32,7 @@ public class UpdateProductHandlerTests
     public async Task Handle_ValidRequest_ReturnsUpdatedProductDto()
     {
         // Given
-        var productId = 1;
+        const int productId = 1;
         var productDto = ProdutoFaker.GerarProductDto(id: productId);
         var command = new UpdateProductCommand(productDto);
         var existingProduct = ProdutoFaker.GerarProdutoValido(id: productId);
@@ -55,7 +55,7 @@ public class UpdateProductHandlerTests
     public async Task Handle_NonExistentProduct_ReturnsNotFoundError()
     {
         // Given
-        var productId = 1;
+        const int productId = 1;
         var productDto = ProdutoFaker.GerarProductDto(id: productId);
         var command = new UpdateProductCommand(productDto);
 
@@ -69,4 +69,3 @@ public class UpdateProductHandlerTests
         result.AsT1.Detail.Should().Contain(productId.ToString());
     }
 }
-

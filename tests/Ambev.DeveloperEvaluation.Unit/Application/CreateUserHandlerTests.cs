@@ -50,7 +50,8 @@ public class CreateUserHandlerTests
             phone: command.Phone,
             status: command.Status,
             role: command.Role
-        ) { Id = 1 };
+        )
+        { Id = 1 };
 
         var result = new CreateUserResult
         {
@@ -109,7 +110,8 @@ public class CreateUserHandlerTests
             phone: command.Phone,
             status: command.Status,
             role: command.Role
-        ) { Id = 1 };
+        )
+        { Id = 1 };
 
         _mapper.Map<User>(command).Returns(user);
         _userRepository.CreateAsync(Arg.Any<User>(), Arg.Any<CancellationToken>())
@@ -144,7 +146,8 @@ public class CreateUserHandlerTests
             phone: command.Phone,
             status: command.Status,
             role: command.Role
-        ) { Id = 1 };
+        )
+        { Id = 1 };
 
         _mapper.Map<User>(command).Returns(user);
         _userRepository.CreateAsync(Arg.Any<User>(), Arg.Any<CancellationToken>())

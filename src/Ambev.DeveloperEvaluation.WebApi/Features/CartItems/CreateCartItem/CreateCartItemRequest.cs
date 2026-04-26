@@ -6,4 +6,3 @@ public class CreateCartItemRequest
     public int Quantity { get; set; }
     public decimal? Discount { get; set; }
 }
-

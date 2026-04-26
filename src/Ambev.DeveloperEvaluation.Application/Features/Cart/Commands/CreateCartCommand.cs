@@ -7,4 +7,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Commands
 {
     public record CreateCartCommand(CartDto entityDto) : IRequest<OneOf<CartDto, ValidationError>>;
 }
-

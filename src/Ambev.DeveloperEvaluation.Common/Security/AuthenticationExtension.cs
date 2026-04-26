@@ -38,8 +38,6 @@ namespace Ambev.DeveloperEvaluation.Common.Security
             });
 
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-            
-
 
             return services;
         }

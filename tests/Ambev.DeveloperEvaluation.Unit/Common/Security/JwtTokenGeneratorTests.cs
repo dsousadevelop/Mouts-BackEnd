@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Common.Security;
+﻿using Ambev.DeveloperEvaluation.Common.Security;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
@@ -34,7 +34,7 @@ public class JwtTokenGeneratorTests
 
         // Assert
         token.Should().NotBeNullOrWhiteSpace();
-        
+
         var handler = new JwtSecurityTokenHandler();
         var jwtToken = handler.ReadJwtToken(token);
 
@@ -67,7 +67,7 @@ public class JwtTokenGeneratorTests
     public void ValidateToken_ShouldReturnNull_ForInvalidToken()
     {
         // Arrange
-        var invalidToken = "invalid.token.here";
+        const string invalidToken = "invalid.token.here";
 
         // Act
         var principal = _jwtGenerator.ValidateToken(invalidToken);

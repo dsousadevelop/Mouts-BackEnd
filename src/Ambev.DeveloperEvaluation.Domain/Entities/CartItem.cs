@@ -20,7 +20,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Discount = discount;
             SubTotal = subTotal;
             Total = total;
-            if(Id is null)
+            if (Id is null)
             {
                 CreatedAtDate();
             }
@@ -68,6 +68,5 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
             Total = SubTotal - (Discount ?? 0);
         }
-
-    }
+}
 }

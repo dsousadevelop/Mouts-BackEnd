@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
 using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Common.Interfaces;
 using Ambev.DeveloperEvaluation.Application.Features.Products.DTOs;
@@ -85,7 +85,7 @@ public class GetProductListHandlerTests
     public async Task Handle_WithCategoryId_FiltersByCategory()
     {
         // Given
-        var categoryId = 2;
+        const int categoryId = 2;
         var query = new GetProductListQuery { Page = 1, Size = 10, CategoryId = categoryId };
         var cachedProducts = new List<ProductDto>
         {
@@ -106,4 +106,3 @@ public class GetProductListHandlerTests
         result.AsT0.TotalItems.Should().Be(1);
     }
 }
-

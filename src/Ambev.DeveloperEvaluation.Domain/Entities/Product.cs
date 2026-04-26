@@ -3,7 +3,7 @@ using Ambev.DeveloperEvaluation.Domain.Common;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
-    public class Product: BaseEntity
+    public class Product : BaseEntity
     {
         public string Title { get; private set; }
         public decimal Price { get; private set; }
@@ -39,6 +39,5 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
         }
-
-    }
+}
 }

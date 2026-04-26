@@ -20,8 +20,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
             _categoryRepository = Substitute.For<ICategoryRepository>();
             _mapper = Substitute.For<IMapper>();
             _createCategoryHandler = new CreateCategoryHandler(_categoryRepository, _mapper);
-
-        }
+}
         [Fact]
         public async Task Handle_DeveCriarCategoriaERetornarId()
         {
@@ -42,8 +41,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
             Assert.Equal(1, result.AsT0.Id);
             await repository.Received(1)
                 .CreateAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
-
-        }
+}
 
         [Fact]
         public async Task Handle_CategoriaJaExistente_DeveRetornarErro()

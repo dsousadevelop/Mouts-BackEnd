@@ -46,4 +46,3 @@ public class CreateCartItemHandlerTests
         result.AsT0.Id.Should().Be(1);
     }
 }
-

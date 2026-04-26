@@ -20,4 +20,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Mapping
         }
     }
 }
-

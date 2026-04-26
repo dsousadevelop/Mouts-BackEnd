@@ -85,5 +85,4 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             return null;
         }
     }
-
 }

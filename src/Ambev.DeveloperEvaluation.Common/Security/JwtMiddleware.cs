@@ -77,6 +77,5 @@ namespace Ambev.DeveloperEvaluation.Common.Security
                 return null;
             }
         }
-
-    }
+}
 }

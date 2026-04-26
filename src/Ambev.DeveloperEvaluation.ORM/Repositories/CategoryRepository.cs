@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.ORM.DTOs;
 using AutoMapper;
@@ -59,8 +59,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             var entityListtDTO = _mapper.Map<List<CategoryDto>>(entityList);
             await _cacheContext.SetAsync(CACHE_KEY, entityListtDTO);
             return entityList;
-            
-        }
+}
 
         public async Task<Category> UpdateAsync(Category model, CancellationToken cancellationToken = default)
         {

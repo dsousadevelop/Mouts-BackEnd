@@ -4,4 +4,3 @@ public class DeleteCartRequest
 {
     public int Id { get; set; }
 }
-

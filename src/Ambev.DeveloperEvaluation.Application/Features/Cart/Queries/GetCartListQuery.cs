@@ -8,4 +8,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Queries
 {
     public record GetCartListQuery : IRequest<OneOf<List<CartDto>, ValidationError>>;
 }
-

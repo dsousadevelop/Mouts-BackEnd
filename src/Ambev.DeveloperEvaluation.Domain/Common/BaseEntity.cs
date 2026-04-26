@@ -34,8 +34,7 @@ public class BaseEntity : IComparable<BaseEntity>
             return 1;
 
         return Id.Value.CompareTo(other.Id.Value);
-
-    }
+}
     public void UpdateAtDate()
     {
         UpdatedAt = DateTime.UtcNow;

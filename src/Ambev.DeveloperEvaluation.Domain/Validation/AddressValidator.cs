@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
             RuleFor(ad => ad.ZipCode)
            .Matches(@"^\d{5}-?\d{3}$")
            .WithMessage("ZipCode invalid.Format correct 00000-000 or 00000000.");
-
-        }
+}
     }
 }

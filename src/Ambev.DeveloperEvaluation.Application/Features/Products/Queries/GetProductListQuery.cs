@@ -8,4 +8,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Queries
 {
     public record GetProductListQuery(int Page = 1, int Size = 10, int? CategoryId = null) : IRequest<OneOf<PagedResult<ProductDto>, BaseError>>;
 }
-

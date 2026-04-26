@@ -10,8 +10,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
 {
     internal class CartValidator : AbstractValidator<Cart>
     {
-        public CartValidator() {
-
+        public CartValidator()
+        {
             RuleForEach(x => x.CartItems).SetValidator(new CartItemValidator());
 
             RuleFor(ad => ad.UserId)

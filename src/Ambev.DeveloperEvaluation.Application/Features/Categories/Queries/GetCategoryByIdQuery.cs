@@ -12,5 +12,4 @@ using System.Threading.Tasks;
 namespace Ambev.DeveloperEvaluation.Application.Features.Categories.Queries
 {
     public record GetCategoryByIdQuery(int Id) : IRequest<OneOf<CategoryDto, ResourceNotFoundError>>;
-    
 }

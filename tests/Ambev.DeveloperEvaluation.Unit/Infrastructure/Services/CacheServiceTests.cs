@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.ORM.Services;
+﻿using Ambev.DeveloperEvaluation.ORM.Services;
 using FluentAssertions;
 using Microsoft.Extensions.Caching.Distributed;
 using NSubstitute;
@@ -23,7 +23,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Infrastructure.Services
         public async Task GetAsync_WhenKeyExists_ReturnsDeserializedValue()
         {
             // Arrange
-            var key = "test-key";
+            const string key = "test-key";
             var expectedValue = new TestObject { Id = 1, Name = "Test" };
             var json = JsonSerializer.Serialize(expectedValue);
             var bytes = Encoding.UTF8.GetBytes(json);
@@ -39,11 +39,11 @@ namespace Ambev.DeveloperEvaluation.Unit.Infrastructure.Services
             result.Name.Should().Be(expectedValue.Name);
         }
 
-        [Fact(DisplayName = "GetAsync deve retornar null quando a chave não existe")]
+        [Fact(DisplayName = "GetAsync deve retornar null quando a chave nÃ£o existe")]
         public async Task GetAsync_WhenKeyDoesNotExist_ReturnsDefault()
         {
             // Arrange
-            var key = "non-existent-key";
+            const string key = "non-existent-key";
             _cacheMock.GetAsync(key, Arg.Any<CancellationToken>()).Returns(Task.FromResult((byte[]?)null));
 
             // Act
@@ -53,11 +53,11 @@ namespace Ambev.DeveloperEvaluation.Unit.Infrastructure.Services
             result.Should().BeNull();
         }
 
-        [Fact(DisplayName = "SetAsync deve serializar o valor e salvar no cache com a expiração correta")]
+        [Fact(DisplayName = "SetAsync deve serializar o valor e salvar no cache com a expiraÃ§Ã£o correta")]
         public async Task SetAsync_ShouldSerializeAndSetCache()
         {
             // Arrange
-            var key = "test-key";
+            const string key = "test-key";
             var value = new TestObject { Id = 1, Name = "Test" };
             var expiration = TimeSpan.FromMinutes(10);
 
@@ -73,11 +73,11 @@ namespace Ambev.DeveloperEvaluation.Unit.Infrastructure.Services
             );
         }
 
-        [Fact(DisplayName = "SetAsync deve usar expiração padrão de 5 minutos quando não informada")]
+        [Fact(DisplayName = "SetAsync deve usar expiraÃ§Ã£o padrÃ£o de 5 minutos quando nÃ£o informada")]
         public async Task SetAsync_WhenExpirationIsNull_ShouldUseDefaultExpiration()
         {
             // Arrange
-            var key = "test-key";
+            const string key = "test-key";
             var value = new TestObject { Id = 1, Name = "Test" };
 
             // Act
@@ -92,11 +92,11 @@ namespace Ambev.DeveloperEvaluation.Unit.Infrastructure.Services
             );
         }
 
-        [Fact(DisplayName = "RemoveAsync deve chamar o método Remove do cache")]
+        [Fact(DisplayName = "RemoveAsync deve chamar o mÃ©todo Remove do cache")]
         public async Task RemoveAsync_ShouldCallCacheRemove()
         {
             // Arrange
-            var key = "test-key";
+            const string key = "test-key";
 
             // Act
             await _cacheService.RemoveAsync(key);

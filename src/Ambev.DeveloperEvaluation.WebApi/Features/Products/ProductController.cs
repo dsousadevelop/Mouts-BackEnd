@@ -158,4 +158,3 @@ public class ProductController(IMediator _mediator, IMapper _mapper) : BaseContr
         );
     }
 }
-

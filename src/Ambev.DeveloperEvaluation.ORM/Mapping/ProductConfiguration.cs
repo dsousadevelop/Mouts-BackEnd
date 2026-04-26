@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Hosting;
@@ -20,7 +20,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.HasKey(u => u.Id);
             builder.Property(u => u.Id).HasColumnName("id").ValueGeneratedOnAdd();
             builder.Property(u => u.Title).HasColumnName("title").HasMaxLength(60).IsRequired();
-            builder.Property(u => u.Price).HasColumnName("price").HasPrecision(10,2).IsRequired();
+            builder.Property(u => u.Price).HasColumnName("price").HasPrecision(10, 2).IsRequired();
             builder.Property(u => u.Description).HasColumnName("description").HasMaxLength(100).IsRequired();
             builder.Property(u => u.CategoryId).HasColumnName("category_id").IsRequired();
             builder.Property(u => u.Image).HasColumnName("image");
@@ -32,7 +32,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.HasOne(p => p.Category)
             .WithMany(b => b.Products)
             .HasForeignKey(p => p.CategoryId);
-
-        }
+}
     }
 }

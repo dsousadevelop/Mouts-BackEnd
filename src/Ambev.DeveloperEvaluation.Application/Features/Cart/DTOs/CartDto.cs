@@ -31,4 +31,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs
         public virtual IList<CartItemDto>? CartItems { get; set; }
     }
 }
-

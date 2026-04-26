@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Queries;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers;
@@ -28,7 +28,7 @@ public class GetCategoryByIdHandlerTests
     public async Task Handle_ExistingCategory_ReturnsCategoryDto()
     {
         // Given
-        var categoryId = 1;
+        const int categoryId = 1;
         var query = new GetCategoryByIdQuery(categoryId);
         var category = new Category(categoryId, "Test Category");
         var categoryDto = new CategoryDto(categoryId, "Test Category");
@@ -48,7 +48,7 @@ public class GetCategoryByIdHandlerTests
     public async Task Handle_NonExistentCategory_ReturnsResourceNotFoundError()
     {
         // Given
-        var categoryId = 1;
+        const int categoryId = 1;
         var query = new GetCategoryByIdQuery(categoryId);
 
         _categoryRepository.GetByIdAsync(categoryId, Arg.Any<CancellationToken>()).Returns((Category?)null);
@@ -61,4 +61,3 @@ public class GetCategoryByIdHandlerTests
         result.AsT1.Detail.Should().Contain(categoryId.ToString());
     }
 }
-

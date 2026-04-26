@@ -22,4 +22,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
         }
     }
 }
-

@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Queries;
@@ -38,7 +38,7 @@ public class CartControllerTests
         _faker = new Faker();
     }
 
-    [Fact(DisplayName = "Post deve retornar 201 Created quando o carrinho é criado com sucesso")]
+    [Fact(DisplayName = "Post deve retornar 201 Created quando o carrinho Ã© criado com sucesso")]
     public async Task Post_ComDadosValidos_DeveRetornarCreated()
     {
         // Arrange
@@ -64,7 +64,7 @@ public class CartControllerTests
     public async Task Get_IdExistente_DeveRetornarOk()
     {
         // Arrange
-        var cartId = 1;
+        const int cartId = 1;
         var cartDto = new CartDto { Id = cartId, UserId = 1 };
         var response = new GetCartResponse { Id = cartId };
 
@@ -84,7 +84,7 @@ public class CartControllerTests
     public async Task Delete_IdExistente_DeveRetornarOk()
     {
         // Arrange
-        var cartId = 1;
+        const int cartId = 1;
         _mediator.Send(Arg.Any<DeleteCartCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<bool, NotFoundError>.FromT0(true)));
 
@@ -96,11 +96,11 @@ public class CartControllerTests
         okResult.StatusCode.Should().Be(200);
     }
 
-    [Fact(DisplayName = "Get deve retornar 404 NotFound quando o carrinho não existe")]
+    [Fact(DisplayName = "Get deve retornar 404 NotFound quando o carrinho nÃ£o existe")]
     public async Task Get_IdInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        var cartId = 99;
+        const int cartId = 99;
         _mediator.Send(Arg.Any<GetCartByIdQuery>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<CartDto, NotFoundError>.FromT1(new NotFoundError("Cart not found"))));
 
@@ -112,11 +112,11 @@ public class CartControllerTests
         notFoundResult.StatusCode.Should().Be(404);
     }
 
-    [Fact(DisplayName = "Delete deve retornar 404 NotFound quando o carrinho não existe")]
+    [Fact(DisplayName = "Delete deve retornar 404 NotFound quando o carrinho nÃ£o existe")]
     public async Task Delete_IdInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        var cartId = 99;
+        const int cartId = 99;
         _mediator.Send(Arg.Any<DeleteCartCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<bool, NotFoundError>.FromT1(new NotFoundError("Cart not found"))));
 

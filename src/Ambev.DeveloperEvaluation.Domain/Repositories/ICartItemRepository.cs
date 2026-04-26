@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories
 {
-    public interface ICartItemRepository: IBaseRepository<CartItem>
+    public interface ICartItemRepository : IBaseRepository<CartItem>
     {
         Task<List<CartItem>> GetListAllAsync(int idCart, CancellationToken cancellationToken = default);
     }

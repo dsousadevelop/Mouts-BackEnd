@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers;
@@ -27,7 +27,7 @@ public class UpdateCategoryHandlerTests
     public async Task Handle_ValidRequest_ReturnsSuccess()
     {
         // Given
-        var categoryId = 1;
+        const int categoryId = 1;
         var categoryDto = new CategoryDto(categoryId, "Updated Description");
         var command = new UpdateCategoryCommand(categoryDto);
         var existingCategory = new Category(categoryId, "Old Description");
@@ -48,7 +48,7 @@ public class UpdateCategoryHandlerTests
     public async Task Handle_NonExistentCategory_ReturnsResourceNotFoundError()
     {
         // Given
-        var categoryId = 1;
+        const int categoryId = 1;
         var categoryDto = new CategoryDto(categoryId, "Updated Description");
         var command = new UpdateCategoryCommand(categoryDto);
 
@@ -66,7 +66,7 @@ public class UpdateCategoryHandlerTests
     public async Task Handle_DuplicateDescription_ReturnsValidationError()
     {
         // Given
-        var categoryId = 1;
+        const int categoryId = 1;
         var categoryDto = new CategoryDto(categoryId, "Existing Description");
         var command = new UpdateCategoryCommand(categoryDto);
         var existingCategory = new Category(categoryId, "Old Description");
@@ -83,4 +83,3 @@ public class UpdateCategoryHandlerTests
         result.AsT2.Detail.Should().Contain("already exists");
     }
 }
-

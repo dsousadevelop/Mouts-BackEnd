@@ -65,7 +65,7 @@ public class ValidationExceptionMiddlewareTests
         response.Message.Should().Be("Validation Failed");
         response.Errors.Should().NotBeNull();
         response.Errors.Should().HaveCount(1);
-        
+
         var error = response.Errors!.First();
         error.Description.Should().Be("ErrorMessage");
         error.Code.Should().Be("400");

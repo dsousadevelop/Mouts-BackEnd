@@ -36,9 +36,9 @@ public class UsersControllerTests
     public async Task CreateUser_ComDadosValidos_DeveRetornarCreated()
     {
         // Arrange
-        var request = new CreateUserRequest 
-        { 
-            Username = "testuser", 
+        var request = new CreateUserRequest
+        {
+            Username = "testuser",
             Email = "test@test.com",
             Password = "Password123!",
             Phone = "+5511999999999",
@@ -64,7 +64,7 @@ public class UsersControllerTests
     public async Task GetUser_IdValido_DeveRetornarOk()
     {
         // Arrange
-        int userId = 1;
+        const int userId = 1;
         var resultDetail = new GetUserResult { Id = userId, Username = "testuser" };
 
         _mediator.Send(Arg.Any<GetUserCommand>(), Arg.Any<CancellationToken>())
@@ -82,7 +82,7 @@ public class UsersControllerTests
     public async Task GetUser_UsuarioInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        int userId = 99;
+        const int userId = 99;
         _mediator.Send(Arg.Any<GetUserCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult<OneOf<GetUserResult, NotFoundError>>(new NotFoundError("User not found")));
 
@@ -97,7 +97,7 @@ public class UsersControllerTests
     public async Task DeleteUser_IdValido_DeveRetornarOk()
     {
         // Arrange
-        int userId = 1;
+        const int userId = 1;
         _mediator.Send(Arg.Any<DeleteUserCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult<OneOf<DeleteUserResponse, NotFoundError>>(new DeleteUserResponse { Success = true }));
 
@@ -112,7 +112,7 @@ public class UsersControllerTests
     public async Task DeleteUser_UsuarioInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        int userId = 99;
+        const int userId = 99;
         _mediator.Send(Arg.Any<DeleteUserCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult<OneOf<DeleteUserResponse, NotFoundError>>(new NotFoundError("User not found")));
 

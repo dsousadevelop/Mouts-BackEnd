@@ -31,6 +31,4 @@ public class Address : BaseEntity
     public string Geolocation_lat { get; private set; }
     public string Geolocation_long { get; private set; }
     public virtual User? User { get; set; }
-
 }
-

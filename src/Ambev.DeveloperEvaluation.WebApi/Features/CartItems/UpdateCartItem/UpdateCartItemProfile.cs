@@ -13,4 +13,3 @@ public class UpdateCartItemProfile : Profile
             .ConstructUsing(src => new UpdateCartItemCommand(src));
     }
 }
-

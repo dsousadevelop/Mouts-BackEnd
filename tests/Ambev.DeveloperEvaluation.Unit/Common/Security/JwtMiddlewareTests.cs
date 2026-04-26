@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Common.Security;
+﻿using Ambev.DeveloperEvaluation.Common.Security;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
@@ -28,12 +28,12 @@ public class JwtMiddlewareTests
     {
         // Arrange
         var context = new DefaultHttpContext();
-        var token = "valid-token";
+        const string token = "valid-token";
         context.Request.Headers["Authorization"] = $"Bearer {token}";
-        
-        var principal = new ClaimsPrincipal(new ClaimsIdentity(new[] 
-        { 
-            new Claim(ClaimTypes.Name, "testuser") 
+
+        var principal = new ClaimsPrincipal(new ClaimsIdentity(new[]
+        {
+            new Claim(ClaimTypes.Name, "testuser")
         }, "jwt"));
 
         _jwtService.ValidateToken(token).Returns(principal);

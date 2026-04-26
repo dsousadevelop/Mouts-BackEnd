@@ -65,7 +65,6 @@ public class CreateUserCommand : IRequest<CreateUserResult>
         public string Long { get; set; } = string.Empty;
     }
 
-
     public async Task<ValidationResultDetail> ValidateAsync()
     {
         var validator = new CreateUserCommandValidator();

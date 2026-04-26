@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using System.Text.RegularExpressions;
 
 namespace Ambev.DeveloperEvaluation.Domain.Validation;

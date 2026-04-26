@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Common.Security;
+﻿using Ambev.DeveloperEvaluation.Common.Security;
 using FluentAssertions;
 using Xunit;
 
@@ -17,7 +17,7 @@ public class BCryptPasswordHasherTests
     public void HashPassword_ShouldReturnHashedString()
     {
         // Arrange
-        var password = "Password123!";
+        const string password = "Password123!";
 
         // Act
         var hash = _hasher.HashPassword(password);
@@ -31,7 +31,7 @@ public class BCryptPasswordHasherTests
     public void VerifyPassword_ShouldReturnTrue_ForCorrectPassword()
     {
         // Arrange
-        var password = "Password123!";
+        const string password = "Password123!";
         var hash = _hasher.HashPassword(password);
 
         // Act
@@ -45,9 +45,9 @@ public class BCryptPasswordHasherTests
     public void VerifyPassword_ShouldReturnFalse_ForIncorrectPassword()
     {
         // Arrange
-        var password = "Password123!";
+        const string password = "Password123!";
         var hash = _hasher.HashPassword(password);
-        var incorrectPassword = "WrongPassword!";
+        const string incorrectPassword = "WrongPassword!";
 
         // Act
         var result = _hasher.VerifyPassword(incorrectPassword, hash);

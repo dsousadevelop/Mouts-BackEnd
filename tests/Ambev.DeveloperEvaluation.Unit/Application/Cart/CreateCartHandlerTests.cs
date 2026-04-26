@@ -30,7 +30,7 @@ public class CreateCartHandlerTests
     public async Task Handle_ValidRequest_ReturnsCartDto()
     {
         // Given
-        var userId = 1;
+        const int userId = 1;
         var cartDto = new CartDto { UserId = userId };
         var command = new CreateCartCommand(cartDto);
         var cart = new Ambev.DeveloperEvaluation.Domain.Entities.Cart(userId, DateTime.UtcNow);
@@ -54,15 +54,15 @@ public class CreateCartHandlerTests
     public async Task Handle_NonExistentProduct_ReturnsValidationError()
     {
         // Given
-        var userId = 1;
-        var productId = 1;
-        var cartDto = new CartDto 
-        { 
+        const int userId = 1;
+        const int productId = 1;
+        var cartDto = new CartDto
+        {
             UserId = userId,
-            CartItems = new List<CartItemDto> { new() { ProductId = productId, Quantity = 1 } } 
+            CartItems = new List<CartItemDto> { new() { ProductId = productId, Quantity = 1 } }
         };
         var command = new CreateCartCommand(cartDto);
-        
+
         var cartItem = new CartItem(0, productId, 1, 0, 10, 10);
         var cart = new Ambev.DeveloperEvaluation.Domain.Entities.Cart(userId, DateTime.UtcNow);
         cart.CartItems.Add(cartItem);
@@ -82,28 +82,28 @@ public class CreateCartHandlerTests
     public async Task Handle_ValidRequestWithItems_ReturnsCartDto()
     {
         // Given
-        var userId = 1;
-        var productId = 101;
-        var price = 50.0m;
-        var quantity = 2;
-        
+        const int userId = 1;
+        const int productId = 101;
+        const decimal price = 50.0m;
+        const int quantity = 2;
+
         var cartItemDto = new CartItemDto { ProductId = productId, Quantity = quantity };
-        var cartDto = new CartDto 
-        { 
+        var cartDto = new CartDto
+        {
             UserId = userId,
             CartItems = new List<CartItemDto> { cartItemDto }
         };
         var command = new CreateCartCommand(cartDto);
-        
+
         var product = new Product("Test Product", price, "Description", 1, "image.png", 4.5m, 10, new Category(), DateTime.UtcNow, null) { Id = productId };
         var cartItem = new CartItem(0, productId, quantity, price, 0, price * quantity);
         var cart = new Ambev.DeveloperEvaluation.Domain.Entities.Cart(userId, DateTime.UtcNow);
         cart.CartItems.Add(cartItem);
-        
+
         var createdCart = new Ambev.DeveloperEvaluation.Domain.Entities.Cart(userId, DateTime.UtcNow);
         createdCart.Id = 1;
         createdCart.CartItems.Add(cartItem);
-        
+
         var resultDto = new CartDto { Id = 1, UserId = userId };
 
         _mapper.Map<Ambev.DeveloperEvaluation.Domain.Entities.Cart>(cartDto).Returns(cart);
@@ -119,4 +119,3 @@ public class CreateCartHandlerTests
         await _productRepository.Received(1).GetByIdAsync(productId, Arg.Any<CancellationToken>());
     }
 }
-

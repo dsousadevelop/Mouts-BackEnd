@@ -38,13 +38,13 @@ public class ProductControllerTests
     public async Task Post_ComDadosValidos_DeveRetornarCreated()
     {
         // Arrange
-        var request = new CreateProductRequest 
-        { 
-            Title = "Product 1", 
-            Price = 10.5m, 
-            Description = "A great product", 
-            CategoryId = 1, 
-            Image = "image.png" 
+        var request = new CreateProductRequest
+        {
+            Title = "Product 1",
+            Price = 10.5m,
+            Description = "A great product",
+            CategoryId = 1,
+            Image = "image.png"
         };
         var productDto = new ProductDto { Id = 1, Title = "Product 1" };
         var command = new CreateProductCommand(productDto);
@@ -80,7 +80,7 @@ public class ProductControllerTests
     public async Task Get_ProdutoInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        int productId = 99;
+        const int productId = 99;
         _mediator.Send(Arg.Any<GetProductByIdQuery>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<ProductDto, NotFoundError>.FromT1(new NotFoundError("Product not found"))));
 
@@ -95,7 +95,7 @@ public class ProductControllerTests
     public async Task Delete_ProdutoInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        int productId = 99;
+        const int productId = 99;
         _mediator.Send(Arg.Any<DeleteProductCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<Success, NotFoundError>.FromT1(new NotFoundError("Product not found"))));
 
@@ -110,7 +110,7 @@ public class ProductControllerTests
     public async Task Put_ProdutoInexistente_DeveRetornarNotFound()
     {
         // Arrange
-        int productId = 99;
+        const int productId = 99;
         var request = new UpdateProductRequest { Title = "Updated Title", Price = 20m, Description = "Description", CategoryId = 1, Image = "image.jpg" };
         var command = new UpdateProductCommand(new ProductDto { Id = productId });
 
@@ -129,7 +129,7 @@ public class ProductControllerTests
     public async Task Put_ErroValidacao_DeveRetornarBadRequest()
     {
         // Arrange
-        int productId = 1;
+        const int productId = 1;
         var request = new UpdateProductRequest { Title = "Updated Title", Price = 20m };
         var command = new UpdateProductCommand(new ProductDto { Id = productId });
 

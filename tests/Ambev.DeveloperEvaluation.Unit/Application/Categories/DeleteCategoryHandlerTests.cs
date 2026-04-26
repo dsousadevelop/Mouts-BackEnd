@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common.Errors;
+﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers;
 using Ambev.DeveloperEvaluation.Domain.Entities;
@@ -25,7 +25,7 @@ public class DeleteCategoryHandlerTests
     public async Task Handle_ValidRequest_ReturnsSuccess()
     {
         // Given
-        var categoryId = 1;
+        const int categoryId = 1;
         var command = new DeleteCategoryCommand(categoryId);
         var category = new Category(categoryId, "Test Category");
 
@@ -44,7 +44,7 @@ public class DeleteCategoryHandlerTests
     public async Task Handle_NonExistentCategory_ReturnsResourceNotFoundError()
     {
         // Given
-        var categoryId = 1;
+        const int categoryId = 1;
         var command = new DeleteCategoryCommand(categoryId);
 
         _categoryRepository.GetByIdAsync(categoryId, Arg.Any<CancellationToken>()).Returns((Category?)null);
@@ -57,4 +57,3 @@ public class DeleteCategoryHandlerTests
         result.AsT1.Detail.Should().Contain(categoryId.ToString());
     }
 }
-

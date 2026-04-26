@@ -14,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public DateTime Date { get; private set; }
         public decimal TotalAmount { get; private set; }
         public bool IsCancelled { get; private set; }
-        public virtual User? User{ get; private set; }
+        public virtual User? User { get; private set; }
         public virtual ICollection<CartItem> CartItems { get; private set; } = new List<CartItem>();
 
         public Cart() { }
@@ -43,6 +43,5 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         {
             TotalAmount = CartItems.Sum(i => i.Total);
         }
-
-    }
+}
 }

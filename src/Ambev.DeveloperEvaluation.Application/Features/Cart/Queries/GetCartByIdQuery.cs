@@ -7,4 +7,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Queries
 {
     public record GetCartByIdQuery(int Id) : IRequest<OneOf<CartDto, NotFoundError>>;
 }
-

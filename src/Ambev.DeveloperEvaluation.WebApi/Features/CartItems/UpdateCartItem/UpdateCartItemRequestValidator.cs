@@ -12,4 +12,3 @@ public class UpdateCartItemRequestValidator : AbstractValidator<UpdateCartItemRe
         RuleFor(x => x.Quantity).GreaterThan(0).LessThanOrEqualTo(20);
     }
 }
-

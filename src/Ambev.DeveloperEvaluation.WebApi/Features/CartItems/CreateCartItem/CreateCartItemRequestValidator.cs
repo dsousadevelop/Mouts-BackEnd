@@ -10,4 +10,3 @@ public class CreateCartItemRequestValidator : AbstractValidator<CreateCartItemRe
         RuleFor(x => x.Quantity).GreaterThan(0).LessThanOrEqualTo(20);
     }
 }
-

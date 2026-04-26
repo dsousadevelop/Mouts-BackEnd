@@ -7,4 +7,3 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Products.Queries
 {
     public record GetProductByIdQuery(int Id) : IRequest<OneOf<ProductDto, NotFoundError>>;
 }
-

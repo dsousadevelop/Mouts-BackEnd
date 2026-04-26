@@ -11,4 +11,3 @@ public class CreateCartRequestValidator : AbstractValidator<CreateCartRequest>
         RuleForEach(x => x.CartItems).SetValidator(new CreateCartItemRequestValidator());
     }
 }
-

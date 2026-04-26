@@ -25,6 +25,5 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers
 
             return _mapper.Map<CategoryDto>(productRet);
         }
-
-    }
+}
 }

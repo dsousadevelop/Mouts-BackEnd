@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application;
+using Ambev.DeveloperEvaluation.Application;
 //using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
@@ -61,7 +61,6 @@ public class Program
     });
             });
 
-
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -76,7 +75,6 @@ public class Program
             });
             // REDIS
             builder.Services.AddScoped<CacheContext>();
-
 
             builder.Services.AddJwtAuthentication(builder.Configuration);
 

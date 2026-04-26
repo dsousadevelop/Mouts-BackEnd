@@ -36,12 +36,8 @@ namespace Ambev.DeveloperEvaluation.ORM
                 PropertyNameCaseInsensitive = true,
                 IncludeFields = true
             });
-
-
-            //var json = JsonSerializer.Serialize(value);
             await _cache.SetStringAsync(key, json, options);
         }
-
         public async Task RemoveAsync(string key)
         {
             await _cache.RemoveAsync(key);

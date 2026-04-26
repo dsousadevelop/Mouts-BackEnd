@@ -31,13 +31,13 @@ public class DeleteUserHandlerTests
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Then
-        result.Should().NotBeNull();
-        result.Success.Should().BeTrue();
+        result.IsT0.Should().BeTrue();
+        result.AsT0.Success.Should().BeTrue();
         await _userRepository.Received(1).DeleteAsync(userId, Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given nonexistent id When deleting user Then throws key not found exception")]
-    public async Task Handle_NonExistentUser_ThrowsKeyNotFoundException()
+    [Fact(DisplayName = "Given nonexistent id When deleting user Then returns NotFoundError")]
+    public async Task Handle_NonExistentUser_ReturnsNotFoundError()
     {
         // Given
         var userId = 1;
@@ -46,10 +46,11 @@ public class DeleteUserHandlerTests
         _userRepository.DeleteAsync(userId, Arg.Any<CancellationToken>()).Returns(false);
 
         // When
-        var act = () => _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None);
 
         // Then
-        await act.Should().ThrowAsync<KeyNotFoundException>();
+        result.IsT1.Should().BeTrue();
+        result.AsT1.Detail.Should().Contain($"User with ID {userId} not found");
     }
 
     [Fact(DisplayName = "Given invalid id When deleting user Then throws validation exception")]

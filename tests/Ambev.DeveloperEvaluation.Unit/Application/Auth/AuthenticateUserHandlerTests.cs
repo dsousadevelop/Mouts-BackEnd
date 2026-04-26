@@ -2,6 +2,7 @@ using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
@@ -53,18 +54,31 @@ public class AuthenticateUserHandlerTests
         result.Email.Should().Be(user.Email);
     }
 
-    [Fact(DisplayName = "Given invalid password When authenticating Then throws unauthorized exception")]
+    [Fact(DisplayName = "Given invalid password When authenticating Then throws unauthorized access exception")]
     public async Task Handle_InvalidPassword_ThrowsUnauthorizedAccessException()
     {
         // Given
-        var request = new AuthenticateUserCommand { Email = "test@example.com", Password = "WrongPassword" };
-        var user = new User("testuser", request.Email, "123", "hashed_password", "First", "Last", Ambev.DeveloperEvaluation.Domain.Enums.UserRole.Customer, Ambev.DeveloperEvaluation.Domain.Enums.UserStatus.Active);
-
-        _userRepository.GetByEmailAsync(request.Email, Arg.Any<CancellationToken>()).Returns(user);
-        _passwordHasher.VerifyPassword(request.Password, user.Password).Returns(false);
+        var command = new AuthenticateUserCommand { Email = "test@example.com", Password = "wrongpassword" };
+        var user = new User("testuser", "test@example.com", "123", "password", "First", "Last", UserRole.Customer, UserStatus.Active);
+        _userRepository.GetByEmailAsync(command.Email, Arg.Any<CancellationToken>()).Returns(user);
+        _passwordHasher.VerifyPassword(command.Password, user.Password).Returns(false);
 
         // When
-        var act = () => _handler.Handle(request, CancellationToken.None);
+        var act = () => _handler.Handle(command, CancellationToken.None);
+
+        // Then
+        await act.Should().ThrowAsync<UnauthorizedAccessException>().WithMessage("Invalid credentials");
+    }
+
+    [Fact(DisplayName = "Given non-existent user When authenticating Then throws unauthorized access exception")]
+    public async Task Handle_UserNotFound_ThrowsUnauthorizedAccessException()
+    {
+        // Given
+        var command = new AuthenticateUserCommand { Email = "nonexistent@example.com", Password = "anypassword" };
+        _userRepository.GetByEmailAsync(command.Email, Arg.Any<CancellationToken>()).Returns((User?)null);
+
+        // When
+        var act = () => _handler.Handle(command, CancellationToken.None);
 
         // Then
         await act.Should().ThrowAsync<UnauthorizedAccessException>().WithMessage("Invalid credentials");

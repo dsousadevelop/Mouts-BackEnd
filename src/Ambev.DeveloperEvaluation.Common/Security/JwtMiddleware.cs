@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Common.Entity;
+using Ambev.DeveloperEvaluation.Common.Entity;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,12 @@ namespace Ambev.DeveloperEvaluation.Common.Security
 
         public async Task Invoke(HttpContext context, IJwtTokenGenerator jwtService)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+            var token = authHeader?.Split(' ') switch
+            {
+                { Length: > 0 } parts => parts[^1],
+                _ => null
+            };
 
             if (!string.IsNullOrEmpty(token))
             {
@@ -33,7 +38,7 @@ namespace Ambev.DeveloperEvaluation.Common.Security
                     if (user != null)
                     {
                         var newToken = jwtService.GenerateToken(user);
-                        context.Response.Headers.Add("X-New-Token", newToken);
+                        context.Response.Headers["X-New-Token"] = newToken;
                     }
                 }
                 else
@@ -48,24 +53,29 @@ namespace Ambev.DeveloperEvaluation.Common.Security
         {
             var handler = new JwtSecurityTokenHandler();
 
-            // Lê o token sem validar assinatura ou expiração
-            var jwtToken = handler.ReadJwtToken(token);
-
-            var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "nameid")?.Value;
-            var username = jwtToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
-            var role = jwtToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value;
-
-
-            if (jwtToken.ValidTo > DateTime.UtcNow)
-                return null;
-
-            return new JwtUser
+            try
             {
-                Id = userId,
-                Username = username,
-                Role = role
-            };
+                // Lê o token sem validar assinatura ou expiração
+                var jwtToken = handler.ReadJwtToken(token);
 
+                var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "nameid")?.Value;
+                var username = jwtToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
+                var role = jwtToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value;
+
+                if (jwtToken.ValidTo > DateTime.UtcNow)
+                    return null;
+
+                return new JwtUser
+                {
+                    Id = userId ?? string.Empty,
+                    Username = username ?? string.Empty,
+                    Role = role ?? string.Empty
+                };
+            }
+            catch
+            {
+                return null;
+            }
         }
 
     }

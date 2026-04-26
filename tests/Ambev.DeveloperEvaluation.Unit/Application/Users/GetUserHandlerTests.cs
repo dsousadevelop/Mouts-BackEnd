@@ -39,13 +39,13 @@ public class GetUserHandlerTests
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Then
-        result.Should().NotBeNull();
-        result.Id.Should().Be(userId);
-        result.Username.Should().Be("testuser");
+        result.IsT0.Should().BeTrue();
+        result.AsT0.Id.Should().Be(userId);
+        result.AsT0.Username.Should().Be("testuser");
     }
 
-    [Fact(DisplayName = "Given nonexistent id When user does not exist Then throws key not found exception")]
-    public async Task Handle_NonExistentUser_ThrowsKeyNotFoundException()
+    [Fact(DisplayName = "Given nonexistent id When user does not exist Then returns NotFoundError")]
+    public async Task Handle_NonExistentUser_ReturnsNotFoundError()
     {
         // Given
         var userId = 1;
@@ -54,10 +54,11 @@ public class GetUserHandlerTests
         _userRepository.GetByIdAsync(userId, Arg.Any<CancellationToken>()).Returns((User?)null);
 
         // When
-        var act = () => _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None);
 
         // Then
-        await act.Should().ThrowAsync<KeyNotFoundException>();
+        result.IsT1.Should().BeTrue();
+        result.AsT1.Detail.Should().Contain($"User with ID {userId} not found");
     }
 
     [Fact(DisplayName = "Given invalid id When getting user Then throws validation exception")]

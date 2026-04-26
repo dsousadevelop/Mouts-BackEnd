@@ -1,11 +1,13 @@
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using MediatR;
+using OneOf;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 
 /// <summary>
 /// Command for deleting a user
 /// </summary>
-public record DeleteUserCommand : IRequest<DeleteUserResponse>
+public record DeleteUserCommand : IRequest<OneOf<DeleteUserResponse, NotFoundError>>
 {
     /// <summary>
     /// The unique identifier of the user to delete

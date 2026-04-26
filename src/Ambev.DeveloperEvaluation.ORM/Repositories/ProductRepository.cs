@@ -63,7 +63,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             }
             catch (Exception ex)
             {
-                throw;
+                throw new InvalidDataException(ex.Message.ToString());
             }
             
         }

@@ -6,9 +6,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Events
     {
         public User User { get; }
 
-        public UserRegisteredEvent(User user)
-        {
-            User = user;
-        }
+        //public UserRegisteredEvent(User user)
+        //{
+        //    User = user;
+        //}
     }
 }

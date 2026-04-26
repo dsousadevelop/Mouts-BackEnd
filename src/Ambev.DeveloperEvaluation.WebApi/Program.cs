@@ -1,5 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application;
-using Ambev.DeveloperEvaluation.Common.HealthChecks;
+//using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
@@ -32,7 +32,7 @@ public class Program
             //IOC da Infra
             builder.Services.AddInfrastructure();
 
-            builder.AddBasicHealthChecks();
+            //builder.AddBasicHealthChecks();
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperStore", Version = "v1" });
@@ -83,14 +83,12 @@ public class Program
             builder.RegisterDependencies();
 
             builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
-            builder.Services.AddAutoMapper(typeof(ApplicationLayer).Assembly, typeof(InfraLayer).Assembly);
 
             builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(
                     typeof(ApplicationLayer).Assembly,
-                    typeof(Program).Assembly,
-                    typeof(InfraLayer).Assembly
+                    typeof(Program).Assembly
                 );
             });
 
@@ -125,7 +123,7 @@ public class Program
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseBasicHealthChecks();
+            //app.UseBasicHealthChecks();
 
             app.MapControllers();
 

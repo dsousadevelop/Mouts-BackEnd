@@ -95,4 +95,36 @@ public class CartControllerTests
         var okResult = actionResult.Should().BeOfType<OkObjectResult>().Subject;
         okResult.StatusCode.Should().Be(200);
     }
+
+    [Fact(DisplayName = "Get deve retornar 404 NotFound quando o carrinho não existe")]
+    public async Task Get_IdInexistente_DeveRetornarNotFound()
+    {
+        // Arrange
+        var cartId = 99;
+        _mediator.Send(Arg.Any<GetCartByIdQuery>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(OneOf<CartDto, NotFoundError>.FromT1(new NotFoundError("Cart not found"))));
+
+        // Act
+        var actionResult = await _controller.Get(cartId, CancellationToken.None);
+
+        // Assert
+        var notFoundResult = actionResult.Should().BeOfType<NotFoundObjectResult>().Subject;
+        notFoundResult.StatusCode.Should().Be(404);
+    }
+
+    [Fact(DisplayName = "Delete deve retornar 404 NotFound quando o carrinho não existe")]
+    public async Task Delete_IdInexistente_DeveRetornarNotFound()
+    {
+        // Arrange
+        var cartId = 99;
+        _mediator.Send(Arg.Any<DeleteCartCommand>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(OneOf<bool, NotFoundError>.FromT1(new NotFoundError("Cart not found"))));
+
+        // Act
+        var actionResult = await _controller.Delete(cartId, CancellationToken.None);
+
+        // Assert
+        var notFoundResult = actionResult.Should().BeOfType<NotFoundObjectResult>().Subject;
+        notFoundResult.StatusCode.Should().Be(404);
+    }
 }

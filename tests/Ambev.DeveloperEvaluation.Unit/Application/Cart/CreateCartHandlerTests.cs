@@ -77,5 +77,46 @@ public class CreateCartHandlerTests
         result.IsT1.Should().BeTrue();
         result.AsT1.Detail.Should().Contain($"product {productId} not exists");
     }
+
+    [Fact(DisplayName = "Given valid cart data with items When creating cart Then returns success and calculates items")]
+    public async Task Handle_ValidRequestWithItems_ReturnsCartDto()
+    {
+        // Given
+        var userId = 1;
+        var productId = 101;
+        var price = 50.0m;
+        var quantity = 2;
+        
+        var cartItemDto = new CartItemDto { ProductId = productId, Quantity = quantity };
+        var cartDto = new CartDto 
+        { 
+            UserId = userId,
+            CartItems = new List<CartItemDto> { cartItemDto }
+        };
+        var command = new CreateCartCommand(cartDto);
+        
+        var product = new Product("Test Product", price, "Description", 1, "image.png", 4.5m, 10, new Category(), DateTime.UtcNow, null) { Id = productId };
+        var cartItem = new CartItem(0, productId, quantity, price, 0, price * quantity);
+        var cart = new Ambev.DeveloperEvaluation.Domain.Entities.Cart(userId, DateTime.UtcNow);
+        cart.CartItems.Add(cartItem);
+        
+        var createdCart = new Ambev.DeveloperEvaluation.Domain.Entities.Cart(userId, DateTime.UtcNow);
+        createdCart.Id = 1;
+        createdCart.CartItems.Add(cartItem);
+        
+        var resultDto = new CartDto { Id = 1, UserId = userId };
+
+        _mapper.Map<Ambev.DeveloperEvaluation.Domain.Entities.Cart>(cartDto).Returns(cart);
+        _productRepository.GetByIdAsync(productId, Arg.Any<CancellationToken>()).Returns(product);
+        _cartRepository.CreateAsync(cart, Arg.Any<CancellationToken>()).Returns(createdCart);
+        _mapper.Map<CartDto>(createdCart).Returns(resultDto);
+
+        // When
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Then
+        result.IsT0.Should().BeTrue();
+        await _productRepository.Received(1).GetByIdAsync(productId, Arg.Any<CancellationToken>());
+    }
 }
 

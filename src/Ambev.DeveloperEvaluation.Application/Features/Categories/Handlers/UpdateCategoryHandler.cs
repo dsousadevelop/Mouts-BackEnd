@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers
 {
-    public class UpdateCategoryHandler(ICategoryRepository _repo, IMapper _mapper) : IRequestHandler<UpdateCategoryCommand, OneOf<Success, ResourceNotFoundError, ValidationError>>
+    public class UpdateCategoryHandler(ICategoryRepository _repo) : IRequestHandler<UpdateCategoryCommand, OneOf<Success, ResourceNotFoundError, ValidationError>>
     {
         public async Task<OneOf<Success, ResourceNotFoundError, ValidationError>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {

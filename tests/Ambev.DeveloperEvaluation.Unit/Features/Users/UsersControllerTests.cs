@@ -60,7 +60,7 @@ public class UsersControllerTests : ControllerTestsBase
         var createdResult = actionResult as CreatedResult;
         var apiResponse = createdResult?.Value as ApiResponseWithData<CreateUserResponse>;
         apiResponse.Should().NotBeNull();
-        apiResponse!.Data.Id.Should().Be(1);
+        apiResponse!.Data!.Id.Should().Be(1);
     }
 
     [Fact]
@@ -85,7 +85,7 @@ public class UsersControllerTests : ControllerTestsBase
         var okResult = actionResult as OkObjectResult;
         var apiResponse = okResult?.Value as ApiResponseWithData<GetUserResponse>;
         apiResponse.Should().NotBeNull();
-        apiResponse!.Data.Id.Should().Be(id);
+        apiResponse!.Data!.Id.Should().Be(id);
     }
 
     [Fact]

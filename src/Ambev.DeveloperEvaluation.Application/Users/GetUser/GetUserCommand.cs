@@ -1,11 +1,13 @@
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using MediatR;
+using OneOf;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
 
 /// <summary>
 /// Command for retrieving a user by their ID
 /// </summary>
-public record GetUserCommand : IRequest<GetUserResult>
+public record GetUserCommand : IRequest<OneOf<GetUserResult, NotFoundError>>
 {
     /// <summary>
     /// The unique identifier of the user to retrieve

@@ -15,14 +15,12 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Categories;
 public class UpdateCategoryHandlerTests
 {
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IMapper _mapper;
     private readonly UpdateCategoryHandler _handler;
 
     public UpdateCategoryHandlerTests()
     {
         _categoryRepository = Substitute.For<ICategoryRepository>();
-        _mapper = Substitute.For<IMapper>();
-        _handler = new UpdateCategoryHandler(_categoryRepository, _mapper);
+        _handler = new UpdateCategoryHandler(_categoryRepository);
     }
 
     [Fact(DisplayName = "Given valid data When updating category Then returns success")]

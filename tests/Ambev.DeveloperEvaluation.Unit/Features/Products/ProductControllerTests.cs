@@ -53,7 +53,7 @@ public class ProductControllerTests : ControllerTestsBase
         var okResult = result as OkObjectResult;
         var apiResponse = okResult?.Value as ApiResponseWithData<GetProductResponse>;
         apiResponse.Should().NotBeNull();
-        apiResponse!.Data.Id.Should().Be(id);
+        apiResponse!.Data!.Id.Should().Be(id);
         apiResponse.Success.Should().BeTrue();
     }
 
@@ -104,7 +104,7 @@ public class ProductControllerTests : ControllerTestsBase
         var createdResult = result as CreatedAtActionResult;
         var apiResponse = createdResult?.Value as ApiResponseWithData<CreateProductResponse>;
         apiResponse.Should().NotBeNull();
-        apiResponse!.Data.Id.Should().Be(1);
+        apiResponse!.Data!.Id.Should().Be(1);
     }
 
     [Fact]

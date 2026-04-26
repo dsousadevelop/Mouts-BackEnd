@@ -15,32 +15,36 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
     {
         public async Task<OneOf<CartDto, NotFoundError, ValidationError>> Handle(UpdateCartCommand request, CancellationToken cancellationToken)
         {
-            var cartExists = await _repo.GetByIdAsync((int)request.CartDto.Id, cancellationToken);
-            if (cartExists == null)
-                return new NotFoundError($"Cart with ID {request.CartDto.Id} not found");
-
-            _mapper.Map(request.CartDto, cartExists);
-
-            if (cartExists.CartItems != null)
+            if (request.CartDto.Id != null)
             {
-                foreach (var item in cartExists.CartItems)
+                var cartExists = await _repo.GetByIdAsync((int)request.CartDto.Id, cancellationToken);
+                if (cartExists == null)
+                    return new NotFoundError($"Cart with ID {request.CartDto.Id} not found");
+
+                _mapper.Map(request.CartDto, cartExists);
+
+                if (cartExists.CartItems != null)
                 {
-                    var product = await _productRepo.GetByIdAsync(item.ProductId, cancellationToken);
-                    if (product != null)
+                    foreach (var item in cartExists.CartItems)
                     {
-                        item.CalculateDiscount(product.Price);
+                        var product = await _productRepo.GetByIdAsync(item.ProductId, cancellationToken);
+                        if (product != null)
+                        {
+                            item.CalculateDiscount(product.Price);
+                        }
                     }
+
+                    cartExists.CalculateTotalAmount();
                 }
 
-                cartExists.CalculateTotalAmount();
+                var validationResult = await cartExists.ValidateAsync();
+                if (!validationResult.IsValid)
+                    return new ValidationError(string.Join(", ", validationResult.Errors.Select(o => o.Description)));
+
+                var updatedCart = await _repo.UpdateAsync(cartExists, cancellationToken);
+                return _mapper.Map<CartDto>(updatedCart);
             }
-
-            var validationResult = await cartExists.ValidateAsync();
-            if (!validationResult.IsValid)
-                return new ValidationError(string.Join(", ", validationResult.Errors.Select(o => o.Description)));
-
-            var updatedCart = await _repo.UpdateAsync(cartExists, cancellationToken);
-            return _mapper.Map<CartDto>(updatedCart);
+            return new ValidationError("ID is null invalid value");
         }
     }
 }

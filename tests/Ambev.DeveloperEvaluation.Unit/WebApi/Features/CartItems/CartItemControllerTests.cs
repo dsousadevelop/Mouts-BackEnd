@@ -59,6 +59,26 @@ public class CartItemControllerTests
         createdResult.StatusCode.Should().Be(201);
     }
 
+    [Fact(DisplayName = "Post deve retornar 400 BadRequest quando ocorre erro de validação no Mediator")]
+    public async Task Post_ValidationError_DeveRetornarBadRequest()
+    {
+        // Arrange
+        var request = new CreateCartItemRequest { ProductId = 1, Quantity = 2 };
+        var command = new CreateCartItemCommand(new CartItemDto { ProductId = 1, Quantity = 2 });
+        var validationError = new ValidationError("Product does not exist");
+
+        _mapper.Map<CreateCartItemCommand>(request).Returns(command);
+        _mediator.Send(command, Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(OneOf<CartItemDto, ValidationError>.FromT1(validationError)));
+
+        // Act
+        var actionResult = await _controller.Post(request, CancellationToken.None);
+
+        // Assert
+        var badRequestResult = actionResult.Should().BeOfType<BadRequestObjectResult>().Subject;
+        badRequestResult.StatusCode.Should().Be(400);
+    }
+
     [Fact(DisplayName = "Get deve retornar 200 Ok quando itens são encontrados")]
     public async Task Get_CartIdValido_DeveRetornarOk()
     {
@@ -93,5 +113,20 @@ public class CartItemControllerTests
         // Assert
         var okResult = actionResult.Should().BeOfType<OkObjectResult>().Subject;
         okResult.StatusCode.Should().Be(200);
+    }
+    [Fact(DisplayName = "Delete deve retornar 404 NotFound quando o item não existe")]
+    public async Task Delete_IdInexistente_DeveRetornarNotFound()
+    {
+        // Arrange
+        var itemId = 99;
+        _mediator.Send(Arg.Any<DeleteCartItemCommand>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(OneOf<bool, NotFoundError>.FromT1(new NotFoundError("Item not found"))));
+
+        // Act
+        var actionResult = await _controller.Delete(itemId, CancellationToken.None);
+
+        // Assert
+        var notFoundResult = actionResult.Should().BeOfType<NotFoundObjectResult>().Subject;
+        notFoundResult.StatusCode.Should().Be(404);
     }
 }

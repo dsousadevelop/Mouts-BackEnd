@@ -50,6 +50,6 @@ public class AuthControllerTests : ControllerTestsBase
         var okResult = actionResult as OkObjectResult;
         var apiResponse = okResult?.Value as ApiResponseWithData<AuthenticateUserResponse>;
         apiResponse.Should().NotBeNull();
-        apiResponse!.Data.Token.Should().Be("token");
+        apiResponse!.Data!.Token.Should().Be("token");
     }
 }

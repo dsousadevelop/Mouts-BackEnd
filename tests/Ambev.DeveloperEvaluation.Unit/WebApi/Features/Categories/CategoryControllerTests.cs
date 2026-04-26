@@ -5,11 +5,13 @@ using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Categories;
 using Ambev.DeveloperEvaluation.WebApi.Features.Categories.CreateCategory;
 using Ambev.DeveloperEvaluation.WebApi.Features.Categories.ListCategories;
+using Ambev.DeveloperEvaluation.WebApi.Features.Categories.GetCategory;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using OneOf;
+using OneOf.Types;
 using Xunit;
 using FluentAssertions;
 using System.Threading;
@@ -60,7 +62,7 @@ public class CategoryControllerTests
 
         _mapper.Map<CreateCategoryCommand>(request).Returns(command);
         _mediator.Send(command, Arg.Any<CancellationToken>())
-            .Returns((OneOf<CategoryDto, ValidationError>)categoryDto);
+            .Returns(Task.FromResult(OneOf<CategoryDto, ValidationError>.FromT0(categoryDto)));
         _mapper.Map<CreateCategoryResponse>(categoryDto).Returns(new CreateCategoryResponse { Id = 1 });
 
         // Act
@@ -68,5 +70,68 @@ public class CategoryControllerTests
 
         // Assert
         result.Should().BeOfType<CreatedAtActionResult>().Which.StatusCode.Should().Be(201);
+    }
+
+    [Fact(DisplayName = "Get deve retornar 200 Ok quando a categoria existe")]
+    public async Task Get_IdExistente_DeveRetornarOk()
+    {
+        // Arrange
+        var categoryId = 1;
+        var categoryDto = new CategoryDto(categoryId, "Electronics");
+        _mediator.Send(Arg.Any<GetCategoryByIdQuery>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(OneOf<CategoryDto, ResourceNotFoundError>.FromT0(categoryDto)));
+        
+        _mapper.Map<GetCategoryResponse>(categoryDto).Returns(new GetCategoryResponse { Id = categoryId, Description = "Electronics" });
+
+        // Act
+        var result = await _controller.Get(categoryId, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<OkObjectResult>().Which.StatusCode.Should().Be(200);
+    }
+
+    [Fact(DisplayName = "Get deve retornar 404 NotFound quando a categoria não existe")]
+    public async Task Get_IdInexistente_DeveRetornarNotFound()
+    {
+        // Arrange
+        var categoryId = 99;
+        _mediator.Send(Arg.Any<GetCategoryByIdQuery>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(OneOf<CategoryDto, ResourceNotFoundError>.FromT1(new ResourceNotFoundError("Category not found"))));
+
+        // Act
+        var result = await _controller.Get(categoryId, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<NotFoundObjectResult>().Which.StatusCode.Should().Be(404);
+    }
+
+    [Fact(DisplayName = "Delete deve retornar 200 Ok quando removido com sucesso")]
+    public async Task Delete_IdExistente_DeveRetornarOk()
+    {
+        // Arrange
+        var categoryId = 1;
+        _mediator.Send(Arg.Any<DeleteCategoryCommand>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(OneOf<Success, ResourceNotFoundError>.FromT0(new Success())));
+
+        // Act
+        var result = await _controller.Delete(categoryId, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<OkObjectResult>().Which.StatusCode.Should().Be(200);
+    }
+
+    [Fact(DisplayName = "Delete deve retornar 404 NotFound quando a categoria não existe")]
+    public async Task Delete_IdInexistente_DeveRetornarNotFound()
+    {
+        // Arrange
+        var categoryId = 99;
+        _mediator.Send(Arg.Any<DeleteCategoryCommand>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(OneOf<Success, ResourceNotFoundError>.FromT1(new ResourceNotFoundError("Category not found"))));
+
+        // Act
+        var result = await _controller.Delete(categoryId, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<NotFoundObjectResult>().Which.StatusCode.Should().Be(404);
     }
 }

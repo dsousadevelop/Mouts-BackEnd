@@ -84,14 +84,17 @@ public class UsersController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<GetUserCommand>(request.Id);
-        var response = await _mediator.Send(command, cancellationToken);
+        var result = await _mediator.Send(command, cancellationToken);
 
-        return base.Ok(new ApiResponseWithData<GetUserResponse>
-        {
-            Success = true,
-            Message = "User retrieved successfully",
-            Data = _mapper.Map<GetUserResponse>(response)
-        });
+        return result.Match(
+            success => base.Ok(new ApiResponseWithData<GetUserResponse>
+            {
+                Success = true,
+                Message = "User retrieved successfully",
+                Data = _mapper.Map<GetUserResponse>(success)
+            }),
+            error => base.NotFound(new ApiResponse { Success = false, Message = error.Detail })
+        );
     }
 
     /// <summary>
@@ -115,12 +118,15 @@ public class UsersController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteUserCommand>(request.Id);
-        await _mediator.Send(command, cancellationToken);
+        var result = await _mediator.Send(command, cancellationToken);
 
-        return base.Ok(new ApiResponse
-        {
-            Success = true,
-            Message = "User deleted successfully"
-        });
+        return result.Match(
+            success => base.Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "User deleted successfully"
+            }),
+            error => base.NotFound(new ApiResponse { Success = false, Message = error.Detail })
+        );
     }
 }

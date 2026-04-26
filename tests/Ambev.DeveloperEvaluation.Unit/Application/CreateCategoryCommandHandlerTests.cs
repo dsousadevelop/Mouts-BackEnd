@@ -44,5 +44,25 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
                 .CreateAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
 
         }
+
+        [Fact]
+        public async Task Handle_CategoriaJaExistente_DeveRetornarErro()
+        {
+            var repository = Substitute.For<ICategoryRepository>();
+            var entityDto = new CategoryDto(id: null, description: "Feijão");
+            var command = new CreateCategoryCommand(entityDto);
+            var handler = new CreateCategoryHandler(repository, _mapper);
+            var existingCategory = new Category(id: 1, description: "Feijão");
+
+            repository.GetByDescriptionAsync("Feijão", Arg.Any<CancellationToken>())
+                  .Returns(Task.FromResult((Category?)existingCategory));
+
+            // Act
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsT1);
+            Assert.Contains("already exists", result.AsT1.Detail);
+        }
     }
 }

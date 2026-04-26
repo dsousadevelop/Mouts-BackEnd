@@ -1,6 +1,7 @@
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Unit.Domain;
 using AutoMapper;
@@ -160,5 +161,34 @@ public class CreateUserHandlerTests
             c.Phone == command.Phone &&
             c.Status == command.Status &&
             c.Role == command.Role));
+    }
+
+    /// <summary>
+    /// Tests that creating a user with an existing email throws an InvalidOperationException.
+    /// </summary>
+    [Fact(DisplayName = "Given existing email When creating user Then throws invalid operation exception")]
+    public async Task Handle_ExistingUser_ThrowsInvalidOperationException()
+    {
+        // Given
+        var command = CreateUserHandlerTestData.GenerateValidCommand();
+        var existingUser = new User
+        (
+            username: "existing",
+            email: command.Email,
+            phone: "123",
+            password: "pw",
+            firstName: "f",
+            lastName: "l",
+            role: UserRole.Customer,
+            status: UserStatus.Active
+        );
+
+        _userRepository.GetByEmailAsync(command.Email, Arg.Any<CancellationToken>()).Returns(existingUser);
+
+        // When
+        var act = () => _handler.Handle(command, CancellationToken.None);
+
+        // Then
+        await act.Should().ThrowAsync<InvalidOperationException>().WithMessage($"User with email {command.Email} already exists");
     }
 }

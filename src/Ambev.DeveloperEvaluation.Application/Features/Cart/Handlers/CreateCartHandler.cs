@@ -9,10 +9,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Events;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
 {
-    public class CreateCartHandler(ICartRepository _repo, IProductRepository _productRepo, IMapper _mapper) : IRequestHandler<CreateCartCommand, OneOf<CartDto, ValidationError>>
+    public class CreateCartHandler(ICartRepository _repo, IProductRepository _productRepo, IUserRepository _userRepo, Rebus.Bus.IBus _bus, IMapper _mapper) : IRequestHandler<CreateCartCommand, OneOf<CartDto, ValidationError>>
     {
         public async Task<OneOf<CartDto, ValidationError>> Handle(CreateCartCommand request, CancellationToken cancellationToken)
         {
@@ -41,6 +42,20 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
             {
                 model.DateSaveCart();
                 var modelRet = await _repo.CreateAsync(model, cancellationToken);
+                
+                // Busca o e-mail do usuário para o evento
+                var user = await _userRepo.GetByIdAsync(modelRet.UserId, cancellationToken);
+                if (user != null)
+                {
+                    await _bus.Publish(new CartCreatedEvent
+                    {
+                        CartId = modelRet.Id ?? 0,
+                        UserId = modelRet.UserId,
+                        UserEmail = user.Email,
+                        TotalAmount = modelRet.TotalAmount
+                    });
+                }
+
                 return _mapper.Map<CartDto>(modelRet);
             }
             catch (System.Exception ex)

@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.Application.Common;
 using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Common.Interfaces;
 using Ambev.DeveloperEvaluation.Application.Features.Products.DTOs;
@@ -102,7 +102,7 @@ public class GetProductListHandlerTests
         // Then
         result.IsT0.Should().BeTrue();
         result.AsT0.Data.Should().HaveCount(1);
-        result.AsT0.Data.First().Id.Should().Be(2);
+        result.AsT0.Data[0].Id.Should().Be(2);
         result.AsT0.TotalItems.Should().Be(1);
     }
 }

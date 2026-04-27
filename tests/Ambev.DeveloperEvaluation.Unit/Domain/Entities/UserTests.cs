@@ -74,12 +74,12 @@ public class UserTests
         var user = new User
         (
             username: "",
-            email: UserTestData.GenerateInvalidEmail(), 
-            phone: UserTestData.GenerateInvalidPhone(), 
-            password: UserTestData.GenerateInvalidPassword(), 
-            firstName: "", 
-            lastName: "", 
-            role: UserRole.None, 
+            email: UserTestData.GenerateInvalidEmail(),
+            phone: UserTestData.GenerateInvalidPhone(),
+            password: UserTestData.GenerateInvalidPassword(),
+            firstName: "",
+            lastName: "",
+            role: UserRole.None,
             status: UserStatus.Unknown
         );
         // Act

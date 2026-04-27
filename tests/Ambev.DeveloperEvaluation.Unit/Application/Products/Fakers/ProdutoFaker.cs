@@ -19,7 +19,7 @@ public static class ProdutoFaker
         var title = _faker.Commerce.ProductName();
         var description = _faker.Commerce.ProductDescription();
 
-        return new Product(
+        var product = new Product(
             title: title[..Math.Min(50, title.Length)],
             price: Math.Round(_faker.Random.Decimal(1, 999), 2),
             description: description[..Math.Min(80, description.Length)],
@@ -31,6 +31,13 @@ public static class ProdutoFaker
             createdAt: DateTime.UtcNow.AddDays(-_faker.Random.Int(1, 365)),
             updatedAt: null
         );
+
+        if (id.HasValue)
+        {
+            product.Id = id.Value;
+        }
+
+        return product;
     }
 
     /// <summary>Gera uma lista de Products válidos.</summary>

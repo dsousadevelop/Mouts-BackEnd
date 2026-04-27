@@ -29,7 +29,7 @@ public class JwtMiddlewareTests
         // Arrange
         var context = new DefaultHttpContext();
         const string token = "valid-token";
-        context.Request.Headers["Authorization"] = $"Bearer {token}";
+        context.Request.Headers.Authorization = $"Bearer {token}";
 
         var principal = new ClaimsPrincipal(new ClaimsIdentity(new[]
         {
@@ -65,7 +65,7 @@ public class JwtMiddlewareTests
     {
         // Arrange
         var context = new DefaultHttpContext();
-        context.Request.Headers["Authorization"] = "Bearer invalid-token";
+        context.Request.Headers.Authorization = "Bearer invalid-token";
         _jwtService.ValidateToken(Arg.Any<string>()).Returns((ClaimsPrincipal?)null);
 
         // Act
@@ -97,7 +97,7 @@ public class JwtMiddlewareTests
         var token = handler.CreateToken(tokenDescriptor);
         var tokenString = handler.WriteToken(token);
 
-        context.Request.Headers["Authorization"] = $"Bearer {tokenString}";
+        context.Request.Headers.Authorization = $"Bearer {tokenString}";
         _jwtService.ValidateToken(tokenString).Returns((ClaimsPrincipal?)null);
         _jwtService.GenerateToken(Arg.Any<Ambev.DeveloperEvaluation.Common.Security.IUser>()).Returns("new-token");
 
@@ -132,7 +132,7 @@ public class JwtMiddlewareTests
         var token = handler.CreateToken(tokenDescriptor);
         var tokenString = handler.WriteToken(token);
 
-        context.Request.Headers["Authorization"] = $"Bearer {tokenString}";
+        context.Request.Headers.Authorization = $"Bearer {tokenString}";
         _jwtService.ValidateToken(tokenString).Returns((ClaimsPrincipal?)null);
 
         // Act
@@ -148,7 +148,7 @@ public class JwtMiddlewareTests
     {
         // Arrange
         var context = new DefaultHttpContext();
-        context.Request.Headers["Authorization"] = "Bearer malformed-token";
+        context.Request.Headers.Authorization = "Bearer malformed-token";
         _jwtService.ValidateToken("malformed-token").Returns((ClaimsPrincipal?)null);
 
         // Act

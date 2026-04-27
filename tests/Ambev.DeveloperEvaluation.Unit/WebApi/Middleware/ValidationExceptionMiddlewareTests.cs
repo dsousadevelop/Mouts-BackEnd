@@ -15,6 +15,10 @@ public class ValidationExceptionMiddlewareTests
     private readonly RequestDelegate _next;
     private readonly ValidationExceptionMiddleware _middleware;
     private readonly DefaultHttpContext _context;
+    private static readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
 
     public ValidationExceptionMiddlewareTests()
     {
@@ -43,7 +47,7 @@ public class ValidationExceptionMiddlewareTests
             new("PropertyName", "ErrorMessage") { ErrorCode = "400" }
         };
         var exception = new ValidationException(errors);
-        _next.When(x => x.Invoke(Arg.Any<HttpContext>())).Do(x => throw exception);
+        _next.When(x => x.Invoke(Arg.Any<HttpContext>())).Do(_ => throw exception);
 
         // Act
         await _middleware.InvokeAsync(_context);
@@ -55,10 +59,7 @@ public class ValidationExceptionMiddlewareTests
         _context.Response.Body.Seek(0, SeekOrigin.Begin);
         using var reader = new StreamReader(_context.Response.Body);
         var responseBody = await reader.ReadToEndAsync();
-        var response = JsonSerializer.Deserialize<ApiResponse>(responseBody, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
+        var response = JsonSerializer.Deserialize<ApiResponse>(responseBody, _jsonOptions);
 
         response.Should().NotBeNull();
         response!.Success.Should().BeFalse();

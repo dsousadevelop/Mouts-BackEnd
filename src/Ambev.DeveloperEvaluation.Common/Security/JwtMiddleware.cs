@@ -49,7 +49,7 @@ namespace Ambev.DeveloperEvaluation.Common.Security
             await _next(context);
         }
 
-        private JwtUser? GetUserIdFromExpiredToken(string token)
+        private static JwtUser? GetUserIdFromExpiredToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
 

@@ -22,5 +22,6 @@ public abstract class RepositoryTestsBase : IDisposable
     {
         Context.Database.EnsureDeleted();
         Context.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

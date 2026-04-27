@@ -80,12 +80,12 @@ public class Program
 
             builder.RegisterDependencies();
 
-            builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
+            builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(IApplicationLayer).Assembly, typeof(DefaultContext).Assembly);
 
             builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(
-                    typeof(ApplicationLayer).Assembly,
+                    typeof(IApplicationLayer).Assembly,
                     typeof(Program).Assembly
                 );
             });

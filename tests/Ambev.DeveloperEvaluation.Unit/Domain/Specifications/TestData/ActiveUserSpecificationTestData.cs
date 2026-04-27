@@ -1,5 +1,6 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
 using Bogus;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Specifications.TestData;
@@ -25,13 +26,13 @@ public static class ActiveUserSpecificationTestData
     private static readonly Faker<User> userFaker = new Faker<User>()
         .CustomInstantiator(f => new User(
             username: f.Name.FirstName(),
+            email: f.Internet.Email(),
+            phone: $"+55{f.Random.Number(11, 99)}{f.Random.Number(100000000, 999999999)}",
             password: $"Test@{f.Random.Number(100, 999)}",
             firstName: f.Name.FirstName(),
             lastName: f.Name.LastName(),
-            email: f.Internet.Email(),
-            phone: $"+55{f.Random.Number(11, 99)}{f.Random.Number(100000000, 999999999)}",
-            status: f.PickRandom<UserStatus>(),
-            role: f.PickRandom<UserRole>()
+            role: f.PickRandom<UserRole>(),
+            status: f.PickRandom<UserStatus>()
         ));
 
     /// <summary>

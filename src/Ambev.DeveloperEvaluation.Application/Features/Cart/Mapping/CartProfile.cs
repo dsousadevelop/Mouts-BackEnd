@@ -1,5 +1,6 @@
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
+using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs;
 using Ambev.DeveloperEvaluation.Domain.Entities;
@@ -17,6 +18,7 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Mapping
         public CartProfile()
         {
             CreateMap<Domain.Entities.Cart, CartDto>().ReverseMap();
+            CreateMap<Domain.Entities.CartItem, CartItemDto>().ReverseMap();
         }
     }
 }

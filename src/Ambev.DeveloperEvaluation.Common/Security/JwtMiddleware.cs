@@ -21,7 +21,7 @@ namespace Ambev.DeveloperEvaluation.Common.Security
 
         public async Task Invoke(HttpContext context, IJwtTokenGenerator jwtService)
         {
-            var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+            var authHeader = context.Request.Headers.Authorization.FirstOrDefault();
             var token = authHeader?.Split(' ') switch
             {
                 { Length: > 0 } parts => parts[^1],
@@ -49,7 +49,7 @@ namespace Ambev.DeveloperEvaluation.Common.Security
             await _next(context);
         }
 
-        private IUser? GetUserIdFromExpiredToken(string token)
+        private JwtUser? GetUserIdFromExpiredToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
 

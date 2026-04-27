@@ -13,7 +13,7 @@ using Ambev.DeveloperEvaluation.Domain.Events;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
 {
-    public class CreateCartHandler(ICartRepository _repo, IProductRepository _productRepo, IUserRepository _userRepo, Rebus.Bus.IBus _bus, IMapper _mapper) : IRequestHandler<CreateCartCommand, OneOf<CartDto, ValidationError>>
+    public class CreateCartHandler(ICartRepository _repo, IProductRepository _productRepo, IUserRepository _userRepo, IEventPublisher _eventPublisher, IMapper _mapper) : IRequestHandler<CreateCartCommand, OneOf<CartDto, ValidationError>>
     {
         public async Task<OneOf<CartDto, ValidationError>> Handle(CreateCartCommand request, CancellationToken cancellationToken)
         {
@@ -47,13 +47,13 @@ namespace Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers
                 var user = await _userRepo.GetByIdAsync(modelRet.UserId, cancellationToken);
                 if (user != null)
                 {
-                    await _bus.Publish(new CartCreatedEvent
+                    await _eventPublisher.PublishAsync(new CartCreatedEvent
                     {
                         CartId = modelRet.Id ?? 0,
                         UserId = modelRet.UserId,
                         UserEmail = user.Email,
                         TotalAmount = modelRet.TotalAmount
-                    });
+                    }, cancellationToken);
                 }
 
                 return _mapper.Map<CartDto>(modelRet);

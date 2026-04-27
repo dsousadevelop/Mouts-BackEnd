@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Application.Common.Interfaces;
+using Ambev.DeveloperEvaluation.Domain.Events;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.ORM.Repositories;
 using Ambev.DeveloperEvaluation.ORM.Services;
@@ -17,6 +18,10 @@ namespace Ambev.DeveloperEvaluation.ORM.IoC
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICacheService, CacheService>();
+
+            // Infraestrutura de mensageria: adaptador do Rebus para a abstração do Domain
+            services.AddScoped<IEventPublisher, RebusEventPublisher>();
+
             return services;
         }
     }

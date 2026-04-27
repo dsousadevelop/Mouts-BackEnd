@@ -3,6 +3,7 @@ using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Events;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentAssertions;
@@ -15,6 +16,8 @@ public class CreateCartHandlerTests
 {
     private readonly ICartRepository _cartRepository;
     private readonly IProductRepository _productRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IEventPublisher _eventPublisher;
     private readonly IMapper _mapper;
     private readonly CreateCartHandler _handler;
 
@@ -22,8 +25,10 @@ public class CreateCartHandlerTests
     {
         _cartRepository = Substitute.For<ICartRepository>();
         _productRepository = Substitute.For<IProductRepository>();
+        _userRepository = Substitute.For<IUserRepository>();
+        _eventPublisher = Substitute.For<IEventPublisher>();
         _mapper = Substitute.For<IMapper>();
-        _handler = new CreateCartHandler(_cartRepository, _productRepository, _mapper);
+        _handler = new CreateCartHandler(_cartRepository, _productRepository, _userRepository, _eventPublisher, _mapper);
     }
 
     [Fact(DisplayName = "Given valid cart data When creating cart Then returns success")]

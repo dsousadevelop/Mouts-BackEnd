@@ -2,7 +2,6 @@ using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.ORM.DTOs;
 using AutoMapper;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using System;
@@ -63,7 +62,8 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             }
             catch (Exception ex)
             {
-                throw new InvalidDataException(ex.Message.ToString());
+                var message = ex.InnerException != null ? $"{ex.Message} -> {ex.InnerException.Message}" : ex.Message;
+                throw new InvalidDataException(message);
             }
 }
 

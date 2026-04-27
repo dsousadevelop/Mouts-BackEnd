@@ -15,6 +15,8 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.8" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
+		<PackageReference Include="Rebus" Version="8.9.2" />
+		<PackageReference Include="Rebus.ServiceProvider" Version="10.7.2" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Ambev.DeveloperEvaluation.Domain\Ambev.DeveloperEvaluation.Domain.csproj" />

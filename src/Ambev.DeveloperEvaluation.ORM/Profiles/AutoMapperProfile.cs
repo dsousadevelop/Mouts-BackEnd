@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.ORM.Profiles
 {
-    internal class AutoMapperProfile : Profile
+    public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
             // Products
             CreateMap<Product, ProductDto>();
-            CreateMap<ProductDto, Product>();
+            CreateMap<ProductDto, Product>()
+                .ForMember(dest => dest.Category, opt => opt.Ignore())
+                .ForMember(dest => dest.CartItems, opt => opt.Ignore());
+
             // Category
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();

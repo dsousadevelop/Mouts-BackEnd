@@ -65,7 +65,7 @@ public class ProductControllerTests
     public async Task Delete_IdValido_DeveRetornarOk()
     {
         // Arrange
-        int productId = 1;
+        const int productId = 1;
         _mediator.Send(Arg.Any<DeleteProductCommand>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(OneOf<Success, NotFoundError>.FromT0(new Success())));
 

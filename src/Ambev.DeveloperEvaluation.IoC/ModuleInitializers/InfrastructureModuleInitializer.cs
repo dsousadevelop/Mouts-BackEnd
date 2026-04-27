@@ -1,13 +1,9 @@
-using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.ORM;
-using Ambev.DeveloperEvaluation.ORM.Repositories;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Config;
-using Rebus.Routing.TypeBased;
-using Ambev.DeveloperEvaluation.Domain.Events;
+using Rebus.Activation;
+using Ambev.DeveloperEvaluation.ORM;
 
 namespace Ambev.DeveloperEvaluation.IoC.ModuleInitializers;
 
@@ -15,13 +11,20 @@ public class InfrastructureModuleInitializer : IModuleInitializer
 {
     public void Initialize(WebApplicationBuilder builder)
     {
-        builder.Services.AddScoped<DbContext>(provider => provider.GetRequiredService<DefaultContext>());
-        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<Microsoft.EntityFrameworkCore.DbContext>(
+            provider => provider.GetRequiredService<DefaultContext>());
 
-        // Configuração do Rebus para Publicação
-        builder.Services.AddRebus(configure => configure
-            .Transport(t => t.UseRabbitMq("amqp://guest:guest@localhost:5672", "cart-api-publisher"))
-            .Routing(r => r.TypeBased().Map<CartCreatedEvent>("email-queue"))
-        );
+        // WebAPI é SOMENTE publisher — usa cliente unidirecional sem fila própria.
+        // Registramos o IBus manualmente como Singleton para evitar conflitos do Injectionist
+        // e o IHostedService padrão do AddRebus, que tenta iniciar o Bus cedo demais.
+        var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMQ");
+        
+        builder.Services.AddSingleton<Rebus.Bus.IBus>(provider =>
+        {
+            var bus = Configure.With(new BuiltinHandlerActivator())
+                .Transport(t => t.UseRabbitMqAsOneWayClient(rabbitMqConnection))
+                .Start();
+            return bus;
+        });
     }
 }

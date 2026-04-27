@@ -1,6 +1,8 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
+using StackExchange.Redis;
+using System.Net.NetworkInformation;
 using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities;
@@ -71,16 +73,15 @@ public class UserTests
         // Arrange
         var user = new User
         (
-            username: "", // Invalid: empty
-            password: UserTestData.GenerateInvalidPassword(), // Invalid: doesn't meet password requirements
-            firstName: "", // Invalid: empty
-            lastName: "", // Invalid: empty
-            email: UserTestData.GenerateInvalidEmail(), // Invalid: not a valid email
-            phone: UserTestData.GenerateInvalidPhone(), // Invalid: doesn't match pattern
-            status: UserStatus.Unknown, // Invalid: cannot be Unknown
-            role: UserRole.None // Invalid: cannot be None
+            username: "",
+            email: UserTestData.GenerateInvalidEmail(), 
+            phone: UserTestData.GenerateInvalidPhone(), 
+            password: UserTestData.GenerateInvalidPassword(), 
+            firstName: "", 
+            lastName: "", 
+            role: UserRole.None, 
+            status: UserStatus.Unknown
         );
-
         // Act
         var result = await user.ValidateAsync();
 

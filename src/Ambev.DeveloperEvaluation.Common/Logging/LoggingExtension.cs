@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -42,59 +44,42 @@ public static class LoggingExtension
     /// <summary>
     /// This method configures the logging with commonly used features for DataDog integration.
     /// </summary>
-    /// <param name="builder">The <see cref="WebApplicationBuilder" /> to add services to.</param>
-    /// <returns>A <see cref="WebApplicationBuilder"/> that can be used to further configure the API services.</returns>
-    /// <remarks>
-    /// <para>Logging output are diferents on Debug and Release modes.</para>
-    /// </remarks> 
-    public static WebApplicationBuilder AddDefaultLogging(this WebApplicationBuilder builder)
+    /// <param name="builder">The <see cref="IHostApplicationBuilder" /> to add services to.</param>
+    /// <returns>The <see cref="IHostApplicationBuilder"/> that can be used to further configure the services.</returns>
+    public static TBuilder AddDefaultLogging<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
-        Log.Logger = new LoggerConfiguration().CreateLogger();
-        builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
-        {
-            loggerConfiguration
-                .ReadFrom.Configuration(hostingContext.Configuration)
-                .Enrich.WithMachineName()
-                .Enrich.WithProperty("Environment", builder.Environment.EnvironmentName)
-                .Enrich.WithProperty("Application", builder.Environment.ApplicationName)
-                .Enrich.FromLogContext()
-                .Enrich.WithExceptionDetails(_destructuringOptionsBuilder)
-                .Filter.ByExcluding(_filterPredicate);
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.WithMachineName()
+            .Enrich.WithProperty("Environment", builder.Environment.EnvironmentName)
+            .Enrich.WithProperty("Application", builder.Environment.ApplicationName)
+            .Enrich.FromLogContext()
+            .Enrich.WithExceptionDetails(_destructuringOptionsBuilder)
+            .Filter.ByExcluding(_filterPredicate)
+            .WriteTo.Conditional(_ => Debugger.IsAttached, 
+                wt => wt.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}", theme: SystemConsoleTheme.Colored)
+                        .Enrich.WithProperty("DebuggerAttached", true))
+            .WriteTo.Conditional(_ => !Debugger.IsAttached,
+                wt => wt.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}")
+                        .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}"))
+            .WriteTo.Seq(builder.Configuration.GetConnectionString("Seq") ?? "http://localhost:5341")
+            .CreateLogger();
 
-            if (Debugger.IsAttached)
-            {
-                loggerConfiguration.Enrich.WithProperty("DebuggerAttached", Debugger.IsAttached);
-                loggerConfiguration.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}", theme: SystemConsoleTheme.Colored);
-            }
-            else
-            {
-                loggerConfiguration
-                    .WriteTo.Console
-                    (
-                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}"
-                    )
-                    .WriteTo.File(
-                        "logs/log-.txt",
-                        rollingInterval: RollingInterval.Day,
-                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}"
-                    );
-            }
-        });
-
-        builder.Services.AddLogging();
+        builder.Services.AddSerilog();
 
         return builder;
     }
 
-    /// <summary>Adds middleware for Swagger documetation generation.</summary>
-    /// <param name="app">The <see cref="WebApplication"/> instance this method extends.</param>
-    /// <returns>The <see cref="WebApplication"/> for Swagger documentation.</returns>
-    public static WebApplication UseDefaultLogging(this WebApplication app)
+    /// <summary>Adds middleware for log reporting.</summary>
+    /// <param name="app">The <see cref="IHost"/> instance this method extends.</param>
+    /// <returns>The <see cref="IHost"/> for log reporting.</returns>
+    public static IHost UseDefaultLogging(this IHost app)
     {
         var logger = app.Services.GetRequiredService<ILogger<Logger>>();
+        var env = app.Services.GetRequiredService<IHostEnvironment>();
 
         var mode = Debugger.IsAttached ? "Debug" : "Release";
-        logger.LogInformation("Logging enabled for '{Application}' on '{Environment}' - Mode: {Mode}", app.Environment.ApplicationName, app.Environment.EnvironmentName, mode);
+        logger.LogInformation("Logging enabled for '{Application}' on '{Environment}' - Mode: {Mode}", env.ApplicationName, env.EnvironmentName, mode);
         return app;
-}
+    }
 }

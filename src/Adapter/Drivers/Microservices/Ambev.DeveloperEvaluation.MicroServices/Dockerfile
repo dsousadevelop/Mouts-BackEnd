@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 
@@ -9,6 +9,7 @@ WORKDIR /src
 # Copiar arquivos de projeto individualmente para otimizar o cache
 COPY ["src/Adapter/Drivers/Microservices/Ambev.DeveloperEvaluation.MicroServices/Ambev.DeveloperEvaluation.MicroServices.csproj", "src/Adapter/Drivers/Microservices/Ambev.DeveloperEvaluation.MicroServices/"]
 COPY ["src/Ambev.DeveloperEvaluation.Domain/Ambev.DeveloperEvaluation.Domain.csproj", "src/Ambev.DeveloperEvaluation.Domain/"]
+COPY ["src/Ambev.DeveloperEvaluation.Common/Ambev.DeveloperEvaluation.Common.csproj", "src/Ambev.DeveloperEvaluation.Common/"]
 
 # Restore focado no MicroServices
 RUN dotnet restore "./src/Adapter/Drivers/Microservices/Ambev.DeveloperEvaluation.MicroServices/Ambev.DeveloperEvaluation.MicroServices.csproj"

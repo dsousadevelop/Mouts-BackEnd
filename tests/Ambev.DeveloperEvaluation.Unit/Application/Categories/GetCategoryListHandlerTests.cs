@@ -23,7 +23,7 @@ public class GetCategoryListHandlerTests
         _handler = new GetCategoryListHandler(_categoryRepository, _mapper);
     }
 
-    [Fact(DisplayName = "When listing categories Then returns all categories")]
+    [Fact(DisplayName = "Ao listar categorias, retorna todas as categorias")]
     public async Task Handle_ValidRequest_ReturnsCategoryList()
     {
         // Given

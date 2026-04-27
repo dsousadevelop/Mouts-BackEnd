@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Queries;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers;
@@ -24,7 +24,7 @@ public class GetCategoryByIdHandlerTests
         _handler = new GetCategoryByIdHandler(_categoryRepository, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid id When category exists Then returns category details")]
+    [Fact(DisplayName = "Dado um ID válido, quando a categoria existe, retorna os detalhes da categoria")]
     public async Task Handle_ExistingCategory_ReturnsCategoryDto()
     {
         // Given
@@ -44,7 +44,7 @@ public class GetCategoryByIdHandlerTests
         result.AsT0.Should().BeEquivalentTo(categoryDto);
     }
 
-    [Fact(DisplayName = "Given nonexistent id When category does not exist Then returns resource not found error")]
+    [Fact(DisplayName = "Dado um ID inexistente, quando a categoria não existe, retorna erro de recurso não encontrado")]
     public async Task Handle_NonExistentCategory_ReturnsResourceNotFoundError()
     {
         // Given

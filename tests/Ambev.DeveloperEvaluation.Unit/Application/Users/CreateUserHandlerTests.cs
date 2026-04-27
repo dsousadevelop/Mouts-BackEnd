@@ -25,7 +25,7 @@ public class CreateUserHandlerTests
         _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher);
     }
 
-    [Fact(DisplayName = "Given valid user data When creating user Then returns success")]
+    [Fact(DisplayName = "Dado dados de usuário válidos, ao criar o usuário, retorna sucesso")]
     public async Task Handle_ValidRequest_ReturnsCreateUserResult()
     {
         // Given
@@ -57,7 +57,7 @@ public class CreateUserHandlerTests
         await _userRepository.Received(1).CreateAsync(Arg.Any<User>(), Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given existing email When creating user Then throws invalid operation exception")]
+    [Fact(DisplayName = "Dado um e-mail existente, ao criar o usuário, lança uma exceção de operação inválida")]
     public async Task Handle_ExistingEmail_ThrowsInvalidOperationException()
     {
         // Given
@@ -83,7 +83,7 @@ public class CreateUserHandlerTests
             .WithMessage($"User with email {command.Email} already exists");
     }
 
-    [Fact(DisplayName = "Given invalid command When creating user Then throws validation exception")]
+    [Fact(DisplayName = "Dado um comando inválido, ao criar o usuário, lança uma exceção de validação")]
     public async Task Handle_InvalidCommand_ThrowsValidationException()
     {
         // Given

@@ -23,7 +23,7 @@ public class DeleteProductHandlerTests
         _handler = new DeleteProductHandler(_productRepository, _cacheService);
     }
 
-    [Fact(DisplayName = "Given valid id When deleting product Then returns success")]
+    [Fact(DisplayName = "Dado um ID válido, ao deletar o produto, retorna sucesso")]
     public async Task Handle_ValidRequest_ReturnsSuccess()
     {
         // Given
@@ -39,7 +39,7 @@ public class DeleteProductHandlerTests
         await _cacheService.Received(1).RemoveAsync("Products_List", Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given nonexistent id When deleting product Then returns not found error")]
+    [Fact(DisplayName = "Dado um ID inexistente, ao deletar o produto, retorna erro de não encontrado")]
     public async Task Handle_NonExistentProduct_ReturnsNotFoundError()
     {
         // Given

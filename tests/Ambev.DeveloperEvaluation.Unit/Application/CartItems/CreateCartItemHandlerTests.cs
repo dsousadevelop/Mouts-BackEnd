@@ -24,7 +24,7 @@ public class CreateCartItemHandlerTests
         _handler = new CreateCartItemHandler(_cartItemRepository, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid cart item data When creating Then returns success")]
+    [Fact(DisplayName = "Dado dados de item de carrinho válidos, ao criar, retorna sucesso")]
     public async Task Handle_ValidRequest_ReturnsCartItemDto()
     {
         // Given

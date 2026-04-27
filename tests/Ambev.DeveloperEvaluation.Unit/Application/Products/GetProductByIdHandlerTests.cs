@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Products.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Products.Queries;
 using Ambev.DeveloperEvaluation.Application.Features.Products.Handlers;
@@ -25,7 +25,7 @@ public class GetProductByIdHandlerTests
         _handler = new GetProductByIdHandler(_productRepository, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid id When product exists Then returns product details")]
+    [Fact(DisplayName = "Dado um ID válido, quando o produto existe, retorna os detalhes do produto")]
     public async Task Handle_ExistingProduct_ReturnsProductDto()
     {
         // Given
@@ -46,7 +46,7 @@ public class GetProductByIdHandlerTests
         await _productRepository.Received(1).GetByIdAsync(productId, Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given nonexistent id When product does not exist Then returns not found error")]
+    [Fact(DisplayName = "Dado um ID inexistente, quando o produto não existe, retorna erro de não encontrado")]
     public async Task Handle_NonExistentProduct_ReturnsNotFoundError()
     {
         // Given

@@ -16,7 +16,7 @@ public class UserTests
     /// <summary>
     /// Tests that when a suspended user is activated, their status changes to Active.
     /// </summary>
-    [Fact(DisplayName = "User status should change to Active when activated")]
+    [Fact(DisplayName = "O status do usuário deve mudar para Ativo quando ativado")]
     public void Given_SuspendedUser_When_Activated_Then_StatusShouldBeActive()
     {
         // Arrange
@@ -33,7 +33,7 @@ public class UserTests
     /// <summary>
     /// Tests that when an active user is suspended, their status changes to Suspended.
     /// </summary>
-    [Fact(DisplayName = "User status should change to Suspended when suspended")]
+    [Fact(DisplayName = "O status do usuário deve mudar para Suspenso quando suspenso")]
     public void Given_ActiveUser_When_Suspended_Then_StatusShouldBeSuspended()
     {
         // Arrange
@@ -50,7 +50,7 @@ public class UserTests
     /// <summary>
     /// Tests that validation passes when all user properties are valid.
     /// </summary>
-    [Fact(DisplayName = "Validation should pass for valid user data")]
+    [Fact(DisplayName = "A validação deve passar para dados de usuário válidos")]
     public async Task Given_ValidUserData_When_Validated_Then_ShouldReturnValid()
     {
         // Arrange
@@ -67,7 +67,7 @@ public class UserTests
     /// <summary>
     /// Tests that validation fails when user properties are invalid.
     /// </summary>
-    [Fact(DisplayName = "Validation should fail for invalid user data")]
+    [Fact(DisplayName = "A validação deve falhar para dados de usuário inválidos")]
     public async Task Given_InvalidUserData_When_Validated_Then_ShouldReturnInvalid()
     {
         // Arrange

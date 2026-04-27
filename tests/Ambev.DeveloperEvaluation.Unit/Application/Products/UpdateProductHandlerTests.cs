@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Common.Interfaces;
 using Ambev.DeveloperEvaluation.Application.Features.Products.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Products.DTOs;
@@ -28,7 +28,7 @@ public class UpdateProductHandlerTests
         _handler = new UpdateProductHandler(_productRepository, _mapper, _cacheService);
     }
 
-    [Fact(DisplayName = "Given valid data When updating product Then returns updated product")]
+    [Fact(DisplayName = "Dado dados válidos, ao atualizar o produto, retorna o produto atualizado")]
     public async Task Handle_ValidRequest_ReturnsUpdatedProductDto()
     {
         // Given
@@ -51,7 +51,7 @@ public class UpdateProductHandlerTests
         await _cacheService.Received(1).RemoveAsync("Products_List", Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given nonexistent id When updating product Then returns not found error")]
+    [Fact(DisplayName = "Dado um ID inexistente, ao atualizar o produto, retorna erro de não encontrado")]
     public async Task Handle_NonExistentProduct_ReturnsNotFoundError()
     {
         // Given

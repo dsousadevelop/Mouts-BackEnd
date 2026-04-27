@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
+using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -24,7 +24,7 @@ public class AuthenticateUserHandlerTests
         _handler = new AuthenticateUserHandler(_userRepository, _passwordHasher, _jwtTokenGenerator);
     }
 
-    [Fact(DisplayName = "Given valid credentials When authenticating Then returns token")]
+    [Fact(DisplayName = "Dado credenciais válidas, ao autenticar, retorna o token")]
     public async Task Handle_ValidCredentials_ReturnsAuthenticateUserResult()
     {
         // Given
@@ -54,7 +54,7 @@ public class AuthenticateUserHandlerTests
         result.Email.Should().Be(user.Email);
     }
 
-    [Fact(DisplayName = "Given invalid password When authenticating Then throws unauthorized access exception")]
+    [Fact(DisplayName = "Dado uma senha inválida, ao autenticar, lança exceção de acesso não autorizado")]
     public async Task Handle_InvalidPassword_ThrowsUnauthorizedAccessException()
     {
         // Given
@@ -70,7 +70,7 @@ public class AuthenticateUserHandlerTests
         await act.Should().ThrowAsync<UnauthorizedAccessException>().WithMessage("Invalid credentials");
     }
 
-    [Fact(DisplayName = "Given non-existent user When authenticating Then throws unauthorized access exception")]
+    [Fact(DisplayName = "Dado um usuário inexistente, ao autenticar, lança exceção de acesso não autorizado")]
     public async Task Handle_UserNotFound_ThrowsUnauthorizedAccessException()
     {
         // Given
@@ -84,7 +84,7 @@ public class AuthenticateUserHandlerTests
         await act.Should().ThrowAsync<UnauthorizedAccessException>().WithMessage("Invalid credentials");
     }
 
-    [Fact(DisplayName = "Given inactive user When authenticating Then throws unauthorized exception")]
+    [Fact(DisplayName = "Dado um usuário inativo, ao autenticar, lança exceção de não autorizado")]
     public async Task Handle_InactiveUser_ThrowsUnauthorizedAccessException()
     {
         // Given

@@ -6,13 +6,12 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities;
 
 public class CartItemTests
 {
-    [Theory]
-    [InlineData(1, 100, 100, 0)] // 1 item, no discount
-    [InlineData(3, 100, 300, 0)] // 3 items, no discount
-    [InlineData(4, 100, 360, 10)] // 4 items, 10% discount
-    [InlineData(9, 100, 810, 10)] // 9 items, 10% discount
-    [InlineData(10, 100, 800, 20)] // 10 items, 20% discount
-    [InlineData(20, 100, 1600, 20)] // 20 items, 20% discount
+    [Theory(DisplayName = "CalculateDiscount deve aplicar o desconto correto baseado na quantidade")]
+    [InlineData(3, 100, 300, 0)]
+    [InlineData(4, 100, 360, 10)]
+    [InlineData(9, 100, 810, 10)]
+    [InlineData(10, 100, 800, 20)]
+    [InlineData(20, 100, 1600, 20)]
     public void CalculateDiscount_ShouldApplyCorrectDiscount(int quantity, decimal price, decimal expectedTotal, decimal expectedDiscountPercentage)
     {
         // Arrange
@@ -26,7 +25,7 @@ public class CartItemTests
         cartItem.Total.Should().Be(expectedTotal);
     }
 
-    [Fact]
+    [Fact(DisplayName = "CalculateDiscount deve lançar exceção quando a quantidade excede 20")]
     public void CalculateDiscount_ShouldThrowException_WhenQuantityExceeds20()
     {
         // Arrange

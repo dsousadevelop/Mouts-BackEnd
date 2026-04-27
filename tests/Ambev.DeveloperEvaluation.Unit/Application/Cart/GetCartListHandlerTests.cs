@@ -24,7 +24,7 @@ public class GetCartListHandlerTests
         _handler = new GetCartListHandler(_cartRepository, _mapper);
     }
 
-    [Fact(DisplayName = "When listing carts Then returns all carts")]
+    [Fact(DisplayName = "Ao listar carrinhos, retorna todos os carrinhos")]
     public async Task Handle_ValidRequest_ReturnsCartList()
     {
         // Given

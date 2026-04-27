@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
+using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers;
 using Ambev.DeveloperEvaluation.Domain.Entities;
@@ -25,7 +25,7 @@ public class UpdateCartHandlerTests
         _handler = new UpdateCartHandler(_cartRepository, _productRepository, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid cart data When updating cart Then returns success")]
+    [Fact(DisplayName = "Dado dados de carrinho válidos, ao atualizar, retorna sucesso")]
     public async Task Handle_ValidRequest_ReturnsCartDto()
     {
         // Given
@@ -49,7 +49,7 @@ public class UpdateCartHandlerTests
         await _cartRepository.Received(1).UpdateAsync(existingCart, Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given nonexistent id When updating cart Then returns not found error")]
+    [Fact(DisplayName = "Dado um ID inexistente, ao atualizar o carrinho, retorna erro de não encontrado")]
     public async Task Handle_NonExistentCart_ReturnsNotFoundError()
     {
         // Given

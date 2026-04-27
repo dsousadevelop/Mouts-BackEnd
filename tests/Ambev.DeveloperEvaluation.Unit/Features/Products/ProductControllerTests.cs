@@ -32,7 +32,7 @@ public class ProductControllerTests : ControllerTestsBase
         _faker = new Faker();
     }
 
-    [Fact]
+    [Fact(DisplayName = "Get deve retornar Ok para ID existente")]
     public async Task Get_ExistingId_ReturnsOk()
     {
         // Arrange
@@ -57,7 +57,7 @@ public class ProductControllerTests : ControllerTestsBase
         apiResponse.Success.Should().BeTrue();
     }
 
-    [Fact]
+    [Fact(DisplayName = "Get deve retornar NotFound para ID inexistente")]
     public async Task Get_NonExistingId_ReturnsNotFound()
     {
         // Arrange
@@ -74,7 +74,7 @@ public class ProductControllerTests : ControllerTestsBase
         result.Should().BeOfType<NotFoundObjectResult>();
     }
 
-    [Fact]
+    [Fact(DisplayName = "Post deve retornar Created para requisição válida")]
     public async Task Post_ValidRequest_ReturnsCreated()
     {
         // Arrange
@@ -107,7 +107,7 @@ public class ProductControllerTests : ControllerTestsBase
         apiResponse!.Data!.Id.Should().Be(1);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Delete deve retornar Ok para ID existente")]
     public async Task Delete_ExistingId_ReturnsOk()
     {
         // Arrange
@@ -122,7 +122,7 @@ public class ProductControllerTests : ControllerTestsBase
         result.Should().BeOfType<OkObjectResult>();
     }
 
-    [Fact]
+    [Fact(DisplayName = "List deve retornar Ok")]
     public async Task List_ReturnsOk()
     {
         // Arrange

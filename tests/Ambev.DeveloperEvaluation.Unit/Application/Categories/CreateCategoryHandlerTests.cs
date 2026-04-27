@@ -24,7 +24,7 @@ public class CreateCategoryHandlerTests
         _handler = new CreateCategoryHandler(_categoryRepository, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid data When creating category Then returns created category")]
+    [Fact(DisplayName = "Dado dados válidos, ao criar a categoria, retorna a categoria criada")]
     public async Task Handle_ValidRequest_ReturnsCategoryDto()
     {
         // Given
@@ -46,7 +46,7 @@ public class CreateCategoryHandlerTests
         await _categoryRepository.Received(1).CreateAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given existing description When creating category Then returns validation error")]
+    [Fact(DisplayName = "Dado uma descrição existente, ao criar a categoria, retorna erro de validação")]
     public async Task Handle_ExistingDescription_ReturnsValidationError()
     {
         // Given

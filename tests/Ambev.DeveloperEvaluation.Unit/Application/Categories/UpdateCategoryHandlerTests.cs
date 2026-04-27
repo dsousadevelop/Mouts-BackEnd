@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers;
@@ -23,7 +23,7 @@ public class UpdateCategoryHandlerTests
         _handler = new UpdateCategoryHandler(_categoryRepository);
     }
 
-    [Fact(DisplayName = "Given valid data When updating category Then returns success")]
+    [Fact(DisplayName = "Dado dados válidos, ao atualizar a categoria, retorna sucesso")]
     public async Task Handle_ValidRequest_ReturnsSuccess()
     {
         // Given
@@ -44,7 +44,7 @@ public class UpdateCategoryHandlerTests
         await _categoryRepository.Received(1).UpdateAsync(existingCategory, Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given nonexistent id When updating category Then returns resource not found error")]
+    [Fact(DisplayName = "Dado um ID inexistente, ao atualizar a categoria, retorna erro de recurso não encontrado")]
     public async Task Handle_NonExistentCategory_ReturnsResourceNotFoundError()
     {
         // Given
@@ -62,7 +62,7 @@ public class UpdateCategoryHandlerTests
         result.AsT1.Detail.Should().Contain(categoryId.ToString());
     }
 
-    [Fact(DisplayName = "Given existing description When updating category Then returns validation error")]
+    [Fact(DisplayName = "Dado uma descrição existente, ao atualizar a categoria, retorna erro de validação")]
     public async Task Handle_DuplicateDescription_ReturnsValidationError()
     {
         // Given

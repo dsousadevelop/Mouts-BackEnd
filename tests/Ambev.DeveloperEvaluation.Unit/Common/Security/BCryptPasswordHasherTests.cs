@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Common.Security;
+using Ambev.DeveloperEvaluation.Common.Security;
 using FluentAssertions;
 using Xunit;
 
@@ -13,7 +13,7 @@ public class BCryptPasswordHasherTests
         _hasher = new BCryptPasswordHasher();
     }
 
-    [Fact(DisplayName = "HashPassword should return a hashed string")]
+    [Fact(DisplayName = "HashPassword deve retornar uma string hashada")]
     public void HashPassword_ShouldReturnHashedString()
     {
         // Arrange
@@ -27,7 +27,7 @@ public class BCryptPasswordHasherTests
         hash.Should().NotBe(password);
     }
 
-    [Fact(DisplayName = "VerifyPassword should return true for correct password")]
+    [Fact(DisplayName = "VerifyPassword deve retornar verdadeiro para senha correta")]
     public void VerifyPassword_ShouldReturnTrue_ForCorrectPassword()
     {
         // Arrange
@@ -41,7 +41,7 @@ public class BCryptPasswordHasherTests
         result.Should().BeTrue();
     }
 
-    [Fact(DisplayName = "VerifyPassword should return false for incorrect password")]
+    [Fact(DisplayName = "VerifyPassword deve retornar falso para senha incorreta")]
     public void VerifyPassword_ShouldReturnFalse_ForIncorrectPassword()
     {
         // Arrange

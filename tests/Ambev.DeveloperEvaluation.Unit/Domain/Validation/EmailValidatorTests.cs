@@ -21,7 +21,7 @@ public class EmailValidatorTests
     /// <summary>
     /// Tests that validation passes for various valid email formats.
     /// </summary>
-    [Fact(DisplayName = "Valid email formats should pass validation")]
+    [Fact(DisplayName = "Formatos de e-mail válidos devem passar na validação")]
     public void Given_ValidEmailFormat_When_Validated_Then_ShouldNotHaveErrors()
     {
         // Arrange
@@ -37,7 +37,7 @@ public class EmailValidatorTests
     /// <summary>
     /// Tests that validation fails when the email is empty.
     /// </summary>
-    [Fact(DisplayName = "Empty email should fail validation")]
+    [Fact(DisplayName = "E-mail vazio deve falhar na validação")]
     public void Given_EmptyEmail_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
@@ -54,7 +54,7 @@ public class EmailValidatorTests
     /// <summary>
     /// Tests that validation fails for various invalid email formats.
     /// </summary>
-    [Theory(DisplayName = "Invalid email formats should fail validation")]
+    [Theory(DisplayName = "Formatos de e-mail inválidos devem falhar na validação")]
     [InlineData("invalid-email")]
     [InlineData("user@")]
     [InlineData("@domain.com")]
@@ -73,7 +73,7 @@ public class EmailValidatorTests
     /// <summary>
     /// Tests that validation fails when email exceeds maximum length.
     /// </summary>
-    [Fact(DisplayName = "Email exceeding maximum length should fail validation")]
+    [Fact(DisplayName = "E-mail excedendo o comprimento máximo deve falhar na validação")]
     public void Given_EmailExceeding100Characters_When_Validated_Then_ShouldHaveError()
     {
         // Arrange

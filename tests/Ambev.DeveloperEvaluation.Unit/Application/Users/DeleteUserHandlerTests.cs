@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
+using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using FluentAssertions;
 using FluentValidation;
@@ -18,7 +18,7 @@ public class DeleteUserHandlerTests
         _handler = new DeleteUserHandler(_userRepository);
     }
 
-    [Fact(DisplayName = "Given valid id When deleting user Then returns success")]
+    [Fact(DisplayName = "Dado um ID válido, ao deletar o usuário, retorna sucesso")]
     public async Task Handle_ValidRequest_ReturnsDeleteUserResponse()
     {
         // Given
@@ -36,7 +36,7 @@ public class DeleteUserHandlerTests
         await _userRepository.Received(1).DeleteAsync(userId, Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given nonexistent id When deleting user Then returns NotFoundError")]
+    [Fact(DisplayName = "Dado um ID inexistente, ao deletar o usuário, retorna NotFoundError")]
     public async Task Handle_NonExistentUser_ReturnsNotFoundError()
     {
         // Given
@@ -53,7 +53,7 @@ public class DeleteUserHandlerTests
         result.AsT1.Detail.Should().Contain($"User with ID {userId} not found");
     }
 
-    [Fact(DisplayName = "Given invalid id When deleting user Then throws validation exception")]
+    [Fact(DisplayName = "Dado um ID inválido, ao deletar o usuário, lança uma exceção de validação")]
     public async Task Handle_InvalidCommand_ThrowsValidationException()
     {
         // Given

@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Queries;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers;
@@ -24,7 +24,7 @@ public class GetCartByIdHandlerTests
         _handler = new GetCartByIdHandler(_cartRepository, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid id When cart exists Then returns cart details")]
+    [Fact(DisplayName = "Dado um ID válido, quando o carrinho existe, retorna os detalhes do carrinho")]
     public async Task Handle_ExistingCart_ReturnsCartDto()
     {
         // Given
@@ -45,7 +45,7 @@ public class GetCartByIdHandlerTests
         result.AsT0.Id.Should().Be(cartId);
     }
 
-    [Fact(DisplayName = "Given nonexistent id When cart does not exist Then returns not found error")]
+    [Fact(DisplayName = "Dado um ID inexistente, quando o carrinho não existe, retorna erro de não encontrado")]
     public async Task Handle_NonExistentCart_ReturnsNotFoundError()
     {
         // Given

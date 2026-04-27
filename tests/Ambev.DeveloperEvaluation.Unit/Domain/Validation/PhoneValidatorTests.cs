@@ -13,7 +13,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Validation
     /// </summary>
     public class PhoneValidatorTests
     {
-        [Theory(DisplayName = "Given a phone number When validating Then should validate according to regex pattern")]
+        [Theory(DisplayName = "Dado um número de telefone, ao validar, deve validar de acordo com o padrão regex")]
         [InlineData("+123456789", true)]      // Valid - with plus prefix
         [InlineData("123456789", true)]       // Valid - without plus prefix
         [InlineData("+551199999999", true)]   // Valid - longer number

@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Categories.Handlers;
 using Ambev.DeveloperEvaluation.Domain.Entities;
@@ -21,7 +21,7 @@ public class DeleteCategoryHandlerTests
         _handler = new DeleteCategoryHandler(_categoryRepository);
     }
 
-    [Fact(DisplayName = "Given valid id When deleting category Then returns success")]
+    [Fact(DisplayName = "Dado um ID válido, ao deletar a categoria, retorna sucesso")]
     public async Task Handle_ValidRequest_ReturnsSuccess()
     {
         // Given
@@ -40,7 +40,7 @@ public class DeleteCategoryHandlerTests
         await _categoryRepository.Received(1).DeleteAsync(categoryId, Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given nonexistent id When deleting category Then returns resource not found error")]
+    [Fact(DisplayName = "Dado um ID inexistente, ao deletar a categoria, retorna erro de recurso não encontrado")]
     public async Task Handle_NonExistentCategory_ReturnsResourceNotFoundError()
     {
         // Given

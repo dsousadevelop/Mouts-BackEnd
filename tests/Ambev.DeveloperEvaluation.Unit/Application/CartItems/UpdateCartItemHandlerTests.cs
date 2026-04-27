@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers;
@@ -24,7 +24,7 @@ public class UpdateCartItemHandlerTests
         _handler = new UpdateCartItemHandler(_cartItemRepository, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid data When updating cart item Then returns success")]
+    [Fact(DisplayName = "Dado dados válidos, ao atualizar o item do carrinho, retorna sucesso")]
     public async Task Handle_ValidRequest_ReturnsCartItemDto()
     {
         // Given
@@ -45,7 +45,7 @@ public class UpdateCartItemHandlerTests
         result.AsT0.Id.Should().Be(cartItemId);
     }
 
-    [Fact(DisplayName = "Given no id When updating cart item Then returns validation error")]
+    [Fact(DisplayName = "Dado nenhum ID, ao atualizar o item do carrinho, retorna erro de validação")]
     public async Task Handle_NoId_ReturnsValidationError()
     {
         // Given

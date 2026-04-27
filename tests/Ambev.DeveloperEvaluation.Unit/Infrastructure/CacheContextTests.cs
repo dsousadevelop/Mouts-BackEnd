@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.ORM;
 using FluentAssertions;
 using Microsoft.Extensions.Caching.Distributed;
 using NSubstitute;
@@ -18,7 +18,7 @@ public class CacheContextTests
         _cacheContext = new CacheContext(_cache);
     }
 
-    [Fact]
+    [Fact(DisplayName = "RemoveAsync deve chamar DistributedCache.RemoveAsync")]
     public async Task RemoveAsync_ShouldCallDistributedCacheRemoveAsync()
     {
         // Arrange
@@ -31,7 +31,7 @@ public class CacheContextTests
         await _cache.Received(1).RemoveAsync(key, Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Fact(DisplayName = "GetAsync deve retornar valor desserializado quando a chave existe")]
     public async Task GetAsync_WhenKeyExists_ShouldReturnDeserializedValue()
     {
         // Arrange
@@ -49,7 +49,7 @@ public class CacheContextTests
         result!.Name.Should().Be(value.Name);
     }
 
-    [Fact]
+    [Fact(DisplayName = "GetAsync deve retornar nulo quando a chave não existe")]
     public async Task GetAsync_WhenKeyDoesNotExist_ShouldReturnDefault()
     {
         // Arrange
@@ -63,7 +63,7 @@ public class CacheContextTests
         result.Should().BeNull();
     }
 
-    [Fact]
+    [Fact(DisplayName = "GetAsync deve lançar JsonException quando o conteúdo é inválido")]
     public async Task GetAsync_WhenKeyContainsInvalidJson_ShouldThrowJsonException()
     {
         // Arrange
@@ -79,7 +79,7 @@ public class CacheContextTests
         await act.Should().ThrowAsync<JsonException>();
     }
 
-    [Fact]
+    [Fact(DisplayName = "SetAsync deve chamar DistributedCache.SetAsync com o valor serializado")]
     public async Task SetAsync_ShouldCallDistributedCacheSetAsyncWithSerializedValue()
     {
         // Arrange
@@ -97,7 +97,7 @@ public class CacheContextTests
             Arg.Any<CancellationToken>());
     }
 
-    [Fact]
+    [Fact(DisplayName = "SetAsync com expiração customizada deve usar a expiração fornecida")]
     public async Task SetAsync_WithCustomExpiration_ShouldUseProvidedExpiration()
     {
         // Arrange

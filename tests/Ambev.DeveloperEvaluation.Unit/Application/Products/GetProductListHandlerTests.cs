@@ -29,7 +29,7 @@ public class GetProductListHandlerTests
         _handler = new GetProductListHandler(_productRepository, _mapper, _cacheService);
     }
 
-    [Fact(DisplayName = "Given cached data When listing products Then returns cached data")]
+    [Fact(DisplayName = "Dado dados em cache, ao listar produtos, retorna os dados em cache")]
     public async Task Handle_CachedDataExists_ReturnsCachedData()
     {
         // Given
@@ -53,7 +53,7 @@ public class GetProductListHandlerTests
         await _productRepository.DidNotReceive().GetListAllAsync(Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given no cache When listing products Then fetches from repo and caches")]
+    [Fact(DisplayName = "Dado que não há cache, ao listar produtos, busca do repositório e armazena no cache")]
     public async Task Handle_NoCache_FetchesFromRepoAndCaches()
     {
         // Given
@@ -81,7 +81,7 @@ public class GetProductListHandlerTests
         await _cacheService.Received(1).SetAsync("Products_List", productDtos, cancellationToken: Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given CategoryId When listing products Then filters by category")]
+    [Fact(DisplayName = "Dado um CategoryId, ao listar produtos, filtra por categoria")]
     public async Task Handle_WithCategoryId_FiltersByCategory()
     {
         // Given

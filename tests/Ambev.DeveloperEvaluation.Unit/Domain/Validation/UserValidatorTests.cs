@@ -31,7 +31,7 @@ public class UserValidatorTests
     /// - Role (Customer/Admin)
     /// passes all validation rules without any errors.
     /// </summary>
-    [Fact(DisplayName = "Valid user should pass all validation rules")]
+    [Fact(DisplayName = "Usuário válido deve passar em todas as regras de validação")]
     public void Given_ValidUser_When_Validated_Then_ShouldNotHaveErrors()
     {
         // Arrange
@@ -53,7 +53,7 @@ public class UserValidatorTests
     /// The username is a required field and must be between 3 and 50 characters.
     /// </summary>
     /// <param name="username">The invalid username to test.</param>
-    [Theory(DisplayName = "Invalid username formats should fail validation")]
+    [Theory(DisplayName = "Formatos de nome de usuário inválidos devem falhar na validação")]
     [InlineData("")] // Empty
     [InlineData("ab")] // Less than 3 characters
     public void Given_InvalidUsername_When_Validated_Then_ShouldHaveError(string username)
@@ -75,7 +75,7 @@ public class UserValidatorTests
     /// The test uses TestDataGenerator to create a username that exceeds the maximum
     /// length limit, ensuring the validation rule is properly enforced.
     /// </summary>
-    [Fact(DisplayName = "Username longer than maximum length should fail validation")]
+    [Fact(DisplayName = "Nome de usuário maior que o comprimento máximo deve falhar na validação")]
     public void Given_UsernameLongerThanMaximum_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
@@ -98,7 +98,7 @@ public class UserValidatorTests
     /// fail validation with appropriate error messages.
     /// The test uses TestDataGenerator to create invalid email formats.
     /// </summary>
-    [Fact(DisplayName = "Invalid email formats should fail validation")]
+    [Fact(DisplayName = "Formatos de e-mail inválidos devem falhar na validação")]
     public void Given_InvalidEmail_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
@@ -123,7 +123,7 @@ public class UserValidatorTests
     /// fail validation with appropriate error messages.
     /// The test uses TestDataGenerator to create passwords that don't meet these requirements.
     /// </summary>
-    [Fact(DisplayName = "Invalid password formats should fail validation")]
+    [Fact(DisplayName = "Formatos de senha inválidos devem falhar na validação")]
     public void Given_InvalidPassword_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
@@ -146,7 +146,7 @@ public class UserValidatorTests
     /// fail validation with appropriate error messages.
     /// The test uses TestDataGenerator to create invalid phone number formats.
     /// </summary>
-    [Fact(DisplayName = "Invalid phone formats should fail validation")]
+    [Fact(DisplayName = "Formatos de telefone inválidos devem falhar na validação")]
     public void Given_InvalidPhone_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
@@ -168,7 +168,7 @@ public class UserValidatorTests
     /// The test ensures that the system maintains valid user states
     /// and prevents undefined or invalid status values.
     /// </summary>
-    [Fact(DisplayName = "Unknown status should fail validation")]
+    [Fact(DisplayName = "Status desconhecido deve falhar na validação")]
     public void Given_UnknownStatus_When_Validated_Then_ShouldHaveError()
     {
         // Arrange
@@ -190,7 +190,7 @@ public class UserValidatorTests
     /// The test ensures that every user must have a defined role
     /// in the system and prevents undefined or invalid role assignments.
     /// </summary>
-    [Fact(DisplayName = "None role should fail validation")]
+    [Fact(DisplayName = "Perfil 'None' deve falhar na validação")]
     public void Given_NoneRole_When_Validated_Then_ShouldHaveError()
     {
         // Arrange

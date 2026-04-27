@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Common.Security;
+using Ambev.DeveloperEvaluation.Common.Security;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
@@ -20,7 +20,7 @@ public class JwtTokenGeneratorTests
         _jwtGenerator = new JwtTokenGenerator(_configuration);
     }
 
-    [Fact(DisplayName = "GenerateToken should return a valid JWT token")]
+    [Fact(DisplayName = "GenerateToken deve retornar um token JWT válido")]
     public void GenerateToken_ShouldReturnValidToken()
     {
         // Arrange
@@ -43,7 +43,7 @@ public class JwtTokenGeneratorTests
         jwtToken.Claims.Should().Contain(c => c.Type == "role" && c.Value == "Admin");
     }
 
-    [Fact(DisplayName = "ValidateToken should return ClaimsPrincipal for valid token")]
+    [Fact(DisplayName = "ValidateToken deve retornar ClaimsPrincipal para token válido")]
     public void ValidateToken_ShouldReturnPrincipal_ForValidToken()
     {
         // Arrange
@@ -63,7 +63,7 @@ public class JwtTokenGeneratorTests
         principal.Claims.Should().Contain(c => c.Type == ClaimTypes.NameIdentifier && c.Value == "1");
     }
 
-    [Fact(DisplayName = "ValidateToken should return null for invalid token")]
+    [Fact(DisplayName = "ValidateToken deve retornar nulo para token inválido")]
     public void ValidateToken_ShouldReturnNull_ForInvalidToken()
     {
         // Arrange
@@ -76,7 +76,7 @@ public class JwtTokenGeneratorTests
         principal.Should().BeNull();
     }
 
-    [Fact(DisplayName = "GenerateToken should throw exception when secret key is not configured")]
+    [Fact(DisplayName = "GenerateToken deve lançar exceção quando a chave secreta não está configurada")]
     public void GenerateToken_ShouldThrowException_WhenSecretKeyIsMissing()
     {
         // Arrange
@@ -92,7 +92,7 @@ public class JwtTokenGeneratorTests
         act.Should().Throw<InvalidOperationException>().WithMessage("JWT Secret Key is not configured.");
     }
 
-    [Fact(DisplayName = "ValidateToken should throw exception when secret key is not configured")]
+    [Fact(DisplayName = "ValidateToken deve lançar exceção quando a chave secreta não está configurada")]
     public void ValidateToken_ShouldThrowException_WhenSecretKeyIsMissing()
     {
         // Arrange

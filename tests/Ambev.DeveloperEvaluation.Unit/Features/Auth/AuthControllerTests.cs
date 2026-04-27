@@ -23,7 +23,7 @@ public class AuthControllerTests : ControllerTestsBase
         _faker = new Faker();
     }
 
-    [Fact]
+    [Fact(DisplayName = "AuthenticateUser deve retornar Ok para requisição válida")]
     public async Task AuthenticateUser_ValidRequest_ReturnsOk()
     {
         // Arrange

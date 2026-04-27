@@ -27,7 +27,7 @@ public class CreateProductHandlerTests
         _handler = new CreateProductHandler(_productRepository, _mapper, _cacheService);
     }
 
-    [Fact(DisplayName = "Given valid product data When creating product Then returns product dto")]
+    [Fact(DisplayName = "Dado dados de produto válidos, ao criar o produto, retorna o DTO do produto")]
     public async Task Handle_ValidRequest_ReturnsProductDto()
     {
         // Given

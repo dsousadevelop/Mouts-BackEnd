@@ -31,7 +31,7 @@ public class CreateCartHandlerTests
         _handler = new CreateCartHandler(_cartRepository, _productRepository, _userRepository, _eventPublisher, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid cart data When creating cart Then returns success")]
+    [Fact(DisplayName = "Dado dados de carrinho válidos, ao criar, retorna sucesso")]
     public async Task Handle_ValidRequest_ReturnsCartDto()
     {
         // Given
@@ -55,7 +55,7 @@ public class CreateCartHandlerTests
         result.AsT0.Id.Should().Be(1);
     }
 
-    [Fact(DisplayName = "Given nonexistent product When creating cart Then returns validation error")]
+    [Fact(DisplayName = "Dado um produto inexistente, ao criar o carrinho, retorna erro de validação")]
     public async Task Handle_NonExistentProduct_ReturnsValidationError()
     {
         // Given
@@ -83,7 +83,7 @@ public class CreateCartHandlerTests
         result.AsT1.Detail.Should().Contain($"product {productId} not exists");
     }
 
-    [Fact(DisplayName = "Given valid cart data with items When creating cart Then returns success and calculates items")]
+    [Fact(DisplayName = "Dado dados de carrinho válidos com itens, ao criar, retorna sucesso e calcula os itens")]
     public async Task Handle_ValidRequestWithItems_ReturnsCartDto()
     {
         // Given

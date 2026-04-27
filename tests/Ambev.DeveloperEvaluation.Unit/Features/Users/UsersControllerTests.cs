@@ -29,7 +29,7 @@ public class UsersControllerTests : ControllerTestsBase
         _faker = new Faker();
     }
 
-    [Fact]
+    [Fact(DisplayName = "CreateUser deve retornar Created para requisição válida")]
     public async Task CreateUser_ValidRequest_ReturnsCreated()
     {
         // Arrange
@@ -63,7 +63,7 @@ public class UsersControllerTests : ControllerTestsBase
         apiResponse!.Data!.Id.Should().Be(1);
     }
 
-    [Fact]
+    [Fact(DisplayName = "GetUser deve retornar Ok para ID existente")]
     public async Task GetUser_ExistingId_ReturnsOk()
     {
         // Arrange
@@ -88,7 +88,7 @@ public class UsersControllerTests : ControllerTestsBase
         apiResponse!.Data!.Id.Should().Be(id);
     }
 
-    [Fact]
+    [Fact(DisplayName = "DeleteUser deve retornar Ok para ID válido")]
     public async Task DeleteUser_ValidId_ReturnsOk()
     {
         // Arrange

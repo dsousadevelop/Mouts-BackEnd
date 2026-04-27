@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.DTOs;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Queries;
 using Ambev.DeveloperEvaluation.Application.Features.CartItems.Handlers;
@@ -24,7 +24,7 @@ public class GetItemsCartByIdCartHandlerTests
         _handler = new GetItemsCartByIdCartHandler(_cartItemRepository, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid cart id When listing items Then returns item list")]
+    [Fact(DisplayName = "Dado um ID de carrinho válido, ao listar itens, retorna a lista de itens")]
     public async Task Handle_ValidRequest_ReturnsCartItemList()
     {
         // Given

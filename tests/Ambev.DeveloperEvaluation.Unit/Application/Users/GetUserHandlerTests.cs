@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Users.GetUser;
+using Ambev.DeveloperEvaluation.Application.Users.GetUser;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
@@ -22,7 +22,7 @@ public class GetUserHandlerTests
         _handler = new GetUserHandler(_userRepository, _mapper);
     }
 
-    [Fact(DisplayName = "Given valid id When user exists Then returns user details")]
+    [Fact(DisplayName = "Dado um ID válido, quando o usuário existe, retorna os detalhes do usuário")]
     public async Task Handle_ExistingUser_ReturnsGetUserResult()
     {
         // Given
@@ -44,7 +44,7 @@ public class GetUserHandlerTests
         result.AsT0.Username.Should().Be("testuser");
     }
 
-    [Fact(DisplayName = "Given nonexistent id When user does not exist Then returns NotFoundError")]
+    [Fact(DisplayName = "Dado um ID inexistente, quando o usuário não existe, retorna NotFoundError")]
     public async Task Handle_NonExistentUser_ReturnsNotFoundError()
     {
         // Given
@@ -61,7 +61,7 @@ public class GetUserHandlerTests
         result.AsT1.Detail.Should().Contain($"User with ID {userId} not found");
     }
 
-    [Fact(DisplayName = "Given invalid id When getting user Then throws validation exception")]
+    [Fact(DisplayName = "Dado um ID inválido, ao obter o usuário, lança uma exceção de validação")]
     public async Task Handle_InvalidCommand_ThrowsValidationException()
     {
         // Given

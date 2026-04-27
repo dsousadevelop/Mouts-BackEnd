@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Errors;
+using Ambev.DeveloperEvaluation.Application.Common.Errors;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Commands;
 using Ambev.DeveloperEvaluation.Application.Features.Cart.Handlers;
 using Ambev.DeveloperEvaluation.Domain.Entities;
@@ -20,7 +20,7 @@ public class DeleteCartHandlerTests
         _handler = new DeleteCartHandler(_cartRepository);
     }
 
-    [Fact(DisplayName = "Given valid id When deleting cart Then returns true")]
+    [Fact(DisplayName = "Dado um ID válido, ao excluir o carrinho, retorna verdadeiro")]
     public async Task Handle_ValidRequest_ReturnsTrue()
     {
         // Given
@@ -41,7 +41,7 @@ public class DeleteCartHandlerTests
         await _cartRepository.Received(1).DeleteAsync(cartId, Arg.Any<CancellationToken>());
     }
 
-    [Fact(DisplayName = "Given nonexistent id When deleting cart Then returns not found error")]
+    [Fact(DisplayName = "Dado um ID inexistente, ao excluir o carrinho, retorna erro de não encontrado")]
     public async Task Handle_NonExistentCart_ReturnsNotFoundError()
     {
         // Given

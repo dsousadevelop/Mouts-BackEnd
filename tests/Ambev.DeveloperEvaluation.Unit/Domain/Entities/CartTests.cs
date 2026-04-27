@@ -6,7 +6,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities;
 
 public class CartTests
 {
-    [Fact]
+    [Fact(DisplayName = "CalculateTotalAmount deve somar o total de todos os itens")]
     public void CalculateTotalAmount_ShouldSumItemsTotal()
     {
         // Arrange
